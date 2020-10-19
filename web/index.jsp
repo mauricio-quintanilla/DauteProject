@@ -12,6 +12,6 @@
         <title>Index</title>
     </head>
     <body>
-        <h1>go to <a href="department.jsp">department</a> table</h1>
+        <h1>go to <a href="department.jsp">department</a> table CRUD</h1>
     </body>
 </html>
