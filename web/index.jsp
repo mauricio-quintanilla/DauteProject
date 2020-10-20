@@ -13,5 +13,6 @@
     </head>
     <body>
         <h1>go to <a href="department.jsp">department</a> table CRUD</h1>
+        <h1>go to <a href="position.jsp">position</a> table CRUD</h1>
     </body>
 </html>

@@ -1,11 +1,12 @@
 <%-- 
-    Document   : department
-    Created on : Oct 19, 2020, 1:53:15 AM
+    Document   : position
+    Created on : Oct 19, 2020, 11:57:28 PM
     Author     : demon
 --%>
 
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
+<%@page import="com.model.Position"%>
 <%@page import="com.model.Department"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
@@ -19,25 +20,38 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
         <%
+            Position pos = new Position();
             Department dpt = new Department();
         %>
-        <title>Department</title>
+        <title>Positions</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, name) {
-                $("#txtDeptId").val(id);
-                $("#txtDeptName").val(name);
+            function myLoad(id, name, dptId) {
+                $("#txtPosId").val(id);
+                $("#txtPosName").val(name);
+                $("#slctDept").val(dptId);
             }
         </script>
     </head>
     <body>
-        <h1>Department CRUD</h1>
+        <h1>Positions CRUD</h1>
         <div class="container">
-            <form id="frmMain" action="departmentController" method="POST">
+            <form id="frmMain" action="positionController" method="POST">
                 <div class='col-6'>
-                    <input type="hidden" name="txtDeptId" id="txtDeptId" class='form-control' value="0"/>
-                    <label>Department name</label>
-                    <input type="text" name="txtDeptName" id="txtDeptName" class='form-control' required/>
+                    <input type="hidden" name="txtPosId" id="txtPosId" class='form-control' value="0"/>
+                    <label>Position name</label>
+                    <input type="text" name="txtPosName" id="txtPosName" class='form-control' required/>
+                    <label>Department</label>
+                    <select name="slctDept" id="slctDept" class='form-control'>
+                        <%
+                            List<Department> lst = dpt.showDept();
+                            for (Department d : lst) {
+                        %>
+                        <option value="<%= d.getId()%>"><%= d.getName()%></option>
+                        <%
+                            }
+                        %>
+                    </select>
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
@@ -48,18 +62,20 @@
 
             <table border="1" class=''>
                 <tr>
-                    <th>id_department</th>
+                    <th>id_position</th>
                     <th>name</th>
-                    <th>Select</th>
+                    <th>Department</th>
+                    <th>Action</th>
                 </tr>
                 <%
-                    List<Department> lst = dpt.showDept();
-                    for (Department d : lst) {
+                    List<Position> lst2 = pos.showPos();
+                    for (Position p : lst2) {
                 %>
                 <tr>
-                    <td><%= d.getId()%></td>
-                    <td><%= d.getName()%></td>
-                    <td><a href="javascript:myLoad('<%= d.getId()%>','<%= d.getName()%>')">Select</a></td>
+                    <td><%= p.getId()%></td>
+                    <td><%= p.getName()%></td>
+                    <td><%= dpt.getDept(p.getDepartment_id()).getName()%></td>
+                    <td><a href="javascript:myLoad('<%= p.getId()%>','<%= p.getName()%>','<%= p.getDepartment_id()%>')">Select</a></td>
                 </tr>
                 <%
                     }

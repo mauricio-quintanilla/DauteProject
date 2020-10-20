@@ -49,9 +49,9 @@ public class Department extends Conexion{
             String sql="INSERT INTO department VALUES(?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
-            pre.setString(2, getName());
+            pre.setString(2, dept.getName());
             pre.executeUpdate();
-            return "Department successfulu created";
+            return "Department successfuly created";
         } catch (Exception e) {
             return "error "+e.getMessage();
         }
@@ -67,7 +67,7 @@ public class Department extends Conexion{
             pre.setString(1, dept.getName());
             pre.setInt(2, dept.getId());
             pre.executeUpdate();
-            return "Department successfulu updated";
+            return "Department successfuly updated";
         } catch (Exception e) {
             return "error "+e.getMessage();
         }
@@ -82,7 +82,7 @@ public class Department extends Conexion{
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, dept.getId());
             pre.executeUpdate();
-            return "Department successfulu deleted";
+            return "Department successfuly deleted";
         } catch (Exception e) {
             return "error "+e.getMessage();
         }
@@ -111,5 +111,27 @@ public class Department extends Conexion{
             this.desconectar();
         }
         return listaDept;
+    }
+    public Department getDept(int id){
+        Department dpt = new Department();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from department where id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                dpt.setId(res.getInt("id"));
+                dpt.setName(res.getString("name"));
+            }
+//            return "eliminado correctamente";
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return dpt;
     }
 }
