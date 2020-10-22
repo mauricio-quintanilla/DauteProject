@@ -1,40 +1,37 @@
 <%-- 
-    Document   : department
-    Created on : Oct 19, 2020, 1:53:15 AM
+    Document   : role
+    Created on : Oct 21, 2020, 10:55:47 PM
     Author     : demon
 --%>
 
 <%@page import="java.util.List"%>
-<%@page import="java.util.List"%>
-<%@page import="com.model.Department"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.model.Role"%>
 <!doctype html>
 <html lang="en">
     <head>
-         <meta charset="utf-8">
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
         <%
-            Department dpt = new Department();
+            Role rol = new Role();
         %>
-        <title>Department</title>
+        <title>Role</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
             function myLoad(id, name) {
-                $("#txtDeptId").val(id);
-                $("#txtDeptName").val(name);
+                $("#txtRoleId").val(id);
+                $("#txtRoleName").val(name);
             }
         </script>
     </head>
     <body>
-        <h1>Department CRUD</h1>
+        <h1>Role CRUD</h1>
         <div class="container">
-            <form id="frmMain" action="departmentController" method="POST">
+            <form id="frmMain" action="roleController" method="POST">
                 <div class='col-6'>
-                    <input type="hidden" name="txtDeptId" id="txtDeptId" class='form-control' value="0"/>
-                    <label>Department name</label>
-                    <input type="text" name="txtDeptName" id="txtDeptName" class='form-control' required/>
+                    <input type="hidden" name="txtRoleId" id="txtRoleId" class='form-control' value="0"/>
+                    <label>Role name</label>
+                    <input type="text" name="txtRoleName" id="txtRoleName" class='form-control' required/>
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
@@ -45,18 +42,18 @@
 
             <table border="1" class=''>
                 <tr>
-                    <th>id_department</th>
+                    <th>id_role</th>
                     <th>name</th>
                     <th>Select</th>
                 </tr>
                 <%
-                    List<Department> lst = dpt.showDept();
-                    for (Department d : lst) {
+                    List<Role> lst = rol.showRole();
+                    for (Role r : lst) {
                 %>
                 <tr>
-                    <td><%= d.getId()%></td>
-                    <td><%= d.getName()%></td>
-                    <td><a href="javascript:myLoad('<%= d.getId()%>','<%= d.getName()%>')">Select</a></td>
+                    <td><%= r.getId()%></td>
+                    <td><%= r.getName()%></td>
+                    <td><a href="javascript:myLoad('<%= r.getId()%>','<%= r.getName()%>')">Select</a></td>
                 </tr>
                 <%
                     }

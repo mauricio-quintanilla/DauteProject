@@ -1,43 +1,51 @@
 
 package com.controller;
 
-import com.model.Department;
+import com.model.Employees;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /*
-* Nombre del servlet: DepartmentController
-* Fecha: 19-10-2020
+* Nombre del servlet: UsersController
+* Fecha: 22-10-2020
 * CopyRight: OpenSource
 * Version: 1.0
 * @author Quintanilla Bernabe
 */
-@WebServlet(name = "DepartmentController", urlPatterns = {"/departmentController"})
-public class DepartmentController extends HttpServlet {
+public class EmployeesController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Department dpt = new Department();
+        Employees emp = new Employees();
         String msj="";
         try {
-            dpt.setId(Integer.parseInt(request.getParameter("txtDeptId")));
-            dpt.setName(request.getParameter("txtDeptName"));
+            emp.setId(Integer.parseInt(request.getParameter("txtId")));
+            emp.setFirst_name(request.getParameter("txtName"));
+            emp.setLast_name(request.getParameter("txtLast"));
+            emp.setDob(request.getParameter("dapDob"));
+            emp.setAddress(request.getParameter("txtAddress"));
+            emp.setPhone_number(request.getParameter("txtPhone"));
+            emp.setDui(request.getParameter("txtDui"));
+            emp.setNit(request.getParameter("txtNit"));
+            emp.setSalary(Double.parseDouble(request.getParameter("numSalary")));
+            emp.setPosition_id(Integer.parseInt(request.getParameter("slctPos")));
+            emp.setUser_id(Integer.parseInt(request.getParameter("slctUser")));
+            emp.setImage(request.getParameter("image"));
             if(request.getParameter("btnCreate")!=null){
-                msj=dpt.createDept(dpt);
+                msj=emp.createEmp(emp);
             }
             else if(request.getParameter("btnUpdate")!=null){
-                msj=dpt.updateDept(dpt);
+                msj=emp.updateEmp(emp);
             }else{
-                msj=dpt.deleteDept(dpt);
+                msj=emp.deleteEmp(emp);
             }
-            response.sendRedirect("department.jsp");
+            response.sendRedirect("employees.jsp");
             request.getSession().setAttribute("msj",msj);
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());
@@ -45,7 +53,6 @@ public class DepartmentController extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

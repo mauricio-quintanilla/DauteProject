@@ -125,4 +125,26 @@ public class Position extends Conexion{
         }
         return listaPos;
     }
+    public Position getPos(int id){
+        Position pos = new Position();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from position where id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                pos.setId(res.getInt("id"));
+                pos.setName(res.getString("name"));
+                pos.setDepartment_id(res.getInt("department_id"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return pos;
+    }
 }

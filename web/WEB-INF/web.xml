@@ -4,13 +4,57 @@
         <servlet-name>PositionController</servlet-name>
         <servlet-class>com.controller.PositionController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>RoleController</servlet-name>
+        <servlet-class>com.controller.RoleController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActionsController</servlet-name>
+        <servlet-class>com.controller.ActionsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UsersController</servlet-name>
+        <servlet-class>com.controller.UsersController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EmployeesController</servlet-name>
+        <servlet-class>com.controller.EmployeesController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RoleController</servlet-name>
+        <url-pattern>/roleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActionsController</servlet-name>
+        <url-pattern>/actionsController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UsersController</servlet-name>
+        <url-pattern>/usersController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmployeesController</servlet-name>
+        <url-pattern>/employeesController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>faces/index.xhtml</welcome-file>
+    </welcome-file-list>
 </web-app>

@@ -125,7 +125,6 @@ public class Department extends Conexion{
                 dpt.setId(res.getInt("id"));
                 dpt.setName(res.getString("name"));
             }
-//            return "eliminado correctamente";
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error "+e.getMessage());
         }

@@ -1,43 +1,40 @@
 
 package com.controller;
 
-import com.model.Department;
+import com.model.Role;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /*
-* Nombre del servlet: DepartmentController
-* Fecha: 19-10-2020
+* Nombre del servlet: RoleController
+* Fecha: 21-10-2020
 * CopyRight: OpenSource
 * Version: 1.0
 * @author Quintanilla Bernabe
 */
-@WebServlet(name = "DepartmentController", urlPatterns = {"/departmentController"})
-public class DepartmentController extends HttpServlet {
+public class RoleController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Department dpt = new Department();
+        Role rol = new Role();
         String msj="";
         try {
-            dpt.setId(Integer.parseInt(request.getParameter("txtDeptId")));
-            dpt.setName(request.getParameter("txtDeptName"));
+            rol.setId(Integer.parseInt(request.getParameter("txtRoleId")));
+            rol.setName(request.getParameter("txtRoleName"));
             if(request.getParameter("btnCreate")!=null){
-                msj=dpt.createDept(dpt);
+                msj=rol.createRole(rol);
             }
             else if(request.getParameter("btnUpdate")!=null){
-                msj=dpt.updateDept(dpt);
+                msj=rol.updateRole(rol);
             }else{
-                msj=dpt.deleteDept(dpt);
+                msj=rol.deleteRole(rol);
             }
-            response.sendRedirect("department.jsp");
+            response.sendRedirect("role.jsp");
             request.getSession().setAttribute("msj",msj);
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());

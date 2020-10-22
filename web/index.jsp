@@ -14,5 +14,10 @@
     <body>
         <h1>go to <a href="department.jsp">department</a> table CRUD</h1>
         <h1>go to <a href="position.jsp">position</a> table CRUD</h1>
+        <h1>go to <a href="role.jsp">role</a> table CRUD</h1>
+        <h1>go to <a href="actions.jsp">actions</a> table CRUD</h1>
+        <h1>go to <a href="logs.jsp">logs</a> table CRUD</h1>
+        <h1>go to <a href="users.jsp">users</a> table CRUD</h1>
+        <h1>go to <a href="employees.jsp">employees</a> table CRUD</h1>
     </body>
 </html>

@@ -1,6 +1,13 @@
 
 package com.model;
 
+import com.conexion.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /*
 * Nombre de la clase: Employees
 * Fecha: 19-10-2020
@@ -8,7 +15,7 @@ package com.model;
 * Version: 1.0
 * @author Quintanilla Bernabe
 */
-public class Employees {
+public class Employees extends Conexion{
     private int id;
     private String first_name;
     private String last_name;
@@ -134,5 +141,135 @@ public class Employees {
 
     public void setImage(String image) {
         this.image = image;
+    }
+    public String createEmp(Employees emp){
+        try {
+            this.conectar();
+            String sql="INSERT INTO employees VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1, 0);
+            pre.setString(2, emp.getFirst_name());
+            pre.setString(3, emp.getLast_name());
+            pre.setString(4, emp.getDob());
+            pre.setString(5, emp.getAddress());
+            pre.setString(6, emp.getPhone_number());
+            pre.setString(7, emp.getDui());
+            pre.setString(8, emp.getNit());
+            pre.setDouble(9, emp.getSalary());
+            pre.setInt(10, emp.getPosition_id());
+            pre.setInt(11, emp.getUser_id());
+            pre.setString(12, emp.getImage());
+            pre.executeUpdate();
+            return "Employee successfuly created";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public String updateEmp(Employees emp){
+        try {
+            this.conectar();
+            String sql="UPDATE employees SET first_name=?, last_name=?, dob=?, address=?, phone_number=?, DUI=?, NIT=?, salary=?, position_id=?, user_id=?, image=? WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setString(1, emp.getFirst_name());
+            pre.setString(2, emp.getLast_name());
+            pre.setString(3, emp.getDob());
+            pre.setString(4, emp.getAddress());
+            pre.setString(5, emp.getPhone_number());
+            pre.setString(6, emp.getDui());
+            pre.setString(7, emp.getNit());
+            pre.setDouble(8, emp.getSalary());
+            pre.setInt(9, emp.getPosition_id());
+            pre.setInt(10, emp.getUser_id());
+            pre.setString(11, emp.getImage());
+            pre.setInt(12, emp.getId());
+            pre.executeUpdate();
+            return "Employee successfuly updated";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public String deleteEmp(Employees emp){
+        try {
+            this.conectar();
+            String sql="DELETE FROM employees WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1, emp.getId());
+            pre.executeUpdate();
+            return "Employee successfuly deleted";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public List<Employees> showEmp(){
+        List<Employees>listaEmp = new ArrayList();
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql="SELECT * from employees";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            res=pre.executeQuery();
+            while(res.next()){
+                Employees emp = new Employees();
+                emp.setId(res.getInt("id"));
+                emp.setFirst_name(res.getString("first_name"));
+                emp.setLast_name(res.getString("last_name"));
+                emp.setDob(res.getString("dob"));
+                emp.setAddress(res.getString("address"));
+                emp.setPhone_number(res.getString("phone_number"));
+                emp.setDui(res.getString("DUI"));
+                emp.setNit(res.getString("NIT"));
+                emp.setSalary(res.getDouble("salary"));
+                emp.setPosition_id(res.getInt("position_id"));
+                emp.setUser_id(res.getInt("user_id"));
+                emp.setImage(res.getString("image"));
+                listaEmp.add(emp);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return listaEmp;
+    }
+    public Employees getEmp(int id){
+        Employees emp = new Employees();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from employees where id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                emp.setId(res.getInt("id"));
+                emp.setFirst_name(res.getString("first_name"));
+                emp.setLast_name(res.getString("last_name"));
+                emp.setDob(res.getString("dob"));
+                emp.setAddress(res.getString("address"));
+                emp.setPhone_number(res.getString("phone_number"));
+                emp.setDui(res.getString("DUI"));
+                emp.setNit(res.getString("NIT"));
+                emp.setSalary(res.getDouble("salary"));
+                emp.setPosition_id(res.getInt("position_id"));
+                emp.setUser_id(res.getInt("user_id"));
+                emp.setImage(res.getString("image"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return emp;
     }
 }

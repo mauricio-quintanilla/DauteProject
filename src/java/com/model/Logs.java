@@ -12,15 +12,17 @@ public class Logs {
     private int id;
     private int user_id;
     private int action_id;
+    private String on_field;
     private String date;
 
     public Logs() {
     }
 
-    public Logs(int id, int user_id, int action_id, String date) {
+    public Logs(int id, int user_id, int action_id, String on_field, String date) {
         this.id = id;
         this.user_id = user_id;
         this.action_id = action_id;
+        this.on_field = on_field;
         this.date = date;
     }
 
@@ -48,6 +50,14 @@ public class Logs {
         this.action_id = action_id;
     }
 
+    public String getOn_field() {
+        return on_field;
+    }
+
+    public void setOn_field(String on_field) {
+        this.on_field = on_field;
+    }
+    
     public String getDate() {
         return date;
     }
@@ -55,4 +65,22 @@ public class Logs {
     public void setDate(String date) {
         this.date = date;
     }
+    
+    public String storeLogs(String user_name, Object myClass,int axnCode){
+        String logs="";
+        if(axnCode==1){
+            
+        }
+        if(axnCode==2){
+            
+        }
+        if(axnCode==3){
+            
+        }
+        return logs;
+    }
+    
+    
+    
+    
 }

@@ -1,43 +1,40 @@
 
 package com.controller;
 
-import com.model.Department;
+import com.model.Actions;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /*
-* Nombre del servlet: DepartmentController
-* Fecha: 19-10-2020
+* Nombre del servlet: ActionsController
+* Fecha: 21-10-2020
 * CopyRight: OpenSource
 * Version: 1.0
 * @author Quintanilla Bernabe
 */
-@WebServlet(name = "DepartmentController", urlPatterns = {"/departmentController"})
-public class DepartmentController extends HttpServlet {
+public class ActionsController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Department dpt = new Department();
+        Actions axn = new Actions();
         String msj="";
         try {
-            dpt.setId(Integer.parseInt(request.getParameter("txtDeptId")));
-            dpt.setName(request.getParameter("txtDeptName"));
+            axn.setId(Integer.parseInt(request.getParameter("txtAxnId")));
+            axn.setName(request.getParameter("txtAxnName"));
             if(request.getParameter("btnCreate")!=null){
-                msj=dpt.createDept(dpt);
+                msj=axn.createAction(axn);
             }
             else if(request.getParameter("btnUpdate")!=null){
-                msj=dpt.updateDept(dpt);
+                msj=axn.updateAction(axn);
             }else{
-                msj=dpt.deleteDept(dpt);
+                msj=axn.deleteAtion(axn);
             }
-            response.sendRedirect("department.jsp");
+            response.sendRedirect("actions.jsp");
             request.getSession().setAttribute("msj",msj);
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());
@@ -45,7 +42,7 @@ public class DepartmentController extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
