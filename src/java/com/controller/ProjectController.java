@@ -27,6 +27,7 @@ public class ProjectController extends HttpServlet {
         try {
             prj.setId(Integer.parseInt(request.getParameter("txtId")));
             prj.setName(request.getParameter("txtName"));
+            prj.setDescription(request.getParameter("txtDesc"));
             prj.setStarted_date(request.getParameter("dapStart"));
             prj.setFinish_date(request.getParameter("dapFinish"));
             prj.setAddress(request.getParameter("txtAddress"));

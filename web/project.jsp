@@ -22,9 +22,10 @@
         <title>Project</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, name, start, finish, address, location, client) {
+            function myLoad(id, name, desc, start, finish, address, location, client) {
                 $("#txtId").val(id);
                 $("#txtName").val(name);
+                $("#txtDesc").val(desc);
                 $("#dapStart").val(start);
                 $("#dapFinish").val(finish);
                 $("#txtAddress").val(address);
@@ -41,6 +42,8 @@
                     <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
                     <label>Project name</label>
                     <input type="text" name="txtName" id="txtName" class='form-control' required/>
+                    <label>Project description</label>
+                    <textarea class="form-control" name="txtDesc" id="txtDesc" placeholder="Description" required rows="3"></textarea>
                     <label>Project starts on</label>
                     <input type="date" name="dapStart" id="dapStart" class='form-control' min='2020-11-01' max='2021-12-31' required/>
                     <label>Project ends on</label>
@@ -72,6 +75,7 @@
                 <tr>
                     <th>Project id</th>
                     <th>Project name</th>
+                    <th>Project description</th>
                     <th>Starts</th>
                     <th>Ends</th>
                     <th>address</th>
@@ -86,12 +90,13 @@
                 <tr>
                     <td><%= p.getId()%></td>
                     <td><%= p.getName()%></td>
+                    <td><%= p.getDescription()%></td>
                     <td><%= p.getStarted_date()%></td>
                     <td><%= p.getFinish_date()%></td>
                     <td><%= p.getAddress()%></td>
                     <td><%= p.getLocation()%></td>
                     <td><%= cli.getClient(p.getClient_id()).getCompany_name()%></td>
-                    <td><a href="javascript:myLoad('<%= p.getId()%>','<%= p.getName()%>',
+                    <td><a href="javascript:myLoad('<%= p.getId()%>','<%= p.getName()%>','<%= p.getDescription()%>',
                            '<%= p.getStarted_date()%>','<%= p.getFinish_date()%>','<%= p.getAddress()%>',
                            '<%= p.getLocation()%>','<%= p.getClient_id()%>')">Select</a></td>
                 </tr>

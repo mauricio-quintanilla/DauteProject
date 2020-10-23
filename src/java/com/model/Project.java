@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 public class Project extends Conexion{
     private int id;
     private String name;
+    private String description;
     private String started_date;
     private String finish_date;
     private String address;
@@ -27,9 +28,10 @@ public class Project extends Conexion{
     public Project() {
     }
 
-    public Project(int id, String name, String started_date, String finish_date, String address, String location, int client_id) {
+    public Project(int id, String name, String description, String started_date, String finish_date, String address, String location, int client_id) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.started_date = started_date;
         this.finish_date = finish_date;
         this.address = address;
@@ -53,6 +55,14 @@ public class Project extends Conexion{
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
     public String getStarted_date() {
         return started_date;
     }
@@ -95,15 +105,16 @@ public class Project extends Conexion{
     public String createPrj(Project prj){
         try {
             this.conectar();
-            String sql="INSERT INTO project VALUES(?,?,?,?,?,?,?)";
+            String sql="INSERT INTO project VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setString(2, prj.getName());
-            pre.setString(3, prj.getStarted_date());
-            pre.setString(4, prj.getFinish_date());
-            pre.setString(5, prj.getAddress());
-            pre.setString(6, prj.getLocation());
-            pre.setInt(7, prj.getClient_id());
+            pre.setString(3, prj.getDescription());
+            pre.setString(4, prj.getStarted_date());
+            pre.setString(5, prj.getFinish_date());
+            pre.setString(6, prj.getAddress());
+            pre.setString(7, prj.getLocation());
+            pre.setInt(8, prj.getClient_id());
             pre.executeUpdate();
             return "Project successfuly created";
         } catch (Exception e) {
@@ -116,15 +127,16 @@ public class Project extends Conexion{
     public String updatePrj(Project prj){
         try {
             this.conectar();
-            String sql="UPDATE project SET name=?, started_date=?, finish_date=?, address=?, location=?, client_id=? WHERE id=?";
+            String sql="UPDATE project SET name=?, description=?, started_date=?, finish_date=?, address=?, location=?, client_id=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1, prj.getName());
-            pre.setString(2, prj.getStarted_date());
-            pre.setString(3, prj.getFinish_date());
-            pre.setString(4, prj.getAddress());
-            pre.setString(5, prj.getLocation());
-            pre.setInt(6, prj.getClient_id());
-            pre.setInt(7, prj.getId());
+            pre.setString(2, prj.getDescription());
+            pre.setString(3, prj.getStarted_date());
+            pre.setString(4, prj.getFinish_date());
+            pre.setString(5, prj.getAddress());
+            pre.setString(6, prj.getLocation());
+            pre.setInt(7, prj.getClient_id());
+            pre.setInt(8, prj.getId());
             pre.executeUpdate();
             return "Project successfuly updated";
         } catch (Exception e) {
@@ -161,6 +173,7 @@ public class Project extends Conexion{
                 Project prj = new Project();
                 prj.setId(res.getInt("id"));
                 prj.setName(res.getString("name"));
+                prj.setDescription(res.getString("description"));
                 prj.setStarted_date(res.getString("started_date"));
                 prj.setFinish_date(res.getString("finish_date"));
                 prj.setAddress(res.getString("address"));
@@ -188,6 +201,7 @@ public class Project extends Conexion{
             while(res.next()){
                 prj.setId(res.getInt("id"));
                 prj.setName(res.getString("name"));
+                prj.setDescription(res.getString("description"));
                 prj.setStarted_date(res.getString("started_date"));
                 prj.setFinish_date(res.getString("finish_date"));
                 prj.setAddress(res.getString("address"));
