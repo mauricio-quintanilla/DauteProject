@@ -21,5 +21,7 @@
         <h1>go to <a href="employees.jsp">employees</a> table CRUD</h1>
         <h1>go to <a href="client.jsp">clients</a> table CRUD</h1>
         <h1>go to <a href="equipment.jsp">equipment</a> table CRUD</h1>
+        <h1>go to <a href="project.jsp">project</a> table CRUD</h1>
+        <h1>go to <a href="maptest.jsp">maptest</a> table CRUD</h1>
     </body>
 </html>

@@ -33,6 +33,10 @@
         <servlet-name>EquipmentController</servlet-name>
         <servlet-class>com.controller.EquipmentController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjectController</servlet-name>
+        <servlet-class>com.controller.ProjectController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -64,6 +68,10 @@
     <servlet-mapping>
         <servlet-name>EquipmentController</servlet-name>
         <url-pattern>/equipmentController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectController</servlet-name>
+        <url-pattern>/projectController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
