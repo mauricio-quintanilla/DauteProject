@@ -1,6 +1,13 @@
 
 package com.model;
 
+import com.conexion.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /*
 * Nombre de la clase: Equipment
 * Fecha: 19-10-2020
@@ -8,7 +15,7 @@ package com.model;
 * Version: 1.0
 * @author Quintanilla Bernabe
 */
-public class Equipment {
+public class Equipment extends Conexion{
     private int id;
     private String name;
     private String model;
@@ -114,5 +121,127 @@ public class Equipment {
 
     public void setImage(String image) {
         this.image = image;
+    }
+    public String createEqu(Equipment equ){
+        try {
+            this.conectar();
+            String sql="INSERT INTO equipment VALUES(?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1, 0);
+            pre.setString(2, equ.getName());
+            pre.setString(3, equ.getModel());
+            pre.setString(4, equ.getDescription());
+            pre.setString(5, equ.getBrand());
+            pre.setInt(6, equ.getStock());
+            pre.setInt(7, equ.getInventory());
+            pre.setInt(8, equ.getType());
+            pre.setDouble(9, equ.getFuel_rate());
+            pre.setString(10, equ.getImage());
+            pre.executeUpdate();
+            return "Equipment successfuly created";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public String updateEqu(Equipment equ){
+        try {
+            this.conectar();
+            String sql="UPDATE equipment SET name=?, model=?, description=?, brand=?, stock=?, inventory=?, type=?, fuel_rate=?, image=? WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setString(1, equ.getName());
+            pre.setString(2, equ.getModel());
+            pre.setString(3, equ.getDescription());
+            pre.setString(4, equ.getBrand());
+            pre.setInt(5, equ.getStock());
+            pre.setInt(6, equ.getInventory());
+            pre.setInt(7, equ.getType());
+            pre.setDouble(8, equ.getFuel_rate());
+            pre.setString(9, equ.getImage());
+            pre.setInt(10, equ.getId());
+            pre.executeUpdate();
+            return "Equipment successfuly updated";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public String deleteEqu(Equipment equ){
+        try {
+            this.conectar();
+            String sql="DELETE FROM equipment WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1, equ.getId());
+            pre.executeUpdate();
+            return "Equipment successfuly deleted";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public List<Equipment> showEqu(){
+        List<Equipment>listaEqu = new ArrayList();
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql="SELECT * from equipment";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            res=pre.executeQuery();
+            while(res.next()){
+                Equipment equ = new Equipment();
+                equ.setId(res.getInt("id"));
+                equ.setName(res.getString("name"));
+                equ.setModel(res.getString("model"));
+                equ.setDescription(res.getString("description"));
+                equ.setBrand(res.getString("brand"));
+                equ.setStock(res.getInt("stock"));
+                equ.setInventory(res.getInt("inventory"));
+                equ.setType(res.getInt("type"));
+                equ.setFuel_rate(res.getDouble("fuel_rate"));
+                equ.setImage(res.getString("image"));
+                listaEqu.add(equ);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return listaEqu;
+    }
+    public Equipment getEqu(int id){
+        Equipment equ = new Equipment();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from equipment where id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                equ.setId(res.getInt("id"));
+                equ.setName(res.getString("name"));
+                equ.setModel(res.getString("model"));
+                equ.setDescription(res.getString("description"));
+                equ.setBrand(res.getString("brand"));
+                equ.setStock(res.getInt("stock"));
+                equ.setInventory(res.getInt("inventory"));
+                equ.setType(res.getInt("type"));
+                equ.setFuel_rate(res.getDouble("fuel_rate"));
+                equ.setImage(res.getString("image"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return equ;
     }
 }
