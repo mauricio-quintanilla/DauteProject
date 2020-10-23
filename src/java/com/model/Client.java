@@ -1,6 +1,13 @@
 
 package com.model;
 
+import com.conexion.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /*
 * Nombre de la clase: Client
 * Fecha: 19-10-2020
@@ -8,7 +15,7 @@ package com.model;
 * Version: 1.0
 * @author Quintanilla Bernabe
 */
-public class Client {
+public class Client extends Conexion{
     private int id;
     private String name;
     private String email;
@@ -84,5 +91,116 @@ public class Client {
 
     public void setCompany_address(String company_address) {
         this.company_address = company_address;
+    }
+    
+    public String createClient(Client cli){
+        try {
+            this.conectar();
+            String sql="INSERT INTO client VALUES(?,?,?,?,?,?,?)";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1, 0);
+            pre.setString(2, cli.getName());
+            pre.setString(3, cli.getEmail());
+            pre.setString(4, cli.getPhone_number());
+            pre.setString(5, cli.getNit());
+            pre.setString(6, cli.getCompany_name());
+            pre.setString(7, cli.getCompany_address());
+            pre.executeUpdate();
+            return "Client successfuly created";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public String updateClient(Client cli){
+        try {
+            this.conectar();
+            String sql="UPDATE client SET name=?, email=?, phone_number=?, NIT=?, company_name=?, company_address=? WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setString(1, cli.getName());
+            pre.setString(2, cli.getEmail());
+            pre.setString(3, cli.getPhone_number());
+            pre.setString(4, cli.getNit());
+            pre.setString(5, cli.getCompany_name());
+            pre.setString(6, cli.getCompany_address());
+            pre.setInt(7, cli.getId());
+            pre.executeUpdate();
+            return "Client successfuly updated";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public String deleteClient(Client cli){
+        try {
+            this.conectar();
+            String sql="DELETE FROM client WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1, cli.getId());
+            pre.executeUpdate();
+            return "Client successfuly deleted";
+        } catch (Exception e) {
+            return "error "+e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
+    }
+    public List<Client> showClient(){
+        List<Client>listaCli = new ArrayList();
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql="SELECT * from client";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            res=pre.executeQuery();
+            while(res.next()){
+                Client cli = new Client();
+                cli.setId(res.getInt("id"));
+                cli.setName(res.getString("name"));
+                cli.setEmail(res.getString("email"));
+                cli.setPhone_number(res.getString("phone_number"));
+                cli.setNit(res.getString("NIT"));
+                cli.setCompany_name(res.getString("company_name"));
+                cli.setCompany_address(res.getString("company_address"));
+                listaCli.add(cli);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return listaCli;
+    }
+    public Client getClient(int id){
+        Client cli = new Client();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from client where id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                cli.setId(res.getInt("id"));
+                cli.setName(res.getString("name"));
+                cli.setEmail(res.getString("email"));
+                cli.setPhone_number(res.getString("phone_number"));
+                cli.setNit(res.getString("NIT"));
+                cli.setCompany_name(res.getString("company_name"));
+                cli.setCompany_address(res.getString("company_address"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return cli;
     }
 }

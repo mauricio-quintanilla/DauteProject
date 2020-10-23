@@ -25,6 +25,10 @@
         <servlet-name>EmployeesController</servlet-name>
         <servlet-class>com.controller.EmployeesController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ClientController</servlet-name>
+        <servlet-class>com.controller.ClientController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -48,6 +52,10 @@
     <servlet-mapping>
         <servlet-name>EmployeesController</servlet-name>
         <url-pattern>/employeesController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ClientController</servlet-name>
+        <url-pattern>/clientController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
