@@ -20,8 +20,9 @@
         <h1>go to <a href="users.jsp">users</a> table CRUD</h1>
         <h1>go to <a href="employees.jsp">employees</a> table CRUD</h1>
         <h1>go to <a href="client.jsp">clients</a> table CRUD</h1>
-        <h1>go to <a href="equipment.jsp">equipment</a> table CRUD</h1>
-        <h1>go to <a href="project.jsp">project</a> table CRUD</h1>
-        <h1>go to <a href="maptest.jsp">maptest</a> table CRUD</h1>
+        <h1>go to <a href="equipment.jsp">equipment inventory</a> table CRUD</h1>
+        <h1>go to <a href="project.jsp">projects</a> table CRUD</h1>
+        <h1>go to <a href="inuse.jsp">equipment in use</a> table CRUD</h1>
+        <h1>go to <a href="maptest.jsp">map test</a> table CRUD</h1>
     </body>
 </html>

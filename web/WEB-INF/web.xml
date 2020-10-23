@@ -37,6 +37,14 @@
         <servlet-name>ProjectController</servlet-name>
         <servlet-class>com.controller.ProjectController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InUse</servlet-name>
+        <servlet-class>com.controller.InUse</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InUseController</servlet-name>
+        <servlet-class>com.controller.InUseController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -72,6 +80,14 @@
     <servlet-mapping>
         <servlet-name>ProjectController</servlet-name>
         <url-pattern>/projectController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InUse</servlet-name>
+        <url-pattern>/inUse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InUseController</servlet-name>
+        <url-pattern>/inUseController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

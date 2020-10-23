@@ -176,5 +176,30 @@ public class Project extends Conexion{
         }
         return listaPrj;
     }
-    
+    public Project getProyect(int id){
+        Project prj = new Project();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from project where id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                prj.setId(res.getInt("id"));
+                prj.setName(res.getString("name"));
+                prj.setStarted_date(res.getString("started_date"));
+                prj.setFinish_date(res.getString("finish_date"));
+                prj.setAddress(res.getString("address"));
+                prj.setLocation(res.getString("location"));
+                prj.setClient_id(res.getInt("client_id"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return prj;
+    }
 }
