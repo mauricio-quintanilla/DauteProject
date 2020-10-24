@@ -76,6 +76,7 @@
                     <th>Equipment</th>
                     <th>on Project</th>
                     <th>Assigned</th>
+                    <th>In Stock</th>
                     <th>action</th>
                 </tr>
                 <%
@@ -87,6 +88,7 @@
                     <td><%= equ.getEqu(i.getEquipment_id()).getName()%> <%= equ.getEqu(i.getEquipment_id()).getModel()%></td>
                     <td><%= prj.getProyect(i.getProject_id()).getName()%></td>
                     <td><%= i.getEquipment_quantity()%> units</td>
+                    <td><%= equ.getEqu(i.getEquipment_id()).getStock()%> units</td>
                     <td><a href="javascript:myLoad('<%= i.getId()%>','<%= i.getEquipment_id()%>',
                            '<%= i.getProject_id()%>','<%= i.getEquipment_quantity()%>')">Select</a></td>
                 </tr>

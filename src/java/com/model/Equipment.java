@@ -220,7 +220,7 @@ public class Equipment extends Conexion{
         ResultSet res=null;
         try {
             this.conectar();
-            String sql="select * from equipment where id=?";
+            String sql="select * from equipment WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1,id);
             res=pre.executeQuery();
@@ -243,5 +243,34 @@ public class Equipment extends Conexion{
             this.desconectar();
         }
         return equ;
+    }
+    public void updateStock(InUse inu, int axn){
+        InUse crntInUse = new InUse();
+        int eqId = inu.getEquipment_id();//id de equipo que esta siendo creado, modif o eliminado
+        int crntQuant = crntInUse.getInUse(inu.getId()).getEquipment_quantity();//la cantidad actual que esta siendo usada en proyeto
+        int actualStk = getEqu(eqId).getStock(); //las unidades de este equ que estan actualmente en stock
+        int unitRqst = inu.getEquipment_quantity();// las unidades que se han pedido en el POST
+        int newStk= actualStk;//la cantidad de unidades que quedan en stock//by default in case request is same as original
+        if(axn==1){//si btn es crear o update
+            if(unitRqst<crntQuant)//si las unidades pedidas son menores que la cantidad en uso actual entonces la dif se suma al actual stock
+                newStk = actualStk + (crntQuant - unitRqst);
+            if(unitRqst>crntQuant)//si las unidades pedidas son mayores que la cantidad en uso actual entonces la dif se resta al actual stock
+                newStk = actualStk - (unitRqst- crntQuant);
+        }
+        if(axn==2)//si btn es eliminar
+            newStk = actualStk + (crntQuant); //las unidades en uso son sumadas al stock
+        try{
+            this.conectar();
+            String sql="UPDATE equipment SET stock=? WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,newStk);
+            pre.setInt(2, eqId);
+            pre.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
     }
 }

@@ -137,4 +137,27 @@ public class InUse extends Conexion{
         }
         return listaInu;
     }
+    public InUse getInUse(int id){
+        InUse inu = new InUse();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from in_use WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                inu.setId(res.getInt("id"));
+                inu.setEquipment_id(res.getInt("equipment_id"));
+                inu.setProject_id(res.getInt("project_id"));
+                inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return inu;
+    }
 }

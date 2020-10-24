@@ -1,6 +1,7 @@
 
 package com.controller;
 
+import com.model.Equipment;
 import com.model.InUse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,6 +24,7 @@ public class InUseController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         InUse inu = new InUse();
+        Equipment equ= new Equipment();
         String msj="";
         try {
             inu.setId(Integer.parseInt(request.getParameter("txtId")));
@@ -30,11 +32,14 @@ public class InUseController extends HttpServlet {
             inu.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
             inu.setEquipment_quantity(Integer.parseInt(request.getParameter("numEqQu")));
             if(request.getParameter("btnCreate")!=null){
+                equ.updateStock(inu, 1);
                 msj=inu.createInUse(inu);
             }
             else if(request.getParameter("btnUpdate")!=null){
+                equ.updateStock(inu, 1);
                 msj=inu.updateInUse(inu);
             }else{
+                equ.updateStock(inu, 2);
                 msj=inu.deleteInUse(inu);
             }
             response.sendRedirect("inuse.jsp");
