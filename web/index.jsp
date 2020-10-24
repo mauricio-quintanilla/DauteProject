@@ -19,6 +19,7 @@
         <h1>go to <a href="logs.jsp">logs</a> table CRUD</h1>
         <h1>go to <a href="users.jsp">users</a> table CRUD</h1>
         <h1>go to <a href="employees.jsp">employees</a> table CRUD</h1>
+        <h1>go to <a href="working.jsp">Project staff</a> table CRUD</h1>
         <h1>go to <a href="client.jsp">clients</a> table CRUD</h1>
         <h1>go to <a href="equipment.jsp">equipment inventory</a> table CRUD</h1>
         <h1>go to <a href="project.jsp">projects</a> table CRUD</h1>

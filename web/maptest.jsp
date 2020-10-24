@@ -15,7 +15,7 @@
 <!-- this api doesnt work let's ask isma if he has any api from previous projects
      from this point we can get lat and lon and redirect coord to maps 
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyubG4Y8TeqHan6blJyPz5EKSfkw8kWh8&callback=initMap&libraries=&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVAMa-H5zdCqjTUKw3qRt3A0P8fMwoAwI&callback=initMap&libraries=&v=weekly"
       defer
     ></script>--> 
     <style type="text/css">

@@ -24,7 +24,7 @@
         <title>Positions</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, first, last, dob, address, phone, dui, nit, salary, position, user) {
+            function myLoad(id, first, last, dob, address, phone, dui, nit, salary, position, user, status) {
                 $("#txtId").val(id);
                 $("#txtName").val(first);
                 $("#txtLast").val(last);
@@ -36,6 +36,7 @@
                 $("#numSalary").val(salary);
                 $("#slctPos").val(position);
                 $("#slctUser").val(user);
+                $("#txtStatus").val(status);
             }
         </script>
     </head>
@@ -61,7 +62,7 @@
                     <input type="text" name="txtNit" id="txtNit" class='form-control' required/>
                     <label>Salary</label>
                     <input type="number" name="numSalary" id="numSalary" min='0.01' step="0.01" class='form-control' required/>
-                    <label>Position</label>
+                    <label>Profile pic</label>
                     <div class="input-group mb-3">
                         <div class="custom-file">
                           <input type="file" class="custom-file-input" name="fileImg" id="fileImg" aria-describedby="inputGroupFileAddon03">
@@ -89,6 +90,8 @@
                             }
                         %>
                     </select>
+                    <label>status</label>
+                    <input type="text" name="txtStatus" id="txtStatus" class='form-control' value="Available" readonly/>
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
@@ -110,6 +113,7 @@
                     <th>Salary</th>
                     <th>Position</th>
                     <th>User</th>
+                    <th>Status</th>
                     <th>picture</th>
                     <th>Action</th>
                 </tr>
@@ -129,10 +133,11 @@
                     <td>$<%= e.getSalary()%></td>
                     <td><%= pos.getPos(e.getPosition_id()).getName()%></td>
                     <td><%= usr.getUsers(e.getUser_id()).getUser_name()%></td>
+                    <td><%= e.getStatus()%></td>
                     <td><%= e.getImage()%></td>
                     <td><a href="javascript:myLoad('<%= e.getId()%>','<%= e.getFirst_name()%>','<%= e.getLast_name()%>',
                            '<%= e.getDob()%>','<%= e.getAddress()%>','<%= e.getPhone_number()%>','<%= e.getDui()%>',
-                           '<%= e.getNit()%>','<%= e.getSalary()%>','<%= e.getPosition_id()%>','<%= e.getUser_id()%>','<%= e.getImage()%>')">Select</a></td>
+                           '<%= e.getNit()%>','<%= e.getSalary()%>','<%= e.getPosition_id()%>','<%= e.getUser_id()%>','<%= e.getStatus()%>','<%= e.getImage()%>')">Select</a></td>
                 </tr>
                 <%
                     }

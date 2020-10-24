@@ -45,6 +45,10 @@
         <servlet-name>InUseController</servlet-name>
         <servlet-class>com.controller.InUseController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WorkingController</servlet-name>
+        <servlet-class>com.controller.WorkingController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -88,6 +92,10 @@
     <servlet-mapping>
         <servlet-name>InUseController</servlet-name>
         <url-pattern>/inUseController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WorkingController</servlet-name>
+        <url-pattern>/workingController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
