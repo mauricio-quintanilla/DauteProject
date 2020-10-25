@@ -9,15 +9,7 @@
 <html>
   <head>
     <title>Simple Markers</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
-  type="text/javascript"></script>
-<!-- this api doesnt work let's ask isma if he has any api from previous projects
-     from this point we can get lat and lon and redirect coord to maps 
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVAMa-H5zdCqjTUKw3qRt3A0P8fMwoAwI&callback=initMap&libraries=&v=weekly"
-      defer
-    ></script>--> 
+    
     <style type="text/css">
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -49,6 +41,12 @@
     </script>
   </head>
   <body>
+      <iframe
+  width="600"
+  height="450"
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCbUDtVGNnPGBMF4Acpf0CbJYmLspmq-Ps&q=Space+Needle,Seattle+WA" allowfullscreen>
+</iframe>
     <div id="map"></div>
   </body>
 </html>

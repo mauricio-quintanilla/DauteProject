@@ -2,12 +2,19 @@
 package com.controller;
 
 import com.model.Equipment;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /*
 * Nombre del servlet: EquipmentController
@@ -21,26 +28,40 @@ public class EquipmentController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-                PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
         Equipment equ = new Equipment();
         String msj="";
         try {
-            equ.setId(Integer.parseInt(request.getParameter("txtId")));
-            equ.setName(request.getParameter("txtName"));
-            equ.setModel(request.getParameter("txtModel"));
-            equ.setDescription(request.getParameter("txtDesc"));
-            equ.setBrand(request.getParameter("txtBrand"));
-            equ.setStock(Integer.parseInt(request.getParameter("numStock")));
-            equ.setInventory(Integer.parseInt(request.getParameter("numInv")));
-            equ.setType(Integer.parseInt(request.getParameter("numType")));
-            equ.setFuel_rate(Double.parseDouble(request.getParameter("numFuel")));
-            equ.setImage(request.getParameter("fileImg"));
+                ArrayList<String> lista = new ArrayList();
+                FileItemFactory file = new DiskFileItemFactory();
+                ServletFileUpload fileUpload = new ServletFileUpload(file);
+                List items = fileUpload.parseRequest(request);
+                for (int i = 0; i < items.size(); i++) {
+                    FileItem fileItem = (FileItem) items.get(i);
+                    if (!fileItem.isFormField()) {
+                        File f = new File("DauteProject\\web\\imgs\\" + fileItem.getName());
+                        fileItem.write(f);
+                        equ.setImage(fileItem.getName());
+                    }else{
+                        lista.add(fileItem.getString());
+                    }
+                }
+                equ.setId(Integer.parseInt(lista.get(0)));
+                equ.setName(lista.get(1));
+                equ.setModel(lista.get(2));
+                equ.setDescription(lista.get(3));
+                equ.setBrand(lista.get(4));
+                equ.setStock(Integer.parseInt(lista.get(5)));
+                equ.setInventory(Integer.parseInt(lista.get(6)));
+                equ.setType(Integer.parseInt(lista.get(7)));
+                equ.setFuel_rate(Double.parseDouble(lista.get(8)));
             if(request.getParameter("btnCreate")!=null){
                 msj=equ.createEqu(equ);
             }
-            else if(request.getParameter("btnUpdate")!=null){
+            if(request.getParameter("btnUpdate")!=null){
                 msj=equ.updateEqu(equ);
-            }else{
+            }
+            if(request.getParameter("btnDelete")!=null){
                 msj=equ.deleteEqu(equ);
             }
             response.sendRedirect("equipment.jsp");

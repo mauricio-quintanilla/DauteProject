@@ -49,6 +49,22 @@
         <servlet-name>WorkingController</servlet-name>
         <servlet-class>com.controller.WorkingController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EqController</servlet-name>
+        <servlet-class>com.controller.EqController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TestController</servlet-name>
+        <servlet-class>com.controller.TestController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TController</servlet-name>
+        <servlet-class>com.controller.TController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TeCo</servlet-name>
+        <servlet-class>com.controller.TeCo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -96,6 +112,22 @@
     <servlet-mapping>
         <servlet-name>WorkingController</servlet-name>
         <url-pattern>/workingController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EqController</servlet-name>
+        <url-pattern>/eqController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestController</servlet-name>
+        <url-pattern>/testController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TController</servlet-name>
+        <url-pattern>/tController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TeCo</servlet-name>
+        <url-pattern>/teCo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

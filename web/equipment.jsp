@@ -37,7 +37,7 @@
     <body>
         <h1>Equipment CRUD</h1>
         <div class="container">
-            <form id="frmMain" action="equipmentController" method="POST">
+            <form id="frmMain" action="equipmentController" method="POST" enctype="multipart/form-data">
                 <div class='col-6'>
                     <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
                     <label>Equipment name</label>
