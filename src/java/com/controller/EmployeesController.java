@@ -1,13 +1,20 @@
-
 package com.controller;
 
 import com.model.Employees;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /*
 * Nombre del servlet: UsersController
@@ -15,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 * CopyRight: OpenSource
 * Version: 1.0
 * @author Quintanilla Bernabe
-*/
+ */
 public class EmployeesController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -23,33 +30,56 @@ public class EmployeesController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Employees emp = new Employees();
-        String msj="";
+        String msj = "";
         try {
-            emp.setId(Integer.parseInt(request.getParameter("txtId")));
-            emp.setFirst_name(request.getParameter("txtName"));
-            emp.setLast_name(request.getParameter("txtLast"));
-            emp.setDob(request.getParameter("dapDob"));
-            emp.setAddress(request.getParameter("txtAddress"));
-            emp.setPhone_number(request.getParameter("txtPhone"));
-            emp.setDui(request.getParameter("txtDui"));
-            emp.setNit(request.getParameter("txtNit"));
-            emp.setSalary(Double.parseDouble(request.getParameter("numSalary")));
-            emp.setPosition_id(Integer.parseInt(request.getParameter("slctPos")));
-            emp.setUser_id(Integer.parseInt(request.getParameter("slctUser")));
-            emp.setStatus(request.getParameter("txtStatus"));
-            emp.setImage(request.getParameter("image"));
-            if(request.getParameter("btnCreate")!=null){
-                msj=emp.createEmp(emp);
-            }
-            else if(request.getParameter("btnUpdate")!=null){
-                msj=emp.updateEmp(emp);
-            }else{
-                msj=emp.deleteEmp(emp);
+            FileItemFactory file = new DiskFileItemFactory();
+            ServletFileUpload fileUpload = new ServletFileUpload(file);
+            List items = fileUpload.parseRequest(request);
+            if (request.getParameter("btnDelete") != null) {
+                for (int i = 0; i < items.size(); i++) {
+                    FileItem fileItem = (FileItem) items.get(i);
+                    if (fileItem.isFormField()) {
+                        if (fileItem.getFieldName().equals("txtId")) {
+                            emp.setId(Integer.parseInt(fileItem.getString()));
+                        }
+                    }
+                }
+                msj = emp.deleteEmp(emp);
+            } else {
+                ArrayList<String> lista = new ArrayList<>();
+                for (int i = 0; i < items.size(); i++) {
+                    FileItem fileItem = (FileItem) items.get(i);
+                    if (!fileItem.isFormField()) {
+                        File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+                        fileItem.write(f);
+                        emp.setImage(fileItem.getName());
+                    } else {
+                        lista.add(fileItem.getString());
+                    }
+                }
+                emp.setId(Integer.parseInt(lista.get(0)));
+                emp.setFirst_name(lista.get(1));
+                emp.setLast_name(lista.get(2));
+                emp.setDob(lista.get(3));
+                emp.setAddress(lista.get(4));
+                emp.setPhone_number(lista.get(5));
+                emp.setDui(lista.get(6));
+                emp.setNit(lista.get(7));
+                emp.setSalary(Double.parseDouble(lista.get(8)));
+                emp.setPosition_id(Integer.parseInt(lista.get(9)));
+                emp.setUser_id(Integer.parseInt(lista.get(10)));
+                emp.setStatus(lista.get(11));
+                if (request.getParameter("btnCreate") != null) {
+                    msj = emp.createEmp(emp);
+                }
+                if (request.getParameter("btnUpdate") != null) {
+                    msj = emp.updateEmp(emp);
+                }
             }
             response.sendRedirect("employees.jsp");
-            request.getSession().setAttribute("msj",msj);
+            request.getSession().setAttribute("msj", msj);
         } catch (Exception e) {
-            request.getSession().setAttribute("error",e.toString());
+            request.getSession().setAttribute("error", e.toString());
         }
     }
 
@@ -59,11 +89,13 @@ public class EmployeesController extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -65,6 +65,14 @@
         <servlet-name>TeCo</servlet-name>
         <servlet-class>com.controller.TeCo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Cont</servlet-name>
+        <servlet-class>com.controller.Cont</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyUp</servlet-name>
+        <servlet-class>com.controller.MyUp</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -128,6 +136,14 @@
     <servlet-mapping>
         <servlet-name>TeCo</servlet-name>
         <url-pattern>/teCo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Cont</servlet-name>
+        <url-pattern>/cont</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyUp</servlet-name>
+        <url-pattern>/myUp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

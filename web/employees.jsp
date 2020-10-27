@@ -43,7 +43,7 @@
     <body>
         <h1>Employees CRUD</h1>
         <div class="container">
-            <form id="frmMain" action="employeesController" method="POST">
+            <form id="frmMain" action="" method="POST" enctype="multipart/form-data">
                 <div class='col-6'>
                     <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
                     <label>First name</label>
@@ -95,9 +95,9 @@
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-                <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-                <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-                <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
+                <input formaction="employeesController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
+                <input formaction="employeesController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
+                <input formaction="employeesController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
             </form>
 
             <table border="1" class=''>
@@ -134,7 +134,7 @@
                     <td><%= pos.getPos(e.getPosition_id()).getName()%></td>
                     <td><%= usr.getUsers(e.getUser_id()).getUser_name()%></td>
                     <td><%= e.getStatus()%></td>
-                    <td><%= e.getImage()%></td>
+                    <td><img src="imgs/<%= e.getImage()%>" height="75px" width="100px"></td>
                     <td><a href="javascript:myLoad('<%= e.getId()%>','<%= e.getFirst_name()%>','<%= e.getLast_name()%>',
                            '<%= e.getDob()%>','<%= e.getAddress()%>','<%= e.getPhone_number()%>','<%= e.getDui()%>',
                            '<%= e.getNit()%>','<%= e.getSalary()%>','<%= e.getPosition_id()%>','<%= e.getUser_id()%>','<%= e.getStatus()%>','<%= e.getImage()%>')">Select</a></td>

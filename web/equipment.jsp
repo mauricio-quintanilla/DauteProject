@@ -37,7 +37,7 @@
     <body>
         <h1>Equipment CRUD</h1>
         <div class="container">
-            <form id="frmMain" action="equipmentController" method="POST" enctype="multipart/form-data">
+            <form id="frmMain" action="" method="POST" enctype="multipart/form-data">
                 <div class='col-6'>
                     <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
                     <label>Equipment name</label>
@@ -66,9 +66,9 @@
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-                <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-                <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-                <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
+                <input formaction="equipmentController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
+                <input formaction="equipmentController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
+                <input formaction="equipmentController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
             </form>
 
             <table border="1" class=''>
@@ -99,7 +99,7 @@
                     <td><%= e.getInventory()%> units</td>
                     <td><%= e.getType()%></td>
                     <td><%= e.getFuel_rate()%>%</td>
-                    <td><%= e.getImage()%></td>
+                    <td><img src="imgs/<%= e.getImage()%>" height="75px" width="100px"></td>
                     <td><a href="javascript:myLoad('<%= e.getId()%>','<%= e.getName()%>','<%= e.getModel()%>',
                            '<%= e.getDescription()%>','<%= e.getBrand()%>','<%= e.getStock()%>','<%= e.getInventory()%>',
                            '<%= e.getType()%>','<%= e.getFuel_rate()%>','<%= e.getImage()%>')">Select</a></td>
