@@ -4,7 +4,10 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -272,5 +275,27 @@ public class Equipment extends Conexion{
         finally{
             this.desconectar();
         }
+    }
+    public List equLogs(Equipment equ, int UserId, String axn){
+        List allLogs = new ArrayList();
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
+        String date = df.format(cal.getTime());
+        Equipment crntEq = new Equipment();
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(UserId);
+        lgs.setAction_id(axn);
+        lgs.setDate(date);
+        id=equ.getId();
+        List  newRec = (List) equ.getEqu(id);
+        List actual = (List) crntEq.getEqu(id);
+        for (int i = 0; i < actual.size(); i++) {
+            if(actual.get(i)!=newRec.get(i)){
+                lgs.setDescription("added"+ newRec.get(i).toString());
+                allLogs.add(lgs);
+            }
+        }
+        return allLogs;
     }
 }
