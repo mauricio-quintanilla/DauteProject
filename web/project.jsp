@@ -1,7 +1,7 @@
 <%-- 
     Document   : project
     Created on : Oct 23, 2020, 12:20:58 AM
-    Author     : demon
+    Author     : Ismael
 --%>
 
 <%@page import="java.util.List"%>
@@ -30,59 +30,142 @@
             Project prj = new Project();
             Client cli = new Client();
         %>
+        
+        <style>
+      /* Tamaño del div del mapa. */
+      #map {
+        height: 50%;
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 2%;
+      }
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+
+    </style>
         <title>Project</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, name, desc, start, finish, address, location, client) {
+            function myLoad(id, name, desc, start, finish, address, lat, lng, client) {
                 $("#txtId").val(id);
                 $("#txtName").val(name);
                 $("#txtDesc").val(desc);
                 $("#dapStart").val(start);
                 $("#dapFinish").val(finish);
                 $("#txtAddress").val(address);
-                $("#location").val(location); //check if isma has any maps api key availa
+                $("#my_lat").val(lat);
+                $("#my_lng").val(lng);
                 $("#slctClient").val(client);
+                document.getElementById("edit-mark").disabled = false;
+                document.getElementById("add-mark").disabled = true;
             }
+            
+            function reset(){ 
+                $("#txtId").val("");
+                $("#txtName").val("");
+                $("#txtDesc").val("");
+                $("#dapStart").val("");
+                $("#dapFinish").val("");
+                $("#txtAddress").val("");
+                $("#my_lat").val("");
+                $("#my_lng").val("");
+                $("#slctClient").val("");
+                document.getElementById("edit-mark").disabled = true;
+                document.getElementById("add-mark").disabled = false;
+             }
+            
+
+            
         </script>
     </head>
     <body>
-        <h1>Project CRUD</h1>
+    <center>
+        <h1>Gestionar Proyectos</h1>
+    </center>
+        
+        <div id="map"></div>
+        
+        <br>
+        <div class="contaner">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-lg-1 col-offset-6 centered">
+                    <input type="button" value="Add a Mark" id="add-mark" onclick="var param=0; agregarPunto(param);" class="btn btn-success">
+                </div>
+                <div class="col-lg-1 col-offset-6 centered">
+                    <input type="button" value="Edit Mark" id="edit-mark" disabled="disabled" onclick="initMap();var param=0; agregarPunto(param);" class="btn btn-warning">
+                </div>
+            </div>
+            
+        </div>
+        <br>
         <div class="container">
             <form id="frmMain" action="projectController" method="POST">
-                <div class='col-6'>
-                    <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
-                    <label>Project name</label>
-                    <input type="text" name="txtName" id="txtName" class='form-control' required/>
-                    <label>Project description</label>
-                    <textarea class="form-control" name="txtDesc" id="txtDesc" placeholder="Description" required rows="3"></textarea>
-                    <label>Project starts on</label>
-                    <input type="date" name="dapStart" id="dapStart" class='form-control' min='2020-11-01' max='2021-12-31' required/>
-                    <label>Project ends on</label>
-                    <input type="date" name="dapFinish" id="dapFinish" class='form-control' min='2020-11-01' max='2021-12-31' required/>
-                    <label>Address</label>
-                    <textarea class="form-control" name="txtAddress" id="txtAddress" placeholder="Address" required rows="3"></textarea>
-                    <label>Location</label>
-                    <input type="text" name="location" id="location" class='form-control' required/>
-                    <label>Company's project</label>
-                    <select name="slctClient" id="slctClient" class='form-control'>
-                        <%
-                            List<Client> lst = cli.showClient();
-                            for (Client c : lst) {
-                        %>
-                        <option value="<%= c.getId()%>"><%= c.getCompany_name()%></option>
-                        <%
-                            }
-                        %>
-                    </select>
+                <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
+                
+
+                <input type="hidden" id="latLng">      
+                <input type="hidden" id="oculto">
+                <input type="hidden" required placeholder="Latitud" name="my_lat"  id="my_lat">
+                <input type="hidden" required placeholder="Longitud" name="my_lng" id="my_lng" >
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Project name</label>
+                        <input type="text" name="txtName" id="txtName" class='form-control' required/>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Project description</label>
+                        <textarea class="form-control" name="txtDesc" id="txtDesc" placeholder="Description" required rows="3"></textarea>
+                    </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-ms-12">
+                        <label>Project starts on</label>
+                    <input type="date" name="dapStart" id="dapStart" class='form-control' min='2020-11-01' max='2021-12-31' required/>
+                    </div>
+                    <div class="col-md-6 col-ms-12">
+                        <label>Project ends on</label>
+                        <input type="date" name="dapFinish" id="dapFinish" class='form-control' min='2020-11-01' max='2021-12-31' required/>
+                    </div>
+                </div>
+                <div class="row" id="ismael">
+                    <div class="col-md-6 col-ms-12">
+                        <label>Address</label>
+                        <textarea class="form-control" name="txtAddress" id="txtAddress" placeholder="Address" required rows="3"></textarea>
+                    </div>
+                    <div class="col-md-6 col-ms-12">
+                        <label>Company's project</label>
+                        <select name="slctClient" id="slctClient" class='form-control'>
+                            <%
+                                List<Client> lst = cli.showClient();
+                                for (Client c : lst) {
+                            %>
+                            <option value="<%= c.getId()%>"><%= c.getCompany_name()%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </div>    
+                </div>
+                
+
                 <br>
-                <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
+                
+                
                 <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
                 <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
                 <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
             </form>
-
-            <table border="1" class=''>
+            <button class="btn btn-outline-info"  onclick="reset()"  >New</button>
+             <br>
+            <table class='table table-hover table-dark'>
                 <tr>
                     <th>Project id</th>
                     <th>Project name</th>
@@ -90,7 +173,8 @@
                     <th>Starts</th>
                     <th>Ends</th>
                     <th>address</th>
-                    <th>LatLng</th>
+                    <th>Lat</th>
+                    <th>Lng</th>
                     <th>Company</th>
                     <th>Action</th>
                 </tr>
@@ -105,11 +189,16 @@
                     <td><%= p.getStarted_date()%></td>
                     <td><%= p.getFinish_date()%></td>
                     <td><%= p.getAddress()%></td>
-                    <td><%= p.getLocation()%></td>
+                    <td><%= p.getLat()%></td>
+                    <td><%= p.getLng()%></td>
                     <td><%= cli.getClient(p.getClient_id()).getCompany_name()%></td>
-                    <td><a href="javascript:myLoad('<%= p.getId()%>','<%= p.getName()%>','<%= p.getDescription()%>',
+                    <td>
+                        <button  class="btn btn-outline-success" onclick="myLoad('<%= p.getId()%>','<%= p.getName()%>','<%= p.getDescription()%>',
                            '<%= p.getStarted_date()%>','<%= p.getFinish_date()%>','<%= p.getAddress()%>',
-                           '<%= p.getLocation()%>','<%= p.getClient_id()%>')">Select</a></td>
+                           '<%= p.getLat()%>','<%= p.getLng()%>','<%= p.getClient_id()%>');ruta()">
+                            *Select*
+                        </button>
+                    </td>
                 </tr>
                 <%
                     }
@@ -118,6 +207,11 @@
             <br>
             <p>go back to <a href="index.jsp">index</a></p>
         </div>
+        <!--Archivo local Javascript Toda la programación en este archivo-->
+        <script type="text/javascript" src="googleMaps.js"></script>
+        <!--Archivo de GoogleMaps-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbUDtVGNnPGBMF4Acpf0CbJYmLspmq-Ps&callback=initMap" async defer></script>
+        
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     </body>

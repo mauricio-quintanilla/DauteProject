@@ -31,7 +31,8 @@ public class ProjectController extends HttpServlet {
             prj.setStarted_date(request.getParameter("dapStart"));
             prj.setFinish_date(request.getParameter("dapFinish"));
             prj.setAddress(request.getParameter("txtAddress"));
-            prj.setLocation(request.getParameter("location"));
+            prj.setLat(request.getParameter("my_lat"));
+            prj.setLng(request.getParameter("my_lng"));
             prj.setClient_id(Integer.parseInt(request.getParameter("slctClient")));
             if(request.getParameter("btnCreate")!=null){
                 msj=prj.createPrj(prj);

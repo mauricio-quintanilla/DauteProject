@@ -22,20 +22,22 @@ public class Project extends Conexion{
     private String started_date;
     private String finish_date;
     private String address;
-    private String location;
+    private String lat;
+    private String lng;
     private int client_id;
 
     public Project() {
     }
 
-    public Project(int id, String name, String description, String started_date, String finish_date, String address, String location, int client_id) {
+    public Project(int id, String name, String description, String started_date, String finish_date, String address, String lat, String lng, int client_id) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.started_date = started_date;
         this.finish_date = finish_date;
         this.address = address;
-        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
         this.client_id = client_id;
     }
 
@@ -62,7 +64,7 @@ public class Project extends Conexion{
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public String getStarted_date() {
         return started_date;
     }
@@ -86,13 +88,21 @@ public class Project extends Conexion{
     public void setAddress(String address) {
         this.address = address;
     }
-    
-    public String getLocation() {
-        return location;
+
+    public String getLat() {
+        return lat;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     public int getClient_id() {
@@ -102,10 +112,12 @@ public class Project extends Conexion{
     public void setClient_id(int client_id) {
         this.client_id = client_id;
     }
+
+   
     public String createPrj(Project prj){
         try {
             this.conectar();
-            String sql="INSERT INTO project VALUES(?,?,?,?,?,?,?,?)";
+            String sql="INSERT INTO project VALUES(?,?,?,?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setString(2, prj.getName());
@@ -113,8 +125,9 @@ public class Project extends Conexion{
             pre.setString(4, prj.getStarted_date());
             pre.setString(5, prj.getFinish_date());
             pre.setString(6, prj.getAddress());
-            pre.setString(7, prj.getLocation());
-            pre.setInt(8, prj.getClient_id());
+            pre.setString(7, prj.getLat());
+            pre.setString(8, prj.getLng());
+            pre.setInt(9, prj.getClient_id());
             pre.executeUpdate();
             return "Project successfuly created";
         } catch (Exception e) {
@@ -127,16 +140,17 @@ public class Project extends Conexion{
     public String updatePrj(Project prj){
         try {
             this.conectar();
-            String sql="UPDATE project SET name=?, description=?, started_date=?, finish_date=?, address=?, location=?, client_id=? WHERE id=?";
+            String sql="UPDATE project SET name=?, description=?, started_date=?, finish_date=?, address=?, lat=?, lng=?, client_id=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1, prj.getName());
             pre.setString(2, prj.getDescription());
             pre.setString(3, prj.getStarted_date());
             pre.setString(4, prj.getFinish_date());
             pre.setString(5, prj.getAddress());
-            pre.setString(6, prj.getLocation());
-            pre.setInt(7, prj.getClient_id());
-            pre.setInt(8, prj.getId());
+            pre.setString(6, prj.getLat());
+            pre.setString(7, prj.getLng());
+            pre.setInt(8, prj.getClient_id());
+            pre.setInt(9, prj.getId());
             pre.executeUpdate();
             return "Project successfuly updated";
         } catch (Exception e) {
@@ -177,7 +191,8 @@ public class Project extends Conexion{
                 prj.setStarted_date(res.getString("started_date"));
                 prj.setFinish_date(res.getString("finish_date"));
                 prj.setAddress(res.getString("address"));
-                prj.setLocation(res.getString("location"));
+                prj.setLat(res.getString("lat"));
+                prj.setLng(res.getString("lng"));
                 prj.setClient_id(res.getInt("client_id"));
                 listaPrj.add(prj);
             }
@@ -205,7 +220,8 @@ public class Project extends Conexion{
                 prj.setStarted_date(res.getString("started_date"));
                 prj.setFinish_date(res.getString("finish_date"));
                 prj.setAddress(res.getString("address"));
-                prj.setLocation(res.getString("location"));
+                prj.setLat(res.getString("lat"));
+                prj.setLng(res.getString("lng"));
                 prj.setClient_id(res.getInt("client_id"));
             }
         } catch (Exception e) {
