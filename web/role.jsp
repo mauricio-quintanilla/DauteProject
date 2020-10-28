@@ -6,6 +6,7 @@
 
 <%@page import="java.util.List"%>
 <%@page import="com.model.Role"%>
+<%@page session="true"%>
 <!doctype html>
 <html lang="en">
     <head>
@@ -13,7 +14,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <%
-            Role rol = new Role();
+            HttpSession sesion = request.getSession();
+            String rol;
+            if (sesion.getAttribute("rolName") == null) {
+                response.sendRedirect("loginController?nosession=y");
+            }
+        %>
+        <label>Role: <%= session.getAttribute("rolName")%></label>
+        <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
+        <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
+        <a href="loginController?logout=y">Log out</a>
+        <%
+            Role roll = new Role();
+            //in case you
         %>
         <title>Role</title>
         <script type="text/javascript" src="jquery.js"></script>
@@ -47,7 +60,7 @@
                     <th>Select</th>
                 </tr>
                 <%
-                    List<Role> lst = rol.showRole();
+                    List<Role> lst = roll.showRole();
                     for (Role r : lst) {
                 %>
                 <tr>

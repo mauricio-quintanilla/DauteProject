@@ -73,6 +73,14 @@
         <servlet-name>MyUp</servlet-name>
         <servlet-class>com.controller.MyUp</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>com.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>IndexController</servlet-name>
+        <servlet-class>com.controller.IndexController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -144,6 +152,14 @@
     <servlet-mapping>
         <servlet-name>MyUp</servlet-name>
         <url-pattern>/myUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/loginController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IndexController</servlet-name>
+        <url-pattern>/indexController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

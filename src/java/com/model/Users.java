@@ -130,7 +130,7 @@ public class Users extends Conexion {
         ResultSet res;
         try {
             this.conectar();
-            String sql="SELECT * from users";
+            String sql="SELECT * FROM users";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             res=pre.executeQuery();
             while(res.next()){
@@ -155,7 +155,7 @@ public class Users extends Conexion {
         ResultSet res=null;
         try {
             this.conectar();
-            String sql="select * from users where id=?";
+            String sql="SELECT * FROM users WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1,id);
             res=pre.executeQuery();
@@ -168,6 +168,28 @@ public class Users extends Conexion {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return usr;
+    }
+    public Users validateUser(String user, String pwd){
+        Users usr = new Users();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="SELECT id, role_id FROM users WHERE user_name=? AND password=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setString(1,user);
+            pre.setString(2,pwd);
+            res=pre.executeQuery();
+            while(res.next()){
+                usr.setId(res.getInt("id"));
+                usr.setRole_id(res.getInt("role_id"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error in validateUser "+e.getMessage());
         }
         finally{
             this.desconectar();

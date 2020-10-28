@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /*
-* Nombre de la clase: Employees
+* Nombre de la clase: Conexion
 * Fecha: 19-10-2020
 * CopyRight: OpenSource
 * Version: 1.0

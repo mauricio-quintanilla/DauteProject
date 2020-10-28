@@ -319,6 +319,28 @@ public class Employees extends Conexion{
         }
         return emp;
     }
+    public Employees getEmpSes(int id){//this fuction is used to get personal data from user logged in session 
+        Employees emp = new Employees();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from employees where user_id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                emp.setFirst_name(res.getString("first_name"));
+                emp.setLast_name(res.getString("last_name"));
+                emp.setImage(res.getString("image"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return emp;
+    }
     public void changeStatus(Working wop, String axn){
         String status="Available";
         if(axn=="Create")
