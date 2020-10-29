@@ -41,7 +41,7 @@
                 $("#numInv").val(inv);
                 $("#numType").val(type);
                 $("#numFuel").val(fuel);
-                $("#fileImg").val(image);
+                $("#fileImgBU").val(image);
             }
         </script>
     </head>
@@ -74,6 +74,8 @@
                           <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
                         </div>
                     </div>
+                    <!-- this input allows us to temporarily store img value in case update is in process-->
+                    <input type="hidden" name="fileImgBU" id="fileImgBU" class='form-control' value=""/>
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>

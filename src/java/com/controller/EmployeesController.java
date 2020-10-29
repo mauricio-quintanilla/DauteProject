@@ -31,6 +31,7 @@ public class EmployeesController extends HttpServlet {
         PrintWriter out = response.getWriter();
         Employees emp = new Employees();
         String msj = "";
+        String img = "";
         try {
             FileItemFactory file = new DiskFileItemFactory();
             ServletFileUpload fileUpload = new ServletFileUpload(file);
@@ -50,9 +51,12 @@ public class EmployeesController extends HttpServlet {
                 for (int i = 0; i < items.size(); i++) {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (!fileItem.isFormField()) {
-                        File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
-                        fileItem.write(f);
-                        emp.setImage(fileItem.getName());
+                        if(fileItem.getName()!=""){
+                            File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+                            fileItem.write(f);
+                            emp.setImage(fileItem.getName());
+                        }else
+                            img="nopic.png";
                     } else {
                         lista.add(fileItem.getString());
                     }
@@ -70,15 +74,20 @@ public class EmployeesController extends HttpServlet {
                 emp.setUser_id(Integer.parseInt(lista.get(10)));
                 emp.setStatus(lista.get(11));
                 if (request.getParameter("btnCreate") != null) {
+                    if(img!="")
+                        emp.setImage(img);
                     msj = emp.createEmp(emp);
                 }
                 if (request.getParameter("btnUpdate") != null) {
+                    if(img!="")
+                        emp.setImage(lista.get(12));
                     msj = emp.updateEmp(emp);
                 }
             }
             response.sendRedirect("employees.jsp");
             request.getSession().setAttribute("msj", msj);
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString());
             request.getSession().setAttribute("error", e.toString());
         }
     }

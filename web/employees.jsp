@@ -35,7 +35,7 @@
         <title>Positions</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, first, last, dob, address, phone, dui, nit, salary, position, user, status) {
+            function myLoad(id, first, last, dob, address, phone, dui, nit, salary, position, user, status, imga) {
                 $("#txtId").val(id);
                 $("#txtName").val(first);
                 $("#txtLast").val(last);
@@ -48,6 +48,7 @@
                 $("#slctPos").val(position);
                 $("#slctUser").val(user);
                 $("#txtStatus").val(status);
+                $("#fileImgBU").val(imga);
             }
         </script>
     </head>
@@ -73,13 +74,7 @@
                     <input type="text" name="txtNit" id="txtNit" class='form-control' required/>
                     <label>Salary</label>
                     <input type="number" name="numSalary" id="numSalary" min='0.01' step="0.01" class='form-control' required/>
-                    <label>Profile pic</label>
-                    <div class="input-group mb-3">
-                        <div class="custom-file">
-                          <input type="file" class="custom-file-input" name="fileImg" id="fileImg" aria-describedby="inputGroupFileAddon03">
-                          <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-                        </div>
-                    </div>
+                    <label>Position</label>
                     <select name="slctPos" id="slctPos" class='form-control'>
                         <%
                             List<Position> lst = pos.showPos();
@@ -102,7 +97,16 @@
                         %>
                     </select>
                     <label>status</label>
-                    <input type="text" name="txtStatus" id="txtStatus" class='form-control' value="Available" readonly/>
+                    <input type="text" name="txtStatus" id="txtStatus" class='form-control' value="Available" readonly/>                    
+                    <label>Profile pic</label>
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" name="fileImg" id="fileImg" aria-describedby="inputGroupFileAddon03">
+                          <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                        </div>
+                    </div>
+                    <!-- this input allows us to temporarily store img value in case update is in process-->
+                    <input type="hidden" name="fileImgBU" id="fileImgBU" class='form-control' value=""/>
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
@@ -148,7 +152,8 @@
                     <td><img src="imgs/<%= e.getImage()%>" height="75px" width="100px"></td>
                     <td><a href="javascript:myLoad('<%= e.getId()%>','<%= e.getFirst_name()%>','<%= e.getLast_name()%>',
                            '<%= e.getDob()%>','<%= e.getAddress()%>','<%= e.getPhone_number()%>','<%= e.getDui()%>',
-                           '<%= e.getNit()%>','<%= e.getSalary()%>','<%= e.getPosition_id()%>','<%= e.getUser_id()%>','<%= e.getStatus()%>','<%= e.getImage()%>')">Select</a></td>
+                           '<%= e.getNit()%>','<%= e.getSalary()%>','<%= e.getPosition_id()%>','<%= e.getUser_id()%>',
+                           '<%= e.getStatus()%>','<%= e.getImage()%>')">Select</a></td>
                 </tr>
                 <%
                     }

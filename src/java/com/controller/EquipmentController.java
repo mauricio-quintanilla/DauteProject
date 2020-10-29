@@ -31,6 +31,7 @@ public class EquipmentController extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         Equipment equ = new Equipment();
+        String img="";
         String msj = "";
         try {
                 FileItemFactory file = new DiskFileItemFactory();
@@ -51,9 +52,12 @@ public class EquipmentController extends HttpServlet {
                 for (int i = 0; i < items.size(); i++) {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (!fileItem.isFormField()) {
-                        File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
-                        fileItem.write(f);
-                        equ.setImage(fileItem.getName());
+                        if(fileItem.getName()!=""){
+                            File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+                            fileItem.write(f);
+                            equ.setImage(fileItem.getName());
+                        }else
+                            img="noproject.png";
                     } else {
                         lista.add(fileItem.getString());
                     }
@@ -68,9 +72,13 @@ public class EquipmentController extends HttpServlet {
                 equ.setType(Integer.parseInt(lista.get(7)));
                 equ.setFuel_rate(Double.parseDouble(lista.get(8)));
                 if(request.getParameter("btnCreate")!=null){
+                    if(img!="")
+                        equ.setImage(img);
                     msj=equ.createEqu(equ);
                 }
                 if(request.getParameter("btnUpdate")!=null){
+                    if(img!="")
+                        equ.setImage(lista.get(9));
                     msj=equ.updateEqu(equ);
                 }
             }
