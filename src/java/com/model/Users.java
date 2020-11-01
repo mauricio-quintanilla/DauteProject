@@ -2,6 +2,8 @@
 package com.model;
 
 import com.conexion.Conexion;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -73,14 +75,21 @@ public class Users extends Conexion {
         this.role_id = role_id;
     }
     public String createUser(Users usr){
+        String crypto="";
         try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(usr.getPassword().getBytes("utf8"));
+            crypto = String.format("%040x", new BigInteger(1, digest.digest()));
+            
+            
             this.conectar();
             String sql="INSERT INTO users VALUES(?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setString(2, usr.getUser_name());
             pre.setString(3, usr.getEmail());
-            pre.setString(4, usr.getPassword());
+            pre.setString(4, crypto);
             pre.setInt(5, usr.getRole_id());
             pre.executeUpdate();
             return "User successfuly created";
@@ -92,13 +101,22 @@ public class Users extends Conexion {
         }
     }
     public String updateUser(Users usr){
+        String crypto="";
+        String pass;
         try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(usr.getPassword().getBytes("utf8"));
+            crypto = String.format("%040x", new BigInteger(1, digest.digest()));
+            
+            pass=this.getUsers(usr.getId()).getPassword();
+            
             this.conectar();
             String sql="UPDATE users SET user_name=?, email=?, password=?, role_id=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1, usr.getUser_name());
-            pre.setString(2, usr.getEmail());
-            pre.setString(3, usr.getPassword());
+            pre.setString(2, usr.getEmail());  
+            pre.setString(3, crypto);
             pre.setInt(4, usr.getRole_id());
             pre.setInt(5, usr.getId());
             pre.executeUpdate();
@@ -177,12 +195,18 @@ public class Users extends Conexion {
     public Users validateUser(String user, String pwd){
         Users usr = new Users();
         ResultSet res=null;
+        String crypto="";
         try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(pwd.getBytes("utf8"));
+            crypto = String.format("%040x", new BigInteger(1, digest.digest()));
+            
             this.conectar();
             String sql="SELECT id, role_id FROM users WHERE user_name=? AND password=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1,user);
-            pre.setString(2,pwd);
+            pre.setString(2,crypto);
             res=pre.executeQuery();
             while(res.next()){
                 usr.setId(res.getInt("id"));
