@@ -63,7 +63,7 @@ public class LoginController extends HttpServlet {
                 response.sendRedirect("login.jsp");
             }
         } catch (Exception e) {
-            
+            request.getSession().setAttribute("Error", e.toString());
         }
     }
 
