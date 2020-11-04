@@ -2,6 +2,7 @@
 package com.controller;
 
 import com.model.Department;
+import com.model.Logs;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -25,22 +26,29 @@ public class DepartmentController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Department dpt = new Department();
-        String msj="";
         HttpSession session = request.getSession();
+        Department dpt = new Department();
+        //Object dpt1 = new Department();
+        Logs lgs = new Logs();
+        String msj="";
+        int usrId=0;
         try {
             if (session.getAttribute("rolName") == null) {
                 response.sendRedirect("login.jsp");
             }
             dpt.setId(Integer.parseInt(request.getParameter("txtDeptId")));
             dpt.setName(request.getParameter("txtDeptName"));
+            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if(request.getParameter("btnCreate")!=null){
                 msj=dpt.createDept(dpt);
+                lgs.storeLogs(usrId, "Create Department");
             }
             else if(request.getParameter("btnUpdate")!=null){
                 msj=dpt.updateDept(dpt);
+                lgs.storeLogs(usrId, "Updated Department");
             }else{
                 msj=dpt.deleteDept(dpt);
+                lgs.storeLogs(usrId, "Deleted Department");
             }
             response.sendRedirect("department.jsp");
             request.getSession().setAttribute("msj",msj);

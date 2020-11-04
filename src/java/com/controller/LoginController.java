@@ -40,9 +40,10 @@ public class LoginController extends HttpServlet {
                 level=usr.getRole_id();
                 if(level>0){
                     String usrOnSess =emp.getEmpSes(usr.getId()).getFirst_name()+" "+emp.getEmpSes(usr.getId()).getLast_name();
-                        String rolName = rol.getRole(usr.getRole_id()).getName();
+                    String rolName = rol.getRole(usr.getRole_id()).getName();
                     String profPic = emp.getEmpSes(usr.getId()).getImage();
                     session.setAttribute("usrOnSess",usrOnSess);
+                    session.setAttribute("usrId",usr.getId());
                     session.setAttribute("rolName",rolName);
                     session.setAttribute("profPic",profPic);
                     response.sendRedirect("index.jsp");

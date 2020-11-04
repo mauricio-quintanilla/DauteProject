@@ -3,6 +3,11 @@ package com.model;
 
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /*
 * Nombre de la clase: Logs
@@ -82,7 +87,7 @@ public class Logs extends Conexion {
     public String createLogs(Logs lgs){
         try {
             this.conectar();
-            String sql="INSERT INTO logs VALUES(?,?,?,?)";
+            String sql="INSERT INTO logs VALUES(?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setInt(2, lgs.getUser_id());
@@ -100,7 +105,37 @@ public class Logs extends Conexion {
         }
     }
     
-    public String storeLogs(String user_name, Object myClass,int axnCode){
+    public void storeLogs(int userId, String axnCode){
+        try {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(userId);
+        lgs.setAction_id(axnCode);
+        lgs.setOn_field("to be detemined");
+        lgs.setDate(date);
+        lgs.setDescription(axnCode);
+        int a=lgs.getUser_id();
+        String b =lgs.getAction_id();
+        String bv =lgs.getOn_field();
+        String bv4 = lgs.getDate();
+        String asd= lgs.getDescription();
+        String asddf= "a";
+        createLogs(lgs);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"error "+e.getMessage());
+        }
+    /*    int id=equ.getId();
+        List  newRec = (List) equ.getEqu(id);
+        List actual = (List) crntEq.getEqu(id);
+        for (int i = 0; i < actual.size(); i++) {
+            if(actual.get(i)!=newRec.get(i)){
+                lgs.setDescription("table Equipment changed from "+ actual.get(i) +" to " + newRec.get(i).toString());
+                allLogs.add(lgs);
+            }
+        }
         String logs="";
         if(axnCode==1){
             
@@ -110,7 +145,6 @@ public class Logs extends Conexion {
         }
         if(axnCode==3){
             
-        }
-        return logs;
+        }*/
     }   
 }
