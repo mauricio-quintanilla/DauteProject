@@ -26,17 +26,23 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-black">
-    <div class="flex w-full h-screen container">
-        <div class="flex items-center justify-center w-full h-full">
-            <div class="flex w-full sm:w-3/5 p-4">
-                <div class="border border-blue-500 border-8 divide-y divide-gray-400 bg-white p-4 rounded-lg w-full">
+<body>
+    <div class="flex w-full md:h-screen">
+        <div class="bg-gray-500">
+            <a href="loginController?logout=y">Log out</a>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+            <label>Rol: <%= session.getAttribute("rolName")%></label>
+            <label>Usuario: <%= session.getAttribute("usrOnSess")%></label>
+            <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px"> 
+        </div>
+        <div class="flex items-center justify-center w-full md:h-full">
+            <div class="flex w-full md:w-1/4">
+                <div class="border border-blue-500 border-8 divide-y divide-gray-400 bg-white rounded-lg w-full">
                     <h1 class="font-bold text-2xl text-center">Gestionar:</h1>
-                    <div class="py-1 text-center"><a class="text-blue-500 underline" href="position.jsp">Posición</a></div>
                     <div class="py-1 text-center"><a class="text-blue-500 underline" href="department.jsp">Departamentos</a></div>
                     <div class="py-1 text-center"><a class="text-blue-500 underline" href="role.jsp">Roles</a></div>
                     <div class="py-1 text-center"><a class="text-blue-500 underline" href="actions.jsp">Acciones</a></div>
-                    <div class="py-1 text-center"><a class="text-blue-500 underline" href="logs.jsp">Logs</a></div>
                     <div class="py-1 text-center"><a class="text-blue-500 underline" href="users.jsp">Usuarios</a></div>
                     <div class="py-1 text-center"><a class="text-blue-500 underline" href="employees.jsp">Empleados</a></div>
                     <div class="py-1 text-center"><a class="text-blue-500 underline" href="working.jsp">Personas en proyecto</a></div>
@@ -49,12 +55,6 @@
             </div>
         </div>
     </div>
-        <a href="loginController?logout=y">Log out</a>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-        <label>Role: <%= session.getAttribute("rolName")%></label>
-        <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-        <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-
-    </body>
+       
+</body>
 </html>
