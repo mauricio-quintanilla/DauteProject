@@ -191,7 +191,7 @@ public class Position extends Conexion{
         lgs.setDate(date);
         lgs.setOn_field("Position");
         lgs.setAction_id("deleted");
-        lgs.setDescription("position name: " + pi.getName()+ "dpt id: " +pi.getDepartment_id());
+        lgs.setDescription("position id "+pi.getId()+" position name: " + pi.getName()+ "dpt id: " +pi.getDepartment_id());
         lgs.createLogs(lgs);
     }
 }

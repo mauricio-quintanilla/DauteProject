@@ -46,7 +46,6 @@ public class DepartmentController extends HttpServlet {
                 dc = dpt.getDept(dptid);
                 msj=dpt.updateDept(dpt);
                 dpt.trkLogU(usrId, dpt, dc);
-                
             }else{
                 dc = dpt.getDept(dptid);
                 msj=dpt.deleteDept(dpt);

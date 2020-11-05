@@ -4,7 +4,9 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -43,6 +45,7 @@ public class Role extends Conexion{
         this.name = name;
     }
     
+    //<editor-fold defaultstate="collapsed" desc="Create Role method">
     public String createRole(Role rol){
         try {
             this.conectar();
@@ -59,6 +62,8 @@ public class Role extends Conexion{
             this.desconectar();
         }
     }
+//</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Update Role method">
     public String updateRole(Role rol){
         try {
             this.conectar();
@@ -75,6 +80,7 @@ public class Role extends Conexion{
             this.desconectar();
         }
     }
+//</editor-fold>
     public String deleteRole(Role rol){
         try {
             this.conectar();
@@ -132,5 +138,46 @@ public class Role extends Conexion{
             this.desconectar();
         }
         return rol;
+    }
+    public void trkLogC(int usrId, Role ri) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Role");
+        lgs.setAction_id("created");
+        lgs.setDescription("Role name: " + ri.getName());
+        lgs.createLogs(lgs);
+    }
+    public void trkLogU(int usrId, Role ri, Role rc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Role"); 
+        lgs.setAction_id("updated");
+        if (!ri.getName().equals(rc.getName())) {
+            lgs.setDescription("name from: " + rc.getName() + " to: " + ri.getName());
+            lgs.createLogs(lgs);
+        }
+    }
+    public void trkLogD(int usrId, Role ri) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Role");
+        lgs.setAction_id("deleted");
+        lgs.setDescription("role id: "+ri.getId()+" role name: " + ri.getName());
+        lgs.createLogs(lgs);
     }
 }

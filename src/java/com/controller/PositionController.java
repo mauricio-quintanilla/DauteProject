@@ -32,7 +32,6 @@ public class PositionController extends HttpServlet {
             int idInp=Integer.parseInt(request.getParameter("txtPosId"));
             pos.setId(idInp);
             pos.setName(request.getParameter("txtPosName"));
-            int axnCode=0; //esta variable da el codigo de accion para historial de logs
             pos.setDepartment_id(Integer.parseInt(request.getParameter("slctDept")));
             usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if(request.getParameter("btnCreate")!=null){
