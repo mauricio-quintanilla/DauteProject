@@ -63,8 +63,11 @@
             $("#my_lat").val(lat);
             $("#my_lng").val(lng);
             $("#slctClient").val(client);
+            $("#idHidden").val(id);
+            $("#nameHidden").val(name);
             document.getElementById("edit-mark").disabled = false;
             document.getElementById("add-mark").disabled = true;
+            document.getElementById("maquinaria").disabled = false;
         }
 
         function reset() {
@@ -78,7 +81,11 @@
             $("#my_lng").val("");
             $("#slctClient").val("");
             document.getElementById("edit-mark").disabled = true;
-            document.getElementById("add-mark").disabled = false;
+            document.getElementById("maquinaria").disabled = true;
+        }
+        
+        function disa(){
+            document.getElementById("edit-mark").disabled = true;
         }
 
 
@@ -108,12 +115,16 @@
             <input type="button" value="Add a Mark" id="add-mark" onclick="var param = 0; agregarPunto(param);" class="btn btn-success">
         </div>
         <div class="col-md-1">
-            <input type="button" value="Edit Mark" id="edit-mark" disabled="disabled" onclick="initMap();var param = 0; agregarPunto(param);" class="btn btn-warning">
+            <input type="button" value="Edit Mark" id="edit-mark" disabled="disabled" onclick="disa();initMap();var param = 0; agregarPunto(param);" class="btn btn-warning">
         </div>
+        <div class="col-md-5"></div>
         <div class="col-md-1">
-            <form method="post" action="projectController">
-                <input type="button" value="Edit Mark" id="edit-mark" disabled="disabled" onclick="initMap();var param = 0; agregarPunto(param);" class="btn btn-warning">
-                </div>
+            <form method="POST" action="projectController">
+                <input type="submit" value="Asignar Maquinaria ->" id="maquinaria" disabled="disabled" name="btnMaquinaria" class="btn btn-outline-info">
+                <input type="hidden" name="nameHidden" id="nameHidden">
+                <input type="hidden" name="idHidden"  id="idHidden">
+            </form>
+        </div>
                 </div>
 
                 </div>
@@ -176,7 +187,7 @@
                         <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
                         <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
                     </form>
-                    <button class="btn btn-outline-info"  onclick="reset()"  >New</button>
+                    <button class="btn btn-outline-info"  onclick="disa();initMap();var param = 0; agregarPunto(param);reset()"  >New</button>
                     <br>
                     <table class='table table-hover table-dark'>
                         <tr>

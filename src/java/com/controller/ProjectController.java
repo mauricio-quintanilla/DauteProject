@@ -25,15 +25,18 @@ public class ProjectController extends HttpServlet {
         Project prj = new Project();
         String msj="";
         try {
-            prj.setId(Integer.parseInt(request.getParameter("txtId")));
-            prj.setName(request.getParameter("txtName"));
-            prj.setDescription(request.getParameter("txtDesc"));
-            prj.setStarted_date(request.getParameter("dapStart"));
-            prj.setFinish_date(request.getParameter("dapFinish"));
-            prj.setAddress(request.getParameter("txtAddress"));
-            prj.setLat(request.getParameter("my_lat"));
-            prj.setLng(request.getParameter("my_lng"));
-            prj.setClient_id(Integer.parseInt(request.getParameter("slctClient")));
+            if(request.getParameter("btnMaquinaria")==null){
+                prj.setId(Integer.parseInt(request.getParameter("txtId")));
+                prj.setName(request.getParameter("txtName"));
+                prj.setDescription(request.getParameter("txtDesc"));
+                prj.setStarted_date(request.getParameter("dapStart"));
+                prj.setFinish_date(request.getParameter("dapFinish"));
+                prj.setAddress(request.getParameter("txtAddress"));
+                prj.setLat(request.getParameter("my_lat"));
+                prj.setLng(request.getParameter("my_lng"));
+                prj.setClient_id(Integer.parseInt(request.getParameter("slctClient")));
+            }
+            
             if(request.getParameter("btnCreate")!=null){
                 msj=prj.createPrj(prj);
             }
@@ -42,8 +45,17 @@ public class ProjectController extends HttpServlet {
             }else{
                 msj=prj.deletePrj(prj);
             }
-            response.sendRedirect("project.jsp");
-            request.getSession().setAttribute("msj",msj);
+            
+            if(request.getParameter("btnMaquinaria")!=null){
+                request.getSession().setAttribute("id_attr",Integer.parseInt(request.getParameter("idHidden")));
+                request.getSession().setAttribute("name_attr",request.getParameter("nameHidden"));
+                response.sendRedirect("proyectMachineryInUse.jsp");
+                
+            }else{
+                response.sendRedirect("project.jsp");
+                request.getSession().setAttribute("msj",msj);
+            }
+            
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());
             response.sendRedirect("error.jsp");

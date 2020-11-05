@@ -62,6 +62,8 @@ public class InUse extends Conexion{
     public void setEquipment_quantity(int equipment_quantity) {
         this.equipment_quantity = equipment_quantity;
     }
+    
+    
     public String createInUse(InUse inu){
         try {
             this.conectar();
@@ -80,6 +82,9 @@ public class InUse extends Conexion{
             this.desconectar();
         }
     }
+    
+    
+    
     public String updateInUse(InUse inu){
         try {
             this.conectar();
@@ -98,6 +103,8 @@ public class InUse extends Conexion{
             this.desconectar();
         }
     }
+    
+    
     public String deleteInUse(InUse inu){
         try {
             this.conectar();
@@ -113,6 +120,9 @@ public class InUse extends Conexion{
             this.desconectar();
         }
     }
+    
+    
+    
     public List<InUse> showInUse(){
         List<InUse>listaInu=new ArrayList();
         ResultSet res;
@@ -137,6 +147,34 @@ public class InUse extends Conexion{
         }
         return listaInu;
     }
+    
+    public List<InUse> showInUse4Proyect(int id){//it shows the machinery in use for a single proyect
+        List<InUse>listaInu4Proyect=new ArrayList();
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql="SELECT * from in_use where project_id=? ";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                InUse inu = new InUse();
+                inu.setId(res.getInt("id"));
+                inu.setEquipment_id(res.getInt("equipment_id"));
+                inu.setProject_id(res.getInt("project_id"));
+                inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+                listaInu4Proyect.add(inu);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return listaInu4Proyect;
+    }
+    
+    
     public InUse getInUse(int id){
         InUse inu = new InUse();
         ResultSet res=null;
