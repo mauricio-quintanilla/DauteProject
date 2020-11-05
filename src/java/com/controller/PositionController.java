@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /*
 * Nombre del servlet: PositionController
@@ -22,23 +23,30 @@ public class PositionController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
         Position pos = new Position();
+        Position pc = new Position();
         String msj="";
+        int usrId=0;
         try {
-            pos.setId(Integer.parseInt(request.getParameter("txtPosId")));
+            int idInp=Integer.parseInt(request.getParameter("txtPosId"));
+            pos.setId(idInp);
             pos.setName(request.getParameter("txtPosName"));
             int axnCode=0; //esta variable da el codigo de accion para historial de logs
             pos.setDepartment_id(Integer.parseInt(request.getParameter("slctDept")));
+            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if(request.getParameter("btnCreate")!=null){
                 msj=pos.createPos(pos);
-                axnCode=1;
+                pos.trkLogC(usrId, pos);
             }
             else if(request.getParameter("btnUpdate")!=null){
+                pc = pos.getPos(idInp);
                 msj=pos.updatePos(pos);
-                axnCode=2;
+                pos.trkLogU(usrId, pos, pc);
             }else{
+                pc = pos.getPos(idInp);
                 msj=pos.deletePos(pos);
-                axnCode=3;
+                pos.trkLogD(usrId, pc);
             }
             response.sendRedirect("position.jsp");
             request.getSession().setAttribute("msj",msj);

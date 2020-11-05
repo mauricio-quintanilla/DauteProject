@@ -34,9 +34,6 @@ public class DepartmentController extends HttpServlet {
         String msj="";
         int usrId=0;
         try {
-            if (session.getAttribute("rolName") == null) {
-                response.sendRedirect("login.jsp");
-            }
             int dptid = Integer.parseInt(request.getParameter("txtDeptId"));
             dpt.setId(dptid);
             dpt.setName(request.getParameter("txtDeptName"));
@@ -51,9 +48,9 @@ public class DepartmentController extends HttpServlet {
                 dpt.trkLogU(usrId, dpt, dc);
                 
             }else{
-                dpt.trkLogD(usrId, dc.getDept(dptid));
+                dc = dpt.getDept(dptid);
                 msj=dpt.deleteDept(dpt);
-                
+                dpt.trkLogD(usrId, dc);
             }
             response.sendRedirect("department.jsp");
             request.getSession().setAttribute("msj",msj);

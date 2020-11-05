@@ -158,8 +158,8 @@ public class Department extends Conexion {
         lgs.setDate(date);
         lgs.setOn_field("Department"); 
         lgs.setAction_id("updated");
-        if (di.getName() != dc.getName()) {
-            lgs.setDescription("from: " + dc.getName() + " to " + di.getName());
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("name from: " + dc.getName() + " to " + di.getName());
             lgs.createLogs(lgs);
         }
     }

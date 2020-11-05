@@ -149,7 +149,7 @@ public class Position extends Conexion{
         }
         return pos;
     }
-    public void trkLogC(int usrId, Department di) {
+    public void trkLogC(int usrId, Position pi) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
         String date = df.format(cal.getTime());
@@ -157,12 +157,12 @@ public class Position extends Conexion{
         lgs.setId(0);
         lgs.setUser_id(usrId);
         lgs.setDate(date);
-        lgs.setOn_field("Department");
+        lgs.setOn_field("Position");
         lgs.setAction_id("created");
-        lgs.setDescription("dpt name: " + di.getName());
+        lgs.setDescription("position name: " + pi.getName()+ "dpt id: " +pi.getDepartment_id());
         lgs.createLogs(lgs);
     }
-    public void trkLogU(int usrId, Department di, Department dc) {
+    public void trkLogU(int usrId, Position pi, Position pc) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
         String date = df.format(cal.getTime());
@@ -170,14 +170,18 @@ public class Position extends Conexion{
         lgs.setId(0);
         lgs.setUser_id(usrId);
         lgs.setDate(date);
-        lgs.setOn_field("Department"); 
+        lgs.setOn_field("Position"); 
         lgs.setAction_id("updated");
-        if (di.getName() != dc.getName()) {
-            lgs.setDescription("from: " + dc.getName() + " to " + di.getName());
+        if (!pi.getName().equals(pc.getName())) {
+            lgs.setDescription("name from: " + pc.getName() + " to " + pi.getName());
+            lgs.createLogs(lgs);
+        }
+        if (pi.getDepartment_id()!=(pc.getDepartment_id())) {
+            lgs.setDescription("id from: " + pc.getDepartment_id() + " to " + pi.getDepartment_id());
             lgs.createLogs(lgs);
         }
     }
-    public void trkLogD(int usrId, Department dc) {
+    public void trkLogD(int usrId, Position pi) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
         String date = df.format(cal.getTime());
@@ -185,9 +189,9 @@ public class Position extends Conexion{
         lgs.setId(0);
         lgs.setUser_id(usrId);
         lgs.setDate(date);
-        lgs.setOn_field("Department");
+        lgs.setOn_field("Position");
         lgs.setAction_id("deleted");
-        lgs.setDescription("dpt id: " + dc.getId() + " name " + dc.getName());
+        lgs.setDescription("position name: " + pi.getName()+ "dpt id: " +pi.getDepartment_id());
         lgs.createLogs(lgs);
     }
 }
