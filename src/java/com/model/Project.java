@@ -117,17 +117,17 @@ public class Project extends Conexion{
     public String createPrj(Project prj){
         try {
             this.conectar();
-            String sql="INSERT INTO project VALUES(?,?,?,?,?,?,?,?,?)";
+            String sql="INSERT INTO project VALUES(null,?,?,?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setInt(1, 0);
-            pre.setString(2, prj.getName());
-            pre.setString(3, prj.getDescription());
-            pre.setString(4, prj.getStarted_date());
-            pre.setString(5, prj.getFinish_date());
-            pre.setString(6, prj.getAddress());
-            pre.setString(7, prj.getLat());
-            pre.setString(8, prj.getLng());
-            pre.setInt(9, prj.getClient_id());
+            //pre.setInt(1, 0);
+            pre.setString(1, prj.getName());
+            pre.setString(2, prj.getDescription());
+            pre.setString(3, prj.getStarted_date());
+            pre.setString(4, prj.getFinish_date());
+            pre.setString(5, prj.getAddress());
+            pre.setString(6, prj.getLat());
+            pre.setString(7, prj.getLng());
+            pre.setInt(8, prj.getClient_id());
             pre.executeUpdate();
             return "Project successfuly created";
         } catch (Exception e) {

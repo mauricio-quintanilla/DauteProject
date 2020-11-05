@@ -110,10 +110,10 @@
                 <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
                 
 
-                <input type="hidden" id="latLng">      
-                <input type="hidden" id="oculto">
-                <input type="hidden" required placeholder="Latitud" name="my_lat"  id="my_lat">
-                <input type="hidden" required placeholder="Longitud" name="my_lng" id="my_lng" >
+                <input type="text" id="latLng">      
+                <input type="text" id="oculto">
+                <input type="text" required placeholder="Latitud" name="my_lat"  id="my_lat">
+                <input type="text" required placeholder="Longitud" name="my_lng" id="my_lng" >
                 <div class="row">
                     <div class="col-md-6">
                         <label>Project name</label>

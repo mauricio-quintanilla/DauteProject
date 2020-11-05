@@ -46,6 +46,7 @@ public class ProjectController extends HttpServlet {
             request.getSession().setAttribute("msj",msj);
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());
+            response.sendRedirect("error.jsp");
         }
     }
 
