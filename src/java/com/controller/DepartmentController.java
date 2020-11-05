@@ -28,6 +28,7 @@ public class DepartmentController extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         Department dpt = new Department();
+        Department dc = new Department();
         //Object dpt1 = new Department();
         Logs lgs = new Logs();
         String msj="";
@@ -36,19 +37,23 @@ public class DepartmentController extends HttpServlet {
             if (session.getAttribute("rolName") == null) {
                 response.sendRedirect("login.jsp");
             }
-            dpt.setId(Integer.parseInt(request.getParameter("txtDeptId")));
+            int dptid = Integer.parseInt(request.getParameter("txtDeptId"));
+            dpt.setId(dptid);
             dpt.setName(request.getParameter("txtDeptName"));
             usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if(request.getParameter("btnCreate")!=null){
                 msj=dpt.createDept(dpt);
-                lgs.storeLogs(usrId, "Create Department");
+                dpt.trkLogC(usrId, dpt);
             }
             else if(request.getParameter("btnUpdate")!=null){
+                dc = dpt.getDept(dptid);
                 msj=dpt.updateDept(dpt);
-                lgs.storeLogs(usrId, "Updated Department");
+                dpt.trkLogU(usrId, dpt, dc);
+                
             }else{
+                dpt.trkLogD(usrId, dc.getDept(dptid));
                 msj=dpt.deleteDept(dpt);
-                lgs.storeLogs(usrId, "Deleted Department");
+                
             }
             response.sendRedirect("department.jsp");
             request.getSession().setAttribute("msj",msj);

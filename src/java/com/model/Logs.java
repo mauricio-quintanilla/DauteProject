@@ -1,4 +1,3 @@
-
 package com.model;
 
 import com.conexion.Conexion;
@@ -15,8 +14,9 @@ import javax.swing.JOptionPane;
 * CopyRight: OpenSource
 * Version: 1.0
 * @author Quintanilla Bernabe
-*/
+ */
 public class Logs extends Conexion {
+
     private int id;
     private int user_id;
     private String action_id;
@@ -67,7 +67,7 @@ public class Logs extends Conexion {
     public void setOn_field(String on_field) {
         this.on_field = on_field;
     }
-    
+
     public String getDate() {
         return date;
     }
@@ -83,12 +83,12 @@ public class Logs extends Conexion {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    public String createLogs(Logs lgs){
+
+    public String createLogs(Logs lgs) {
         try {
             this.conectar();
-            String sql="INSERT INTO logs VALUES(?,?,?,?,?,?)";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            String sql = "INSERT INTO logs VALUES(?,?,?,?,?,?)";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setInt(2, lgs.getUser_id());
             pre.setString(3, lgs.getAction_id());
@@ -98,36 +98,29 @@ public class Logs extends Conexion {
             pre.executeUpdate();
             return "Record successfuly generated";
         } catch (Exception e) {
-            return "error "+e.getMessage();
-        }
-        finally{
+            return "error " + e.getMessage();
+        } finally {
             this.desconectar();
         }
     }
-    
-    public void storeLogs(int userId, String axnCode){
+
+    public void storeLogs(int userId, String axnCode) {
         try {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
-        String date = df.format(cal.getTime());
-        Logs lgs = new Logs();
-        lgs.setId(0);
-        lgs.setUser_id(userId);
-        lgs.setAction_id(axnCode);
-        lgs.setOn_field("to be detemined");
-        lgs.setDate(date);
-        lgs.setDescription(axnCode);
-        int a=lgs.getUser_id();
-        String b =lgs.getAction_id();
-        String bv =lgs.getOn_field();
-        String bv4 = lgs.getDate();
-        String asd= lgs.getDescription();
-        String asddf= "a";
-        createLogs(lgs);
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+            String date = df.format(cal.getTime());
+            Logs lgs = new Logs();
+            lgs.setId(0);
+            lgs.setUser_id(userId);
+            lgs.setAction_id(axnCode);
+            lgs.setOn_field("to be determined");
+            lgs.setDate(date);
+            lgs.setDescription(axnCode);
+            createLogs(lgs);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"error "+e.getMessage());
+            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
         }
-    /*    int id=equ.getId();
+        /*    int id=equ.getId();
         List  newRec = (List) equ.getEqu(id);
         List actual = (List) crntEq.getEqu(id);
         for (int i = 0; i < actual.size(); i++) {
@@ -146,5 +139,5 @@ public class Logs extends Conexion {
         if(axnCode==3){
             
         }*/
-    }   
+    }
 }

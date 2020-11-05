@@ -4,7 +4,9 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -146,5 +148,46 @@ public class Position extends Conexion{
             this.desconectar();
         }
         return pos;
+    }
+    public void trkLogC(int usrId, Department di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Department");
+        lgs.setAction_id("created");
+        lgs.setDescription("dpt name: " + di.getName());
+        lgs.createLogs(lgs);
+    }
+    public void trkLogU(int usrId, Department di, Department dc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Department"); 
+        lgs.setAction_id("updated");
+        if (di.getName() != dc.getName()) {
+            lgs.setDescription("from: " + dc.getName() + " to " + di.getName());
+            lgs.createLogs(lgs);
+        }
+    }
+    public void trkLogD(int usrId, Department dc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Department");
+        lgs.setAction_id("deleted");
+        lgs.setDescription("dpt id: " + dc.getId() + " name " + dc.getName());
+        lgs.createLogs(lgs);
     }
 }
