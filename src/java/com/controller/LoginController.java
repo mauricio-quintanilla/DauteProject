@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
-
 
 /*
 * Nombre del servlet: LoginController
@@ -49,18 +47,19 @@ public class LoginController extends HttpServlet {
                     response.sendRedirect("index.jsp");
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "invalid user or pwd" + level);
+                    //aqui una alerta de invalid user or password
+                    //JOptionPane.showMessageDialog(null, "invalid user or pwd" + level);
                     response.sendRedirect("login.jsp");
                 }
             }
             if(request.getParameter("logout")!=null){
                 session.invalidate();
-                JOptionPane.showMessageDialog(null, "successfuly logged out");
+                
                 response.sendRedirect("login.jsp?logout");
             }
             if(request.getParameter("nosession")!=null){
                 session.invalidate();
-                JOptionPane.showMessageDialog(null, "log in is needed");
+                //aqui tiene que ir un alert de que necesita iniciar sesion para entrar al programa
                 response.sendRedirect("login.jsp");
             }
         } catch (Exception e) {

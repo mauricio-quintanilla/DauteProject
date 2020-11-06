@@ -37,15 +37,18 @@
         <title>Project staff</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, project, employee) {
+            function myLoad(id, project, employee, from, to, cost) {
                 $("#txtId").val(id);
                 $("#slctProId").val(project);
                 $("#slctEmpId").val(employee);
+                $("#datFrom").val(from);
+                $("#datTo").val(to);
+                $("#numCost").val(cost);
             }
         </script>
     </head>
     <body>
-        <h1>Users CRUD</h1>
+        <h1>working in project CRUD</h1>
         <div class="container">
             <form id="frmMain" action="workingController" method="POST">
                 <div class='col-6'>
@@ -80,6 +83,12 @@
                             }
                         %>
                     </select>
+                    <label>en projecto desde</label>
+                    <input type="date" name="datFrom" id="datFrom" class='form-control' min='' max='' required/>
+                    <label>en projecto hasta</label>
+                    <input type="date" name="datTo" id="datTo" class='form-control' min='' max='' required/>
+                    <label>Cost</label>
+                    <input type="number" name="numCost" id="numCost" min='0.01' step="0.01" class='form-control' required/>
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
@@ -93,6 +102,9 @@
                     <th>record id</th>
                     <th>employee</th>
                     <th>working on</th>
+                    <th>on project from</th>
+                    <th>on project to</th>
+                    <th>cost</th>
                     <th>action</th>
                 </tr>
                 <%
@@ -106,8 +118,14 @@
                     <td><%= w.getId()%></td>
                     <td><%= name%></td>
                     <td><%= prj.getProyect(w.getProject_id()).getName()%> <%= prj.getProyect(w.getProject_id()).getDescription()%></td>
+                    <td><%= w.getIn_pro_from()%></td>
+                    <td><%= w.getIn_pro_to()%></td>
+                    <td>$<%= w.getCost()%></td>
                     <td><a href="javascript:myLoad('<%= w.getId()%>','<%= w.getProject_id()%>',
-                           '<%= w.getEmployee_id()%>')">Select</a></td>
+                           '<%= w.getEmployee_id()%>','<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
+                           <%= w.getCost()%>),'<%= prj.getProyect(w.getProject_id()).getStarted_date()%>',
+                           '<%= prj.getProyect(w.getProject_id()).getFinish_date()%>',
+                           <%= emp.getEmp(w.getEmployee_id()).getSalary()%>">Select</a></td>
                 </tr>
                 <%
                     }

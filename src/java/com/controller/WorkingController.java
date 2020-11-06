@@ -28,6 +28,9 @@ public class WorkingController extends HttpServlet {
             wop.setId(Integer.parseInt(request.getParameter("txtId")));
             wop.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
             wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId")));
+            wop.setIn_pro_from(request.getParameter("datFrom"));
+            wop.setIn_pro_to(request.getParameter("datTo"));
+            wop.setCost(Double.parseDouble(request.getParameter("numCost")));
             if(request.getParameter("btnCreate")!=null){
                 emp.changeStatus(wop, "Create");
                 msj=wop.createWorking(wop);

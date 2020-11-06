@@ -64,6 +64,7 @@
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="project.jsp">Proyectos</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="maptest.jsp">Map Test</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="projectview.jsp">ProjectVIew</a></div>
                 </div>
             </div>
         </div>
