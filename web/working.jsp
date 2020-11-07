@@ -118,12 +118,15 @@
                                 +"("+pos.getPos((emp.getEmp(w.getEmployee_id()).getPosition_id())).getName()+")";
                 %>
                 <tr>
-                    <td><%= w.getId()%></td>
-                    <td><%= name%></td>
-                    <td><%= prj.getProyect(w.getProject_id()).getName()%> <%= prj.getProyect(w.getProject_id()).getDescription()%></td>
-                    <td><%= w.getIn_pro_from()%></td>
-                    <td><%= w.getIn_pro_to()%></td>
-                    <td>$<%= w.getCost()%></td>
+                    <td><%= w.getId()%></td>//Id_del detalle
+                    <td><%= name%></td>//nombre del Empleado
+                    <td>
+                        <%= prj.getProyect(w.getProject_id()).getName()%> //proyecto en el que está el empleaod 
+                        <%= prj.getProyect(w.getProject_id()).getDescription()%>
+                    </td>
+                    <td><%= w.getIn_pro_from()%></td>//Fecha de inicio
+                    <td><%= w.getIn_pro_to()%></td>//Fecha de finalización
+                    <td>$<%= w.getCost()%></td>//Costo
                     <td><a href="javascript:myLoad('<%= w.getId()%>','<%= w.getProject_id()%>',
                            '<%= w.getEmployee_id()%>','<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
                            <%= w.getCost()%>),'<%= prj.getProyect(w.getProject_id()).getStarted_date()%>',

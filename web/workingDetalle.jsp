@@ -93,7 +93,8 @@
                        value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>" 
                        class='form-control' 
                        min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
-                       max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' required/>
+                       max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' 
+                       required/>
             </div>
         </div>
 

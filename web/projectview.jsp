@@ -137,7 +137,7 @@
                     double totalF=0;
                     for (Working w : lst1) {
                         String name=emp.getEmp(w.getEmployee_id()).getFirst_name()
-                                +" "+emp.getEmp(w.getEmployee_id()).getLast_name();
+                                +" "+emp.getEmp(w.getEmployee_id()).getLast_name();//une el nombre completo
                 %>
                 <tr>
                     <td><%= name%></td>
