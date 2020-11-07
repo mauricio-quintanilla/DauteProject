@@ -21,7 +21,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>ProjectVIew</title>
+        <title><%= session.getAttribute("name_attr")%></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <style>
             .tr{
@@ -120,9 +120,7 @@
                                             </tr>
                                             <%
                                                 int idHere = (Integer) session.getAttribute("id_attr");
-                                                if ((request.getParameter("v")) != null) {
-                                                    idHere = Integer.parseInt(request.getParameter("slctProId"));
-                                                }
+                                                
                                                 List<Working> lst1 = wrk.showWorkingByPro(idHere);
                                                 double total = 0;
                                                 double totalF = 0;
@@ -158,7 +156,7 @@
 
 
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p><a class="btn btn-sm btn-outline-secondary" href="working.jsp" role="button">go to CRUD &raquo;</a></p>
+                                        <p><a class="btn btn-sm btn-outline-secondary" href="workingDetalle.jsp" role="button">go to CRUD &raquo;</a></p>
                                         <small class="text-muted">CRUD</small>
                                     </div>
                                 </div>
@@ -184,9 +182,7 @@
                                         </tr>
                                         <%
                                             idHere = (Integer) session.getAttribute("id_attr");
-                                            if ((request.getParameter("v")) != null) {
-                                                idHere = Integer.parseInt(request.getParameter("slctProId"));
-                                            }
+                                            
                                             List<InUse> lst3 = inu.showInUsebyPro(idHere);
                                             double totalM = 0;
                                             double totalFM = 0;
@@ -199,10 +195,10 @@
                                             <td><%= i.getIn_pro_from()%></td>
                                             <td><%= i.getIn_pro_to()%></td>
                                             <td><%= wrk.daysIn(i.getIn_pro_from(), i.getIn_pro_to())%></td>
-                                            <td>$gas consumption cost%></td>
+                                            <td>gas consumption cost%></td>
                                             <%
-                    //here we need to calculate total cost per truck
-%>
+                                                //here we need to calculate total cost per truck
+                                            %>
                                             <td>$<%= df.format(totalM)%></td>
                                             <%
                                                 }
