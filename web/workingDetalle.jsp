@@ -82,11 +82,18 @@
         <div class="row">
             <div class="col-md-6">
                 <label>en projecto desde</label>
-                <input type="date" name="datFrom" id="datFrom" class='form-control' min='' max='' required/>
+                <input type="date" name="datFrom" id="datFrom" class='form-control' 
+                       value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>" 
+                       min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
+                       max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' required/>
             </div>
             <div class="col-md-6">
-                <label>en projecto hasta</label>
-                <input type="date" name="datTo" id="datTo" value="" class='form-control' min='' max='' required/>
+                <label>en projecto hasta <%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%></label>
+                <input type="date" name="datTo" id="datTo" 
+                       value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>" 
+                       class='form-control' 
+                       min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
+                       max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' required/>
             </div>
         </div>
 
@@ -155,7 +162,7 @@
         </tr>
     </table>
     <br>
-    <p>go back to <a href="index.jsp">index</a></p>
+    <p>go back to <a href="proyectAdd.jsp">the <%= session.getAttribute("name_attr")%> Menú</a></p>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>

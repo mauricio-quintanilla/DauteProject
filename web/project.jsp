@@ -120,7 +120,7 @@
         <div class="col-md-5"></div>
         <div class="col-md-1">
             <form method="POST" action="projectController">
-                <input type="submit" value="Asignar Maquinaria ->" id="maquinaria" disabled="disabled" name="btnMaquinaria" class="btn btn-outline-info">
+                <input type="submit" value="Recurso Humano y Maquinaria ->" id="maquinaria" disabled="disabled" name="btnMaquinaria" class="btn btn-outline-info">
                 <input type="hidden" name="nameHidden" id="nameHidden">
                 <input type="hidden" name="idHidden"  id="idHidden">
             </form>
