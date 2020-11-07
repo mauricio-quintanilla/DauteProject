@@ -49,7 +49,7 @@ public class ProjectController extends HttpServlet {
             if(request.getParameter("btnMaquinaria")!=null){
                 request.getSession().setAttribute("id_attr",Integer.parseInt(request.getParameter("idHidden")));
                 request.getSession().setAttribute("name_attr",request.getParameter("nameHidden"));
-                response.sendRedirect("proyectMachineryInUse.jsp");
+                response.sendRedirect("proyectAdd.jsp");
                 
             }else{
                 response.sendRedirect("project.jsp");
