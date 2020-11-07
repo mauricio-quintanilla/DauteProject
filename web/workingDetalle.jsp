@@ -40,6 +40,13 @@
     <title><%= session.getAttribute("name_attr")%> STAFF</title>
     <script type="text/javascript" src="jquery.js"></script>
     <script>
+
+        
+            $("slctEmpId").change(function () {
+                $("#numCost").val(5.0);
+            });
+       
+
         function myLoad(id, project, employee, from, to, cost) {
             $("#txtId").val(id);
             $("#slctProId").val(project);
@@ -48,6 +55,9 @@
             $("#datTo").val(to);
             $("#numCost").val(cost);
         }
+
+
+
     </script>
 </head>
 <body>
@@ -73,8 +83,8 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <label>Adding to project</label>
-                <label>Cost</label>
+
+                <label>Montly Cost</label>
                 <input type="number" name="numCost" id="numCost" min='0.01' step="0.01" class='form-control' required/>
             </div>
         </div>
@@ -109,8 +119,8 @@
         <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
         <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
     </form>
-                
-                <br>
+
+    <br>
 
     <table   class='table table-hover'>
         <tr class="thead-dark">
@@ -148,8 +158,8 @@
             %>
             <td>$<%= df.format(total)%></td>
             <td><a href="javascript:myLoad(<%= w.getId()%>,<%= w.getProject_id()%>,
-                           <%= w.getEmployee_id()%>,'<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
-                           <%= w.getCost()%>)">Select</a>
+                   <%= w.getEmployee_id()%>,'<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
+                   <%= w.getCost()%>)">Select</a>
             </td>
             <%
                 }
@@ -159,7 +169,7 @@
         <tr>
             <th colspan="7">Total</th>
             <th>$<%= df.format(totalF)%></th>
-            
+
         </tr>
     </table>
     <br>
