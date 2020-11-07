@@ -41,11 +41,7 @@
     <script type="text/javascript" src="jquery.js"></script>
     <script>
 
-        
-            $("slctEmpId").change(function () {
-                $("#numCost").val(5.0);
-            });
-       
+   
 
         function myLoad(id, project, employee, from, to, cost) {
             $("#txtId").val(id);

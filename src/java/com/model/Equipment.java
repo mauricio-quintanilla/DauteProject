@@ -27,13 +27,13 @@ public class Equipment extends Conexion{
     private int stock;
     private int inventory;
     private int type;
-    private double fuel_rate;
+    private double rentalPrice;
     private String image;
 
     public Equipment() {
     }
 
-    public Equipment(int id, String name, String model, String description, String brand, int stock, int inventory, int type, double fuel_rate, String image) {
+    public Equipment(int id, String name, String model, String description, String brand, int stock, int inventory, int type, double rentalPrice, String image) {
         this.id = id;
         this.name = name;
         this.model = model;
@@ -42,7 +42,7 @@ public class Equipment extends Conexion{
         this.stock = stock;
         this.inventory = inventory;
         this.type = type;
-        this.fuel_rate = fuel_rate;
+        this.rentalPrice = rentalPrice;
         this.image = image;
     }
 
@@ -110,12 +110,12 @@ public class Equipment extends Conexion{
         this.type = type;
     }
 
-    public double getFuel_rate() {
-        return fuel_rate;
+    public double getRentalPrice() {
+        return rentalPrice;
     }
 
-    public void setFuel_rate(double fuel_rate) {
-        this.fuel_rate = fuel_rate;
+    public void setRentalPrice(double rentalPrice) {
+        this.rentalPrice = rentalPrice;
     }
 
     public String getImage() {
@@ -138,7 +138,7 @@ public class Equipment extends Conexion{
             pre.setInt(6, equ.getStock());
             pre.setInt(7, equ.getInventory());
             pre.setInt(8, equ.getType());
-            pre.setDouble(9, equ.getFuel_rate());
+            pre.setDouble(9, equ.getRentalPrice());
             pre.setString(10, equ.getImage());
             pre.executeUpdate();
             return "Equipment successfuly created";
@@ -152,7 +152,7 @@ public class Equipment extends Conexion{
     public String updateEqu(Equipment equ){
         try {
             this.conectar();
-            String sql="UPDATE equipment SET name=?, model=?, description=?, brand=?, stock=?, inventory=?, type=?, fuel_rate=?, image=? WHERE id=?";
+            String sql="UPDATE equipment SET name=?, model=?, description=?, brand=?, stock=?, inventory=?, type=?, rental_price=?, image=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1, equ.getName());
             pre.setString(2, equ.getModel());
@@ -161,7 +161,7 @@ public class Equipment extends Conexion{
             pre.setInt(5, equ.getStock());
             pre.setInt(6, equ.getInventory());
             pre.setInt(7, equ.getType());
-            pre.setDouble(8, equ.getFuel_rate());
+            pre.setDouble(8, equ.getRentalPrice());
             pre.setString(9, equ.getImage());
             pre.setInt(10, equ.getId());
             pre.executeUpdate();
@@ -206,7 +206,7 @@ public class Equipment extends Conexion{
                 equ.setStock(res.getInt("stock"));
                 equ.setInventory(res.getInt("inventory"));
                 equ.setType(res.getInt("type"));
-                equ.setFuel_rate(res.getDouble("fuel_rate"));
+                equ.setRentalPrice(res.getDouble("rental_price"));
                 equ.setImage(res.getString("image"));
                 listaEqu.add(equ);
             }
@@ -236,7 +236,7 @@ public class Equipment extends Conexion{
                 equ.setStock(res.getInt("stock"));
                 equ.setInventory(res.getInt("inventory"));
                 equ.setType(res.getInt("type"));
-                equ.setFuel_rate(res.getDouble("fuel_rate"));
+                equ.setRentalPrice(res.getDouble("rental_price"));
                 equ.setImage(res.getString("image"));
             }
         } catch (Exception e) {

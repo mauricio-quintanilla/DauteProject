@@ -19,8 +19,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 * Nombre del servlet: EquipmentController
 * Fecha: 22-10-2020
 * CopyRight: OpenSource
-* Version: 1.0
-* @author Quintanilla Bernabe
+* Version: 2.0
+* @author Quintanilla Bernabe, Ismael Castillo
  */
 public class EquipmentController extends HttpServlet {
 
@@ -69,7 +69,7 @@ public class EquipmentController extends HttpServlet {
                 equ.setStock(Integer.parseInt(lista.get(5)));
                 equ.setInventory(Integer.parseInt(lista.get(6)));
                 equ.setType(Integer.parseInt(lista.get(7)));
-                equ.setFuel_rate(Double.parseDouble(lista.get(8)));
+                equ.setRentalPrice(Double.parseDouble(lista.get(8)));
                 if(request.getParameter("btnCreate")!=null){
                     if(img!="")
                         equ.setImage(img);

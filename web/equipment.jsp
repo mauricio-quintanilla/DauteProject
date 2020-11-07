@@ -31,7 +31,7 @@
         <title>Equipment</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, name, model, desc, brand, stock, inv, type, fuel, image) {
+            function myLoad(id, name, model, desc, brand, stock, inv, type, rentalPrice, image) {
                 $("#txtId").val(id);
                 $("#txtName").val(name);
                 $("#txtModel").val(model);
@@ -40,7 +40,7 @@
                 $("#numStock").val(stock);
                 $("#numInv").val(inv);
                 $("#numType").val(type);
-                $("#numFuel").val(fuel);
+                $("#rentalPrice").val(rentalPrice);
                 $("#fileImgBU").val(image);
             }
         </script>
@@ -65,8 +65,8 @@
                     <input type="number" name="numInv" id="numInv" class='form-control' min="1" step="1" required/>
                     <label>Type</label>
                     <input type="number" name="numType" id="numType" class='form-control' min="1" step="1" required/>
-                    <label>Fuel rate consumption</label>
-                    <input type="number" name="numFuel" id="numFuel" min='0.00' step="0.01" max="100" class='form-control' required/>
+                    <label>Daily unit Price</label>
+                    <input type="number" name="rentalPrice" id="rentalPrice" min='0.00' step="0.01" max="100" class='form-control' required/>
                     <label>Image</label>
                     <div class="input-group mb-3">
                         <div class="custom-file">
@@ -94,7 +94,7 @@
                     <th>stock</th>
                     <th>inventory</th>
                     <th>Type</th>
-                    <th>fuel rate</th>
+                    <th>Rental Price</th>
                     <th>picture</th>
                     <th>Action</th>
                 </tr>
@@ -111,11 +111,11 @@
                     <td><%= e.getStock()%> units</td>
                     <td><%= e.getInventory()%> units</td>
                     <td><%= e.getType()%></td>
-                    <td><%= e.getFuel_rate()%>%</td>
+                    <td><%= e.getRentalPrice()%>%</td>
                     <td><img src="imgs/<%= e.getImage()%>" height="75px" width="100px"></td>
                     <td><a href="javascript:myLoad('<%= e.getId()%>','<%= e.getName()%>','<%= e.getModel()%>',
                            '<%= e.getDescription()%>','<%= e.getBrand()%>','<%= e.getStock()%>','<%= e.getInventory()%>',
-                           '<%= e.getType()%>','<%= e.getFuel_rate()%>','<%= e.getImage()%>')">Select</a></td>
+                           '<%= e.getType()%>','<%= e.getRentalPrice()%>','<%= e.getImage()%>')">Select</a></td>
                 </tr>
                 <%
                     }
