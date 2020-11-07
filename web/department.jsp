@@ -9,27 +9,26 @@
 <%@page session="true"%>
 <%@page import="com.model.Department"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <%
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-        %>
-        <label>Role: <%= session.getAttribute("rolName")%></label>
-        <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-        <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-        <a href="loginController?logout=y">Log out</a>
-        <%
-            Department dpt = new Department();
-        %>
-        <title>Department</title>
+        <title>Departamentos - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
         <script>
             function myLoad(id, name) {
@@ -38,45 +37,73 @@
             }
         </script>
     </head>
-    <body>
-        <h1>Department CRUD</h1>
-        <div class="container">
-            <form id="frmMain" action="departmentController" method="POST">
-                <div class='col-6'>
-                    <input type="hidden" name="txtDeptId" id="txtDeptId" class='form-control' value="0"/>
-                    <label>Department name</label>
-                    <input type="text" name="txtDeptName" id="txtDeptName" class='form-control' required/>
+    <%
+        Department dpt = new Department();
+    %>
+    <body class="bg-black">
+        <div class="flex bg-gray w-full px-4 md:px-16">
+            <div class="flex w-8/12 py-2">
+                <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                    <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                    <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
                 </div>
-                <br>
-                <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-                <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-                <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-                <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
-            </form>
-
-            <table border="1" class=''>
-                <tr>
-                    <th>id_department</th>
-                    <th>name</th>
-                    <th>Select</th>
-                </tr>
-                <%
-                    List<Department> lst = dpt.showDept();
-                    for (Department d : lst) {
-                %>
-                <tr>
-                    <td><%= d.getId()%></td>
-                    <td><%= d.getName()%></td>
-                    <td><a href="javascript:myLoad('<%= d.getId()%>','<%= d.getName()%>')">Select</a></td>
-                </tr>
-                <%
-                    }
-                %>
-            </table>
-            <br>
-            <p>go back to <a href="index.jsp">index</a></p>
+                <div class="flex items-center">
+                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+                </div>
+            </div>
+            <div class="flex justify-end w-4/12 py-2">
+                <div class="flex items-center justify-center">
+                    <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
+                </div>
+            </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <div class="text-white flex justify-center">
+            <h1 class="text-white text-4xl font-bold text-center">Gestión Departamentos</h1>
+        </div>
+        <div class="flex justify-center">
+            <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+        </div>
+        <div class="text-white flex justify-center w-full md:w-auto mt-4">
+                <form id="frmMain" action="departmentController" method="POST">
+                    <input type="hidden" name="txtDeptId" id="txtDeptId" value="0"/>
+                    <label class="font-bold text-lg">Nombre: </label>
+                    <input type="text" name="txtDeptName" id="txtDeptName" class="text-black font-bold text-lg p-2 rounded" required/>
+                    <div class="mt-4">
+                        <input type="reset" name="btnNew" value="Limpiar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="submit" name="btnCreate" id="btnCreate" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    </div>
+                </form>
+        </div>
+        <div class="text-white flex justify-center w-full md:w-auto mt-4">
+    
+                <table>
+                    <thead>
+                        <th class="border-2 border-white border-dashed p-4 text-lg">ID</th>
+                        <th class="border-2 border-white border-dashed p-4 text-lg">Nombre</th>
+                        <th class="border-2 border-white border-dashed p-4 text-lg">Seleccionar</th>
+                    </thead>
+                    <tbody>
+                    <%
+                        List<Department> lst = dpt.showDept();
+                        for (Department d : lst) {
+                    %>
+                        <tr>
+                            <td class="border-2 border-white border-dashed p-4 text-center font-bold"><%= d.getId()%></td>
+                            <td class="border-2 border-white border-dashed p-4"><%= d.getName()%></td>
+                            <td class="border-2 border-white border-dashed p-4">
+                                <a href="javascript:myLoad('<%= d.getId()%>','<%= d.getName()%>')" class="font-bold text-blue-500 hover:underline">Seleccionar</a>
+                            </td>
+                        </tr>
+                    <%
+                        }
+                    %>
+                    </tbody>
+                </table>
+                <br>
+                
+            </div>
+        </div>
     </body>
 </html>

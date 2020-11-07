@@ -1,3 +1,6 @@
 .bg-img{
     background-image: url("../imgs/logos/Logo-Fondo-01.png");
 }
+.bg-gray{
+    background-color: #343a40;
+}
