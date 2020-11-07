@@ -4,6 +4,8 @@
     Author     : demon
 --%>
 
+<%@page import="com.model.Equipment"%>
+<%@page import="com.model.InUse"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="java.time.temporal.ChronoUnit"%>
 <%@page import="java.time.LocalDate"%>
@@ -37,8 +39,10 @@
         }
         Project prj = new Project();
         Employees emp = new Employees();
+        Equipment equ = new Equipment();
         Working wrk = new Working();
         Position pos = new Position();
+        InUse inu = new InUse();
         DecimalFormat df = new DecimalFormat("##.00");
     %>
     <header>
@@ -174,11 +178,48 @@
             <div class="card-body rounded border border-dark">
               <h3><p class="text-center">MAQUINARIA</p></h3>
               <p class="card-text">equipo y maquinaria activa en project</p>
-              <ul>
-                <li>tabla</li>
-                <li>fila</li>
-                <li>total</li>
-              </ul>
+              <table border="1" class=''>
+                <tr>
+                    <th>maquinaria</th>
+                    <th>Uni en proy</th>
+                    <th>desde</th>
+                    <th>hasta</th>
+                    <th>dias en project</th>
+                    <th>gas consumption</th>
+                    <th>costo en project</th>
+                </tr>
+                <%
+                    idHere=1;
+                    if((request.getParameter("v"))!=null){
+                        idHere=Integer.parseInt(request.getParameter("slctProId"));
+                    }
+                    List<InUse> lst3 = inu.showInUsebyPro(idHere);
+                    double totalM=0;
+                    double totalFM=0;
+                    for (InUse i : lst3) {
+                        String name=equ.getEqu(i.getEquipment_id()).getName()+" "+ equ.getEqu(i.getEquipment_id()).getModel();
+                %>
+                <tr>
+                    <td><%= name%></td>
+                    <td><%= i.getEquipment_quantity()%></td>
+                    <td><%= i.getIn_pro_from() %></td>
+                    <td><%= i.getIn_pro_to() %></td>
+                    <td><%= wrk.daysIn(i.getIn_pro_from(), i.getIn_pro_to()) %></td>
+                    <td>$gas consumption cost%></td>
+                <%  
+                    //here we need to calculate total cost per truck
+                %>
+                <td>$<%= df.format(totalM) %></td>
+                <%    
+                    }
+                %>
+                
+                </tr>
+                <tr>
+                    <th colspan="6">Total</th>
+                    <th>$<%= df.format(totalFM) %></th>
+                </tr>
+            </table>
               <div class="d-flex justify-content-between align-items-center">
                   <p><a class="btn btn-sm btn-outline-secondary" href="inuse.jsp" role="button">go to CRUD&raquo;</a></p>
                 <small class="text-muted">CRUD</small>
@@ -193,7 +234,7 @@
 
 <hr class="featurette-divider">
 <footer class="container text-center">
-    <p>&copy; Quintanilla Bernabe || daute project2020 <a class="tr" href="index.jsp">Index</a></p>
+    <p>&copy; Quintanilla Bernabe || daute project 2020 <a class="tr" href="index.jsp">Index</a></p>
 </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

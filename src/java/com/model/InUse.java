@@ -19,17 +19,23 @@ public class InUse extends Conexion{
     private int id;
     private int equipment_id;
     private int project_id;
+    private String in_pro_from;
+    private String in_pro_to;
     private int equipment_quantity;
 
     public InUse() {
     }
 
-    public InUse(int id, int equipment_id, int project_id, int equipment_quantity) {
+    public InUse(int id, int equipment_id, int project_id, String in_pro_from, String in_pro_to, int equipment_quantity) {
         this.id = id;
         this.equipment_id = equipment_id;
         this.project_id = project_id;
+        this.in_pro_from = in_pro_from;
+        this.in_pro_to = in_pro_to;
         this.equipment_quantity = equipment_quantity;
     }
+
+    
 
     public int getId() {
         return id;
@@ -55,6 +61,22 @@ public class InUse extends Conexion{
         this.project_id = project_id;
     }
 
+    public String getIn_pro_from() {
+        return in_pro_from;
+    }
+
+    public void setIn_pro_from(String in_pro_from) {
+        this.in_pro_from = in_pro_from;
+    }
+
+    public String getIn_pro_to() {
+        return in_pro_to;
+    }
+
+    public void setIn_pro_to(String in_pro_to) {
+        this.in_pro_to = in_pro_to;
+    }
+
     public int getEquipment_quantity() {
         return equipment_quantity;
     }
@@ -63,16 +85,17 @@ public class InUse extends Conexion{
         this.equipment_quantity = equipment_quantity;
     }
     
-    
     public String createInUse(InUse inu){
         try {
             this.conectar();
-            String sql="INSERT INTO in_use VALUES(?,?,?,?)";
+            String sql="INSERT INTO in_use VALUES(?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setInt(2, inu.getEquipment_id());
             pre.setInt(3, inu.getProject_id());
-            pre.setInt(4, inu.getEquipment_quantity());
+            pre.setString(4, inu.getIn_pro_from());
+            pre.setString(5, inu.getIn_pro_to());
+            pre.setInt(6, inu.getEquipment_quantity());
             pre.executeUpdate();
             return "Equ in use successfuly created";
         } catch (Exception e) {
@@ -82,18 +105,17 @@ public class InUse extends Conexion{
             this.desconectar();
         }
     }
-    
-    
-    
     public String updateInUse(InUse inu){
         try {
             this.conectar();
-            String sql="UPDATE in_use SET equipment_id=?, project_id=?, equipment_quantity=? WHERE id=?";
+            String sql="UPDATE in_use SET equipment_id=?, project_id=?, in_pro_from=?, in_pro_to=?, equipment_quantity=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, inu.getEquipment_id());
             pre.setInt(2, inu.getProject_id());
-            pre.setInt(3, inu.getEquipment_quantity());
-            pre.setInt(4, inu.getId());
+            pre.setString(3, inu.getIn_pro_from());
+            pre.setString(4, inu.getIn_pro_to());
+            pre.setInt(5, inu.getEquipment_quantity());
+            pre.setInt(6, inu.getId());
             pre.executeUpdate();
             return "Equ in use successfuly updated";
         } catch (Exception e) {
@@ -103,7 +125,6 @@ public class InUse extends Conexion{
             this.desconectar();
         }
     }
-    
     
     public String deleteInUse(InUse inu){
         try {
@@ -121,8 +142,6 @@ public class InUse extends Conexion{
         }
     }
     
-    
-    
     public List<InUse> showInUse(){
         List<InUse>listaInu=new ArrayList();
         ResultSet res;
@@ -136,6 +155,8 @@ public class InUse extends Conexion{
                 inu.setId(res.getInt("id"));
                 inu.setEquipment_id(res.getInt("equipment_id"));
                 inu.setProject_id(res.getInt("project_id"));
+                inu.setIn_pro_from(res.getString("in_pro_from"));
+                inu.setIn_pro_to(res.getString("in_pro_to"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
                 listaInu.add(inu);
             }
@@ -162,7 +183,11 @@ public class InUse extends Conexion{
                 inu.setId(res.getInt("id"));
                 inu.setEquipment_id(res.getInt("equipment_id"));
                 inu.setProject_id(res.getInt("project_id"));
-                inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+                //isma he modificado esta tabla agregando dos campos de fecha 
+                //en caso que tengas que modificar tu vista agregas estos dos campos a ella
+/*                inu.setIn_pro_from(res.getString("in_pro_from"));
+                inu.setIn_pro_to(res.getString("in_pro_to"));
+                inu.setEquipment_quantity(res.getInt("equipment_quantity"));*/
                 listaInu4Proyect.add(inu);
             }
         } catch (Exception e) {
@@ -188,6 +213,8 @@ public class InUse extends Conexion{
                 inu.setId(res.getInt("id"));
                 inu.setEquipment_id(res.getInt("equipment_id"));
                 inu.setProject_id(res.getInt("project_id"));
+                inu.setIn_pro_from(res.getString("in_pro_from"));
+                inu.setIn_pro_to(res.getString("in_pro_to"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
             }
         } catch (Exception e) {
@@ -197,5 +224,32 @@ public class InUse extends Conexion{
             this.desconectar();
         }
         return inu;
+    }
+    public List<InUse> showInUsebyPro(int id){
+        List<InUse>listaInu=new ArrayList();
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql="SELECT * from in_use where project_id=? ";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                InUse inu = new InUse();
+                inu.setId(res.getInt("id"));
+                inu.setEquipment_id(res.getInt("equipment_id"));
+                inu.setProject_id(res.getInt("project_id"));
+                inu.setIn_pro_from(res.getString("in_pro_from"));
+                inu.setIn_pro_to(res.getString("in_pro_to"));
+                inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+                listaInu.add(inu);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return listaInu;
     }
 }

@@ -33,11 +33,13 @@
             Project prj = new Project();
             Employees emp = new Employees();
             Position pos = new Position();
+            String aa = "";
+            String bb = "";
         %>
         <title>Project staff</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, project, employee, from, to, cost) {
+            function myLoad(id, project, employee, from, to, cost, minD, maxD, sal) {
                 $("#txtId").val(id);
                 $("#slctProId").val(project);
                 $("#slctEmpId").val(employee);
@@ -89,6 +91,7 @@
                     <input type="date" name="datTo" id="datTo" class='form-control' min='' max='' required/>
                     <label>Cost</label>
                     <input type="number" name="numCost" id="numCost" min='0.01' step="0.01" class='form-control' required/>
+                    
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
@@ -125,7 +128,7 @@
                            '<%= w.getEmployee_id()%>','<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
                            <%= w.getCost()%>),'<%= prj.getProyect(w.getProject_id()).getStarted_date()%>',
                            '<%= prj.getProyect(w.getProject_id()).getFinish_date()%>',
-                           <%= emp.getEmp(w.getEmployee_id()).getSalary()%>">Select</a></td>
+                           <%= emp.getEmp(w.getEmployee_id()).getSalary()%>)">Select</a></td>
                 </tr>
                 <%
                     }

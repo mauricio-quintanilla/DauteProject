@@ -35,10 +35,12 @@
         <title>Eq in use</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, equi, proj, eqQ) {
+            function myLoad(id, equi, proj, df, dt, eqQ) {
                 $("#txtId").val(id);
                 $("#slctEqId").val(equi);
                 $("#slctProId").val(proj);
+                $("#datFrom").val(df);
+                $("#datTo").val(dt);
                 $("#numEqQu").val(eqQ);
             }
         </script>
@@ -71,6 +73,11 @@
                             }
                         %>
                     </select>
+                    <label>en projecto desde</label>
+                    <input type="date" name="datFrom" id="datFrom" class='form-control' min='' max='' required/>
+                    <label>en projecto hasta</label>
+                    <input type="date" name="datTo" id="datTo" class='form-control' min='' max='' required/>
+                    <label>Cost</label>
                     <label>Num of units to assign </label>
                     <input type="number" name="numEqQu" id="numEqQu" min="1" step="1" class='form-control' required/>
                 </div>
@@ -86,6 +93,8 @@
                     <th>Record Id</th>
                     <th>Equipment</th>
                     <th>on Project</th>
+                    <th>en pro desde</th>
+                    <th>en pro hasta</th>
                     <th>Assigned</th>
                     <th>In Stock</th>
                     <th>action</th>
@@ -98,10 +107,13 @@
                     <td><%= i.getId()%></td>
                     <td><%= equ.getEqu(i.getEquipment_id()).getName()%> <%= equ.getEqu(i.getEquipment_id()).getModel()%></td>
                     <td><%= prj.getProyect(i.getProject_id()).getName()%></td>
+                    <td><%= i.getIn_pro_from()%></td>
+                    <td><%= i.getIn_pro_to()%></td>
                     <td><%= i.getEquipment_quantity()%> units</td>
                     <td><%= equ.getEqu(i.getEquipment_id()).getStock()%> units</td>
                     <td><a href="javascript:myLoad('<%= i.getId()%>','<%= i.getEquipment_id()%>',
-                           '<%= i.getProject_id()%>','<%= i.getEquipment_quantity()%>')">Select</a></td>
+                           '<%= i.getProject_id()%>','<%= i.getIn_pro_from()%>','<%= i.getIn_pro_to()%>',
+                           '<%= i.getEquipment_quantity()%>')">Select</a></td>
                 </tr>
                 <%
                     }

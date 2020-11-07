@@ -30,6 +30,8 @@ public class InUseController extends HttpServlet {
             inu.setId(Integer.parseInt(request.getParameter("txtId")));
             inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqId")));
             inu.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
+            inu.setIn_pro_from(request.getParameter("datFrom"));
+            inu.setIn_pro_to(request.getParameter("datTo"));
             inu.setEquipment_quantity(Integer.parseInt(request.getParameter("numEqQu")));
             if(request.getParameter("btnCreate")!=null){
                 equ.updateStock(inu, 1);
