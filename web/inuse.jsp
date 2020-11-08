@@ -1,7 +1,7 @@
 <%-- 
     Document   : inuse
     Created on : Oct 23, 2020, 2:54:38 AM
-    Author     : demon
+    Author     : demon, ismael
 --%>
 
 <%@page import="java.util.List"%>
@@ -35,13 +35,14 @@
         <title>Eq in use</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script>
-            function myLoad(id, equi, proj, df, dt, eqQ) {
+            function myLoad(id, equi, proj, df, dt, eqQ, cst) {
                 $("#txtId").val(id);
                 $("#slctEqId").val(equi);
                 $("#slctProId").val(proj);
                 $("#datFrom").val(df);
                 $("#datTo").val(dt);
                 $("#numEqQu").val(eqQ);
+                $("#numCost").val(cst);
             }
         </script>
     </head>
@@ -80,6 +81,9 @@
                     <label>Cost</label>
                     <label>Num of units to assign </label>
                     <input type="number" name="numEqQu" id="numEqQu" min="1" step="1" class='form-control' required/>
+                   
+                    <label>Rental unit price</label>
+                    <input type="number" name="numCost" id="numCost" min="5" step="1" class='form-control' required/>
                 </div>
                 <br>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
@@ -97,6 +101,7 @@
                     <th>en pro hasta</th>
                     <th>Assigned</th>
                     <th>In Stock</th>
+                    <th>Rental Price</th>
                     <th>action</th>
                 </tr>
                 <%
@@ -111,9 +116,10 @@
                     <td><%= i.getIn_pro_to()%></td>
                     <td><%= i.getEquipment_quantity()%> units</td>
                     <td><%= equ.getEqu(i.getEquipment_id()).getStock()%> units</td>
+                    <td><%= i.getCost()%></td>
                     <td><a href="javascript:myLoad('<%= i.getId()%>','<%= i.getEquipment_id()%>',
                            '<%= i.getProject_id()%>','<%= i.getIn_pro_from()%>','<%= i.getIn_pro_to()%>',
-                           '<%= i.getEquipment_quantity()%>')">Select</a></td>
+                           '<%= i.getEquipment_quantity()%>',<%= i.getCost()%>)">Select</a></td>
                 </tr>
                 <%
                     }

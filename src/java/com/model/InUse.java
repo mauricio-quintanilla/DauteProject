@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 * Nombre de la clase: InUse
 * Fecha: 19-10-2020
 * CopyRight: OpenSource
-* Version: 1.0
-* @author Quintanilla Bernabe
+* Version: 2.0
+* @author Quintanilla Bernabe, Ismael Castillo
 */
 public class InUse extends Conexion{
     private int id;
@@ -22,17 +22,19 @@ public class InUse extends Conexion{
     private String in_pro_from;
     private String in_pro_to;
     private int equipment_quantity;
+    private double cost;
 
     public InUse() {
     }
 
-    public InUse(int id, int equipment_id, int project_id, String in_pro_from, String in_pro_to, int equipment_quantity) {
+    public InUse(int id, int equipment_id, int project_id, String in_pro_from, String in_pro_to, int equipment_quantity, double cost) {
         this.id = id;
         this.equipment_id = equipment_id;
         this.project_id = project_id;
         this.in_pro_from = in_pro_from;
         this.in_pro_to = in_pro_to;
         this.equipment_quantity = equipment_quantity;
+        this.cost = cost;
     }
 
     
@@ -84,11 +86,19 @@ public class InUse extends Conexion{
     public void setEquipment_quantity(int equipment_quantity) {
         this.equipment_quantity = equipment_quantity;
     }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
     
     public String createInUse(InUse inu){
         try {
             this.conectar();
-            String sql="INSERT INTO in_use VALUES(?,?,?,?,?,?)";
+            String sql="INSERT INTO in_use VALUES(?,?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setInt(2, inu.getEquipment_id());
@@ -96,6 +106,7 @@ public class InUse extends Conexion{
             pre.setString(4, inu.getIn_pro_from());
             pre.setString(5, inu.getIn_pro_to());
             pre.setInt(6, inu.getEquipment_quantity());
+            pre.setDouble(7, inu.getCost());
             pre.executeUpdate();
             return "Equ in use successfuly created";
         } catch (Exception e) {
@@ -108,14 +119,15 @@ public class InUse extends Conexion{
     public String updateInUse(InUse inu){
         try {
             this.conectar();
-            String sql="UPDATE in_use SET equipment_id=?, project_id=?, in_pro_from=?, in_pro_to=?, equipment_quantity=? WHERE id=?";
+            String sql="UPDATE in_use SET equipment_id=?, project_id=?, in_pro_from=?, in_pro_to=?, equipment_quantity=?, cost=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, inu.getEquipment_id());
             pre.setInt(2, inu.getProject_id());
             pre.setString(3, inu.getIn_pro_from());
             pre.setString(4, inu.getIn_pro_to());
             pre.setInt(5, inu.getEquipment_quantity());
-            pre.setInt(6, inu.getId());
+            pre.setDouble(6, inu.getCost());
+            pre.setInt(7, inu.getId());
             pre.executeUpdate();
             return "Equ in use successfuly updated";
         } catch (Exception e) {
@@ -133,7 +145,7 @@ public class InUse extends Conexion{
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, inu.getId());
             pre.executeUpdate();
-            return "Equ in use successfuly deleted";
+            return "Equipment in use successfuly deleted";
         } catch (Exception e) {
             return "error "+e.getMessage();
         }
@@ -158,6 +170,7 @@ public class InUse extends Conexion{
                 inu.setIn_pro_from(res.getString("in_pro_from"));
                 inu.setIn_pro_to(res.getString("in_pro_to"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+                inu.setCost(res.getDouble("cost"));
                 listaInu.add(inu);
             }
         } catch (Exception e) {
@@ -185,9 +198,10 @@ public class InUse extends Conexion{
                 inu.setProject_id(res.getInt("project_id"));
                 //isma he modificado esta tabla agregando dos campos de fecha 
                 //en caso que tengas que modificar tu vista agregas estos dos campos a ella
-/*                inu.setIn_pro_from(res.getString("in_pro_from"));
+                inu.setIn_pro_from(res.getString("in_pro_from"));
                 inu.setIn_pro_to(res.getString("in_pro_to"));
-                inu.setEquipment_quantity(res.getInt("equipment_quantity"));*/
+                inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+                inu.setCost(res.getDouble("cost"));
                 listaInu4Proyect.add(inu);
             }
         } catch (Exception e) {
@@ -216,6 +230,7 @@ public class InUse extends Conexion{
                 inu.setIn_pro_from(res.getString("in_pro_from"));
                 inu.setIn_pro_to(res.getString("in_pro_to"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+                inu.setCost(res.getDouble("cost"));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error "+e.getMessage());
@@ -242,6 +257,7 @@ public class InUse extends Conexion{
                 inu.setIn_pro_from(res.getString("in_pro_from"));
                 inu.setIn_pro_to(res.getString("in_pro_to"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+                inu.setCost(res.getDouble("cost"));
                 listaInu.add(inu);
             }
         } catch (Exception e) {

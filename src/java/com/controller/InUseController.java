@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /*
 * Nombre del servlet: InUseController
-* Fecha: 22-10-2020
+* Fecha: 22-10-2020, 7-11-2020
 * CopyRight: OpenSource
-* Version: 1.0
-* @author Quintanilla Bernabe
+* Version: 2.0
+* @author Quintanilla Bernabe, Ismael
 */
 public class InUseController extends HttpServlet {
 
@@ -33,6 +33,8 @@ public class InUseController extends HttpServlet {
             inu.setIn_pro_from(request.getParameter("datFrom"));
             inu.setIn_pro_to(request.getParameter("datTo"));
             inu.setEquipment_quantity(Integer.parseInt(request.getParameter("numEqQu")));
+            inu.setCost(Double.parseDouble(request.getParameter("numCost")));
+            
             if(request.getParameter("btnCreate")!=null){
                 equ.updateStock(inu, 1);
                 msj=inu.createInUse(inu);
@@ -48,6 +50,7 @@ public class InUseController extends HttpServlet {
             request.getSession().setAttribute("msj",msj);
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());
+            response.sendRedirect("error.jsp");
         }
     }
 

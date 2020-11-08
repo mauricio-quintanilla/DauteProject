@@ -1,7 +1,7 @@
 <%-- 
     Document   : projectview
     Created on : Nov 5, 2020, 11:41:16 PM
-    Author     : demon
+    Author     : demon, ismael
 --%>
 
 <%@page import="com.model.Equipment"%>
