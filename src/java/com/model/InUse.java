@@ -4,13 +4,15 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
 /*
 * Nombre de la clase: InUse
-* Fecha: 19-10-2020
+* Fecha: 19-10-2020, 7-11-2020
 * CopyRight: OpenSource
 * Version: 2.0
 * @author Quintanilla Bernabe, Ismael Castillo
@@ -268,4 +270,12 @@ public class InUse extends Conexion{
         }
         return listaInu;
     }
+    
+    public double daysInUse(String dateStarts, String dateEnds) {
+        LocalDate dateBefore = LocalDate.parse(dateStarts);
+        LocalDate dateAfter = LocalDate.parse(dateEnds);
+        double nod = (ChronoUnit.DAYS.between(dateBefore, dateAfter))+1;
+        return nod;
+    }
+     
 }

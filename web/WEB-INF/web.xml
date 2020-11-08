@@ -85,6 +85,10 @@
         <servlet-name>WorkingDetalleController</servlet-name>
         <servlet-class>com.controller.workingDetalleController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InUseDetController</servlet-name>
+        <servlet-class>com.controller.InUseDetController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -168,6 +172,10 @@
     <servlet-mapping>
         <servlet-name>WorkingDetalleController</servlet-name>
         <url-pattern>/workingDetalleController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InUseDetController</servlet-name>
+        <url-pattern>/inUseDetController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

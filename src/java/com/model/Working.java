@@ -11,10 +11,10 @@ import javax.swing.JOptionPane;
 
 /*
 * Nombre de la clase: Working
-* Fecha: 19-10-2020
+* Fecha: 19-10-2020, 7-11-2020
 * CopyRight: OpenSource
-* Version: 1.0
-* @author Quintanilla Bernabe
+* Version: 2.0
+* @author Quintanilla Bernabe, ismael
  */
 public class Working extends Conexion {
 

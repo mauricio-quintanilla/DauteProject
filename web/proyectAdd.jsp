@@ -43,7 +43,7 @@
             Working wrk = new Working();
             Position pos = new Position();
             InUse inu = new InUse();
-            DecimalFormat df = new DecimalFormat("##.00");
+            DecimalFormat df = new DecimalFormat("##.##");
         %>
         <header>
             <div class="collapse bg-dark" id="navbarHeader">
@@ -120,7 +120,7 @@
                                             </tr>
                                             <%
                                                 int idHere = (Integer) session.getAttribute("id_attr");
-                                                
+
                                                 List<Working> lst1 = wrk.showWorkingByPro(idHere);
                                                 double total = 0;
                                                 double totalF = 0;
@@ -177,12 +177,12 @@
                                             <th>desde</th>
                                             <th>hasta</th>
                                             <th>dias en project</th>
-                                            <th>gas consumption</th>
+                                            <th>Costo diario (Unitario)</th>
                                             <th>costo en project</th>
                                         </tr>
                                         <%
                                             idHere = (Integer) session.getAttribute("id_attr");
-                                            
+
                                             List<InUse> lst3 = inu.showInUsebyPro(idHere);
                                             double totalM = 0;
                                             double totalFM = 0;
@@ -195,9 +195,11 @@
                                             <td><%= i.getIn_pro_from()%></td>
                                             <td><%= i.getIn_pro_to()%></td>
                                             <td><%= wrk.daysIn(i.getIn_pro_from(), i.getIn_pro_to())%></td>
-                                            <td>gas consumption cost%></td>
+                                            <td><%= df.format(i.getCost())%></td>
                                             <%
                                                 //here we need to calculate total cost per truck
+                                                totalM = (i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())) * (i.getCost() * i.getEquipment_quantity());
+                                                totalFM = totalFM + totalM;
                                             %>
                                             <td>$<%= df.format(totalM)%></td>
                                             <%
@@ -211,7 +213,7 @@
                                         </tr>
                                     </table>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p><a class="btn btn-sm btn-outline-secondary" href="inuse.jsp" role="button">go to CRUD&raquo;</a></p>
+                                        <p><a class="btn btn-sm btn-outline-secondary" href="inUseDetalle.jsp" role="button">go to CRUD&raquo;</a></p>
                                         <small class="text-muted">CRUD</small>
                                     </div>
                                 </div>
