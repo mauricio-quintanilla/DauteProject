@@ -108,7 +108,8 @@
     <table  class='table table-hover'>
         <tr class="thead-dark">
             <th>maquinaria</th>
-            <th>Uni en proy</th>
+            <th>Unidades en proyecto</th>
+            <th>Unidades In Stock</th>
             <th>desde</th>
             <th>hasta</th>
             <th>dias en project</th>
@@ -129,6 +130,7 @@
         <tr>
             <td><%= name%></td>
             <td><%= i.getEquipment_quantity()%></td> 
+            <td><%= equ.getEqu(i.getEquipment_id()).getStock() %></td>
             <td><%= i.getIn_pro_from()%></td>
             <td><%= i.getIn_pro_to()%></td>
             <td><%= i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())%></td>

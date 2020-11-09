@@ -71,7 +71,7 @@
         }
 
         function reset() {
-            $("#txtId").val("");
+            $("#txtId").val(0);
             $("#txtName").val("");
             $("#txtDesc").val("");
             $("#dapStart").val("");
@@ -131,7 +131,7 @@
                 <br>
                 <div class="container">
                     <form id="frmMain" action="projectController" method="POST">
-                        <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
+                        <input type="text" name="txtId" id="txtId" class='form-control' value="0"/>
 
 
                         <input type="hidden" id="latLng">      
