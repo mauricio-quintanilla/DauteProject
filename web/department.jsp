@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="sweetalert2.all.min.js"></script>
         <script>
             function myLoad(id, name) {
                 $("#txtDeptId").val(id);
@@ -41,6 +42,21 @@
         Department dpt = new Department();
     %>
     <body class="bg-black">
+        <header>
+            <%
+                if (request.getSession().getAttribute("msj") != null) {
+            %>
+            <script type="text/javascript">
+                Swal.fire(
+                    'Department',
+                    '<%= request.getSession().getAttribute("msj")%>',
+                    'success'
+                );
+            </script>
+            <%
+                }
+            %>
+        </header>
         <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
             <div class="flex items-center justify-center w-ful flex-wrap">
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
