@@ -1,12 +1,12 @@
 <%-- 
-    Document   : rep1
-    Created on : Nov 9, 2020, 3:30:48 AM
+    Document   : rep11
+    Created on : Nov 9, 2020, 5:16:01 PM
     Author     : demon
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@page import="net.sf.jasperreports.engine.JasperRunManager"%>
 <%@page import="java.util.Map"%>
-<%@page import="java.util.HashMap"%>
 <%@page import="java.io.File"%>
 <%@page import="com.conexion.Conexion"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,19 +14,19 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Rep1</title>
+        <title>JSP Page</title>
     </head>
     <body>
-        <h1>rep filtered by date range</h1>
         <%
-            String start = request.getParameter("datFrom");
-//            String end = request.getParameter("datTo");
+            String sta = request.getParameter("datFrom");
+            String fin = request.getParameter("datTo");
             Conexion con = new Conexion();
             con.conectar();
-            File reporte = new File(application.getRealPath("reportes/report2.jasper"));
+            File reporte = new File(application.getRealPath("/reportes/repProFechas.jasper"));
             Map parametros = new HashMap();
-  //          parametros.put("dFrom",start);
-            byte[] bytes = JasperRunManager.runReportToPdf(reporte.getPath(), parametros, con.getCon());
+            parametros.put("dFrom", sta);
+            parametros.put("dTo", fin);
+            byte[] bytes = JasperRunManager.runReportToPdf(reporte.getPath(), parametros ,con.getCon());
             response.setContentType("application/pdf");
             response.setContentLength(bytes.length);
             ServletOutputStream output = response.getOutputStream();

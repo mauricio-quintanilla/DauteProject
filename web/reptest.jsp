@@ -93,7 +93,7 @@
                         <label>hasta</label>
                         <input type="date" name="datTo" id="datTo" class='form-control' min='' max=''/>
                         <br>
-                        <input formaction="reporte1.jsp" type="submit" name="btnRep1" id="btnRep1" class='btn btn-outline-info' value="ver reporte 1"/>
+                        <input formaction="rep11.jsp" type="submit" name="btnRep1" id="btnRep1" class='btn btn-outline-info' value="ver reporte 1"/>
                     </div>
                 </div>
                 </form>
