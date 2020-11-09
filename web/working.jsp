@@ -4,6 +4,8 @@
     Author     : demon
 --%>
 
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.ZoneId"%>
 <%@page import="com.model.Position"%>
 <%@page import="java.util.List"%>
 <%@page import="com.model.Employees"%>
@@ -35,6 +37,8 @@
             Position pos = new Position();
             String aa = "";
             String bb = "";
+            ZoneId zonedId = ZoneId.of( "America/El_Salvador" );
+            LocalDate today = LocalDate.now( zonedId );
         %>
         <title>Project staff</title>
         <script type="text/javascript" src="jquery.js"></script>
@@ -44,8 +48,25 @@
                 $("#slctProId").val(project);
                 $("#slctEmpId").val(employee);
                 $("#datFrom").val(from);
+                $("#datFrom").attr('min',minD);
+                $("#datFrom").attr('max',maxD);
                 $("#datTo").val(to);
+                $("#datTo").attr('max',maxD);
+                $("#datTo").attr('min',minD);
                 $("#numCost").val(cost);
+                $("#numCost").attr('min', sal);
+            }
+            function checkDates() {
+                var dateS = document.getElementById('datFrom').value;
+                var dateE = document.getElementById('datTo').value;
+                var dateSP = new Date(dateS);
+                var dateEP = new Date(dateE);
+                if ( dateEP < dateSP ) { 
+                    alert('fecha fin ' + dateEP + 'debe ser mayor fecha inicio' + dateSP);
+                }
+            }
+            function setDates() {
+                
             }
         </script>
     </head>
@@ -80,7 +101,7 @@
                             List<Project> lst2 = prj.showPrj();
                             for (Project p : lst2) {
                         %>
-                            <option value="<%= p.getId()%>"><%= p.getName()%> <%= p.getDescription()%></option>
+                            <option value="<%= p.getId()%>" ><%= p.getName()%> <%= p.getDescription()%></option>
                         <%
                             }
                         %>
@@ -94,6 +115,7 @@
                     
                 </div>
                 <br>
+                <input type="button" onclick="checkDates()" class="btn btn-outline-info"/>
                 <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
                 <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
                 <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
@@ -129,7 +151,7 @@
                     <td>$<%= w.getCost()%></td>//Costo
                     <td><a href="javascript:myLoad('<%= w.getId()%>','<%= w.getProject_id()%>',
                            '<%= w.getEmployee_id()%>','<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
-                           <%= w.getCost()%>),'<%= prj.getProyect(w.getProject_id()).getStarted_date()%>',
+                           <%= w.getCost()%>,'<%= prj.getProyect(w.getProject_id()).getStarted_date()%>',
                            '<%= prj.getProyect(w.getProject_id()).getFinish_date()%>',
                            <%= emp.getEmp(w.getEmployee_id()).getSalary()%>)">Select</a></td>
                 </tr>

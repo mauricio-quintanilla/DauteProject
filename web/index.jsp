@@ -50,6 +50,7 @@
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
                 </div>
             </div>
             <div class="flex w-full md:w-1/3 lg:w-1/4 h-full">
