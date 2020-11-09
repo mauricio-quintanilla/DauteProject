@@ -245,6 +245,7 @@ public class Equipment extends Conexion{
         finally{
             this.desconectar();
         }
+        
         return equ;
     }
     public void updateStock(InUse inu, int axn){
