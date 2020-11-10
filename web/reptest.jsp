@@ -4,6 +4,12 @@
     Author     : demon
 --%>
 
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.TimeZone"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.List"%>
 <%@page import="com.model.Project"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -62,6 +68,20 @@
                 background: #f1f7ff;
             }
         </style>
+        <script language="JavaScript" type="text/javascript">
+            function checkDates() {
+                var dateS = document.getElementById('datFrom').value;
+                var dateE = document.getElementById('datTo').value;
+                var dateSP = new Date(dateS);
+                var dateEP = new Date(dateE);
+                if ( dateEP < dateSP ) { 
+                    alert('fecha fin debe ser mayor a fecha inicio');
+                    return false;
+                }
+                else
+                    return true;
+            }
+        </script>
         <%
             Project prj = new Project();
             List<Project> lst2 = prj.showPrj();
@@ -84,16 +104,22 @@
             </div>
 
             <div class="container tc">
-                <label>ver proyectos entre un rango de fechas</label>
-                <form action="" method="POST" id="frmRep1">
-                <div class="form-row">
-                    <div class="col-6">
+                <form method="POST" id="frmRep1" onsubmit="return checkDates()" target="_blank">
+                <div class="form-row justify-content-center">
+                    <div class="col-3">
                         <label>desde</label>
-                        <input type="date" name="datFrom" id="datFrom" class='form-control' min='' max=''/>
+                        <input type="date" name="datFrom" id="datFrom" class='form-control' min='' max='' required/>
+                    </div>    
+                    <div class="col-3">
                         <label>hasta</label>
-                        <input type="date" name="datTo" id="datTo" class='form-control' min='' max=''/>
-                        <br>
-                        <input formaction="rep11.jsp" type="submit" name="btnRep1" id="btnRep1" class='btn btn-outline-info' value="ver reporte 1"/>
+                        <input type="date" name="datTo" id="datTo" class='form-control' min='' max=''required/>
+                    </div>
+                </div>
+                    <br>
+                <div class="form-row justify-content-center">
+                    <div class="col-8">
+                        <input formaction="rep11.jsp" type="submit" class='btn btn-outline-success' value="ver projectos activos en rango de fechas"/>
+                        <input formaction="rep22.jsp" type="submit" class='btn btn-outline-warning' value="ver projectos finalizados en rango de fechas"/>
                     </div>
                 </div>
                 </form>
@@ -102,72 +128,59 @@
                 <figure class="highcharts-figure">
                     <div id="container"></div>
                     <p class="highcharts-description">
-                        some other description
+                        Luis we can type any other description here
                     </p>
                 </figure>
                 <script>
-                    Highcharts.chart('container', {
-                    chart: {type: 'xrange'},
-                            title: {text: 'Proyectos en linea de tiempo'},
-                            accessibility: {
-                                point: {
-                                    descriptionFormatter: function (point) {
-                                    var ix = point.index + 1,
-                                            category = point.yCategory,
-                                            from = new Date(point.x),
-                                            to = new Date(point.x2);
-                                    return ix + '. ' + category + ', ' + from.toDateString() +
+                    Highcharts.chart('container', {chart: {type: 'xrange'},
+                        title: {text: 'Nuestros proyectos a lo largo de la historia'},accessibility: 
+                            {point: {descriptionFormatter: function (point) {
+                                        var ix = point.index + 2,
+                                        category = point.yCategory,
+                                        from = new Date(point.x),
+                                        to = new Date(point.x2);
+                                        return ix + '. ' + category + ', ' + from.toDateString() +
                                             ' to ' + to.toDateString() + '.';
                                     }
                                 }
                             },
-                            xAxis: {
-                            type: 'datetime'
-                            },
-                            yAxis: {
-                            title: {
-                            text: ' proyectos'
-                            },
-                                    categories: [
-                    <%
+                            xAxis: {type: 'datetime'},yAxis: {title: {text: ' proyectos'},categories: [
+                                <%
                                     for (Project p : lst2) {
-                    %>
-                                    '<%= p.getName()%>',
-                    <%
+                                %>
+                                    '<%= p.getName()%><br>-(<%= p.getStatus()%>)',
+                                <%
                                     }
-                    %>
-                                    //categories: ['proyecto 1', 'proyecto 2', 'proyecto 3',
+                                %>
+                            ],reversed: true},
+                            series: [{name: 'Historial de proyectos',borderColor: 'black',pointWidth: 25,
+                                data: [
+                                <%
+                                    int ixta = 0;
+                                    for (Project p : lst2) {
+                                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date rdIni = new SimpleDateFormat("yyyy-MM-dd").parse(p.getStarted_date());
+                                        Date rdFin = new SimpleDateFormat("yyyy-MM-dd").parse(p.getFinish_date());
+                                        Calendar i = Calendar.getInstance(); 
+                                        Calendar f = Calendar.getInstance(); 
+                                        i.setTime(rdIni);                
+                                        f.setTime(rdFin);
+                                        i.add(Calendar.MONTH, -1);
+                                        f.add(Calendar.MONTH, -1);
+                                %>
+                                        {x: Date.UTC(<%= df.format(i.getTime()).replaceAll("-", ", ") %>),
+                                         x2: Date.UTC(<%= df.format(f.getTime()).replaceAll("-", ", ") %>),
+                                         y: <%= ixta%>,
+                                         partialFill: <%= p.prcntCalc(p.getStarted_date(), p.getFinish_date()) %>},
+                                <%
+                                        ixta++;
+                                    };
+                                %>
                                     ],
-                                    reversed: true
-                            },
-                            series: [{
-                            name: 'Historial de proyectos',
-                                    // pointPadding: 0,
-                                    // groupPadding: 0,
-                                    borderColor: 'black',
-                                    pointWidth: 25,
-                                    data: [
-                    <%
-                                                int ixa = 0;
-                                                for (Project p : lst2) {
-                    %>
-                                    {x: Date.UTC(<%= p.getStarted_date().replaceAll("-", ", ")%>),
-                                            x2: Date.UTC(<%= p.getFinish_date().replaceAll("-", ", ")%>),
-                                            y: <%= ixa%>},
-                    <%
-                                                    ixa++;
-                                                };
-                    %>
-                                    ],
-                                    dataLabels: {
-                                    enabled: true
-                                    }
+                                    dataLabels: {enabled: true}
                             }]
-
-
                     });
-                </script>
-
+                </script>   
             </div>
             <div class="container tc">
                 <blockquote>

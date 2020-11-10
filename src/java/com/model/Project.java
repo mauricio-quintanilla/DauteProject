@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -298,5 +299,19 @@ public class Project extends Conexion{
         finally{
             this.desconectar();
         }
+    }
+    public double prcntCalc(String dateStarts, String dateEnds) {
+        ZoneId zonedId = ZoneId.of( "America/El_Salvador" );
+        LocalDate today = LocalDate.now( zonedId );
+        LocalDate dateBefore = LocalDate.parse(dateStarts);
+        LocalDate dateAfter = LocalDate.parse(dateEnds);
+        double prcnt = 0.001; 
+        double nod = (ChronoUnit.DAYS.between(dateBefore, dateAfter));
+        double ti = (ChronoUnit.DAYS.between(dateBefore, today));
+        if(today.isAfter(dateBefore) && today.isBefore(dateAfter))
+            prcnt=ti/nod;
+        else if (today.isAfter(dateAfter))
+            prcnt=1;
+        return prcnt;
     }
 }
