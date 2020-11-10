@@ -43,13 +43,15 @@
 
    
 
-        function myLoad(id, project, employee, from, to, cost) {
+        function myLoad(id, project, employee, from, to, cost, salario) {
             $("#txtId").val(id);
             $("#slctProId").val(project);
             $("#slctEmpId").val(employee);
             $("#datFrom").val(from);
             $("#datTo").val(to);
             $("#numCost").val(cost);
+            $("#numCost").attr('min',salario);//cuando elegimos un empleado su salario en el proyecto 
+            //debe ser mayor a el salario de la empresa por eso damos el valor de salario como min attribute
         }
 
 
@@ -155,7 +157,7 @@
             <td>$<%= df.format(total)%></td>
             <td><a href="javascript:myLoad(<%= w.getId()%>,<%= w.getProject_id()%>,
                    <%= w.getEmployee_id()%>,'<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
-                   <%= w.getCost()%>)">Select</a>
+                   <%= w.getCost()%>,<%= emp.getEmp(w.getId()).getSalary()%>)">Select</a>
             </td>
             <%
                 }

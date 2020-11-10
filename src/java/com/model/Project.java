@@ -4,6 +4,8 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -25,11 +27,14 @@ public class Project extends Conexion{
     private String lat;
     private String lng;
     private int client_id;
+    private String status;
 
     public Project() {
     }
 
-    public Project(int id, String name, String description, String started_date, String finish_date, String address, String lat, String lng, int client_id) {
+    public Project(int id, String name, String description, String started_date,
+            String finish_date, String address, String lat, String lng,
+            int client_id, String status) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -39,6 +44,7 @@ public class Project extends Conexion{
         this.lat = lat;
         this.lng = lng;
         this.client_id = client_id;
+        this.status = status;
     }
 
     public int getId() {
@@ -113,11 +119,18 @@ public class Project extends Conexion{
         this.client_id = client_id;
     }
 
-   
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+       
     public String createPrj(Project prj){
         try {
             this.conectar();
-            String sql="INSERT INTO project VALUES(null,?,?,?,?,?,?,?,?)";
+            String sql="INSERT INTO project VALUES(null,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             //pre.setInt(1, 0);
             pre.setString(1, prj.getName());
@@ -128,6 +141,7 @@ public class Project extends Conexion{
             pre.setString(6, prj.getLat());
             pre.setString(7, prj.getLng());
             pre.setInt(8, prj.getClient_id());
+            pre.setString(9, prj.getStatus());
             pre.executeUpdate();
             return "Project successfuly created";
         } catch (Exception e) {
@@ -140,7 +154,7 @@ public class Project extends Conexion{
     public String updatePrj(Project prj){
         try {
             this.conectar();
-            String sql="UPDATE project SET name=?, description=?, started_date=?, finish_date=?, address=?, lat=?, lng=?, client_id=? WHERE id=?";
+            String sql="UPDATE project SET name=?, description=?, started_date=?, finish_date=?, address=?, lat=?, lng=?, client_id=?, status=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1, prj.getName());
             pre.setString(2, prj.getDescription());
@@ -150,7 +164,8 @@ public class Project extends Conexion{
             pre.setString(6, prj.getLat());
             pre.setString(7, prj.getLng());
             pre.setInt(8, prj.getClient_id());
-            pre.setInt(9, prj.getId());
+            pre.setString(9, prj.getStatus());
+            pre.setInt(10, prj.getId());
             pre.executeUpdate();
             return "Project successfuly updated";
         } catch (Exception e) {
@@ -194,6 +209,7 @@ public class Project extends Conexion{
                 prj.setLat(res.getString("lat"));
                 prj.setLng(res.getString("lng"));
                 prj.setClient_id(res.getInt("client_id"));
+                prj.setStatus(setProStatus(res.getInt("id")));
                 listaPrj.add(prj);
             }
         } catch (Exception e) {
@@ -223,6 +239,7 @@ public class Project extends Conexion{
                 prj.setLat(res.getString("lat"));
                 prj.setLng(res.getString("lng"));
                 prj.setClient_id(res.getInt("client_id"));
+                prj.setStatus(setProStatus(res.getInt("id")));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error "+e.getMessage());
@@ -231,5 +248,55 @@ public class Project extends Conexion{
             this.desconectar();
         }
         return prj;
+    }
+    public String setProStatus(int id){
+        String status="";
+        ResultSet res=null;
+        ZoneId zonedId = ZoneId.of( "America/El_Salvador" );
+        LocalDate today = LocalDate.now( zonedId );
+        LocalDate ini = null;
+        LocalDate fin = null;
+        try {
+            this.conectar();
+            String sql="SELECT started_date, finish_date from project where id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                ini = LocalDate.parse(res.getString("started_date"));
+                fin = LocalDate.parse(res.getString("finish_date"));
+            }
+            if(today.isBefore(ini)){
+                status = "no-iniciado";
+            }
+            else if(today.isAfter(fin)){
+                status = "finalizado";
+            }
+//            else if((ini.isAfter(today) || ini.equals(today)) && (fin.equals(today) || today.isBefore(fin))){
+            else
+                status = "activo";
+            updateStatus(id, status);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return status;
+    }
+    public void updateStatus(int proId, String status){
+        try {
+            this.conectar();
+            String sql="UPDATE project SET status=? WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setString(1, status);
+            pre.setInt(2, proId);
+            pre.executeUpdate();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        finally{
+            this.desconectar();
+        }
     }
 }

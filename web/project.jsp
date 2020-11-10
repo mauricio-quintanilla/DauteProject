@@ -53,7 +53,7 @@
     <title>Project</title>
     <script type="text/javascript" src="jquery.js"></script>
     <script>
-        function myLoad(id, name, desc, start, finish, address, lat, lng, client) {
+        function myLoad(id, name, desc, start, finish, address, lat, lng, client, status) {
             $("#txtId").val(id);
             $("#txtName").val(name);
             $("#txtDesc").val(desc);
@@ -63,6 +63,7 @@
             $("#my_lat").val(lat);
             $("#my_lng").val(lng);
             $("#slctClient").val(client);
+            $("#txtStatus").val(status);
             $("#idHidden").val(id);
             $("#nameHidden").val(name);
             document.getElementById("edit-mark").disabled = false;
@@ -80,6 +81,7 @@
             $("#my_lat").val("");
             $("#my_lng").val("");
             $("#slctClient").val("");
+            $("#txtStatus").val("");
             document.getElementById("edit-mark").disabled = true;
             document.getElementById("maquinaria").disabled = true;
         }
@@ -178,6 +180,12 @@
                                 </select>
                             </div>    
                         </div>
+                        <div class="row">
+                            <div class="col-md-6 col-ms-12">
+                                <label>Project State</label>
+                                <input type="text" name="txtStatus" id="txtStatus" class='form-control' readonly/>
+                            </div>
+                        </div>
 
 
                         <br>
@@ -200,6 +208,7 @@
                             <th>Lat</th>
                             <th>Lng</th>
                             <th>Company</th>
+                            <th>Status</th>
                             <th>Action</th>
 
                         </tr>
@@ -217,10 +226,11 @@
                             <td><%= p.getLat()%></td>
                             <td><%= p.getLng()%></td>
                             <td><%= cli.getClient(p.getClient_id()).getCompany_name()%></td>
+                            <td><%= p.getStatus()%></td>
                             <td>
                                 <a data-scroll href="#map" ><button  class="btn btn-outline-success" onclick="myLoad('<%= p.getId()%>', '<%= p.getName()%>', '<%= p.getDescription()%>',
                                         '<%= p.getStarted_date()%>', '<%= p.getFinish_date()%>', '<%= p.getAddress()%>',
-                                        '<%= p.getLat()%>', '<%= p.getLng()%>', '<%= p.getClient_id()%>');ruta()">
+                                        '<%= p.getLat()%>', '<%= p.getLng()%>', '<%= p.getClient_id()%>','<%= p.getStatus()%>');ruta()">
                                         *Select*
                                     </button></a>
                             </td>

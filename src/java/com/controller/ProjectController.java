@@ -24,6 +24,7 @@ public class ProjectController extends HttpServlet {
         PrintWriter out = response.getWriter();
         Project prj = new Project();
         String msj="";
+        String status="";
         try {
             if(request.getParameter("btnMaquinaria")==null){
                 prj.setId(Integer.parseInt(request.getParameter("txtId")));
@@ -36,11 +37,12 @@ public class ProjectController extends HttpServlet {
                 prj.setLng(request.getParameter("my_lng"));
                 prj.setClient_id(Integer.parseInt(request.getParameter("slctClient")));
             }
-            
             if(request.getParameter("btnCreate")!=null){
+                prj.setStatus("no-iniciado");
                 msj=prj.createPrj(prj);
             }
             else if(request.getParameter("btnUpdate")!=null){
+                prj.setStatus(prj.setProStatus(prj.getId()));
                 msj=prj.updatePrj(prj);
             }else{
                 msj=prj.deletePrj(prj);
