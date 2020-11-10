@@ -133,7 +133,7 @@
                 <br>
                 <div class="container">
                     <form id="frmMain" action="projectController" method="POST">
-                        <input type="text" name="txtId" id="txtId" class='form-control' value="0"/>
+                        <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
 
 
                         <input type="hidden" id="latLng">      
