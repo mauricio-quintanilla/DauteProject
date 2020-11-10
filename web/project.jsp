@@ -93,7 +93,7 @@
 
 
     </script>
-    <script src="smooth-scroll.min.js"></script>
+    <script src="js/smooth-scroll.min.js"></script>
 
     <script>
         var scroll = new SmoothScroll('a[href*="#"]', {
@@ -243,7 +243,7 @@
                     <p>go back to <a href="index.jsp">index</a></p>
                 </div>
                 <!--Archivo local Javascript Toda la programación en este archivo-->
-                <script type="text/javascript" src="googleMaps.js"></script>
+                <script type="text/javascript" src="js/googleMaps.js"></script>
                 <!--Archivo de GoogleMaps-->
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbUDtVGNnPGBMF4Acpf0CbJYmLspmq-Ps&callback=initMap" async defer></script>
 

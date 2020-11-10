@@ -11,10 +11,10 @@ import javax.swing.JOptionPane;
 
 /*
 * Nombre de la clase: Department
-* Fecha: 18-10-2020
+* Fecha: 18-10-2020, 9-11-2020
 * CopyRight: OpenSource
-* Version: 1.0
-* @author Quintanilla Bernabe
+* Version: 2.0
+* @author Quintanilla Bernabe, Ismael
  */
 public class Department extends Conexion {
 
