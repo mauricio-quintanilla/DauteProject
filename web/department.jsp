@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
+        <!-- SweetAlert -->
         <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
         <script>
             function myLoad(id, name) {

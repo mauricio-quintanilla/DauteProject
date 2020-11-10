@@ -241,6 +241,7 @@ public class Equipment extends Conexion{
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+          
         }
         finally{
             this.desconectar();

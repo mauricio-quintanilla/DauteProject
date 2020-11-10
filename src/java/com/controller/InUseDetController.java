@@ -20,15 +20,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class InUseDetController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -36,6 +27,8 @@ public class InUseDetController extends HttpServlet {
         InUse inu = new InUse();
         Equipment equ = new Equipment();
         String msj = "";
+        String type = "success";
+        int stocker = 5;
         try {
             inu.setId(Integer.parseInt(request.getParameter("txtId")));
             inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqId")));
@@ -45,21 +38,43 @@ public class InUseDetController extends HttpServlet {
             inu.setEquipment_quantity(Integer.parseInt(request.getParameter("numEqQu")));
             inu.setCost(Double.parseDouble(request.getParameter("numCost")));
 
+            //Integer.parseInt(request.getParameter("numEqQu")) >= equ.getEqu(inu.getId()).getStock()
+            stocker = equ.getEqu(inu.getEquipment_id()).getStock();
+            
+            int cambio = inu.getEquipment_quantity();
             if (request.getParameter("btnCreate") != null) {
-                equ.updateStock(inu, 1);
-                msj = inu.createInUse(inu);
+                if (cambio<=stocker) {
+                    equ.updateStock(inu, 1);
+                    msj = inu.createInUse(inu);
+                }else {
+
+                    msj = "No se pudo hacer la inserción, no hay stock sufiente. (Stock " + stocker + ")";
+                    type = "error";
+                }
             } else if (request.getParameter("btnUpdate") != null) {
-                equ.updateStock(inu, 1);
-                msj = inu.updateInUse(inu);
+                int cantEqu = Integer.parseInt(request.getParameter("vliStock"));
+                if ((stocker + cantEqu - cambio) >= 0) {
+                    equ.updateStock(inu, 1);
+                    msj = inu.updateInUse(inu);
+                } else {
+
+                    msj = "No se pudo hacer la Modificación, no hay stock sufiente. (Stock " + stocker + ")";
+                    type = "error";
+                }
+
             } else {
                 equ.updateStock(inu, 2);
                 msj = inu.deleteInUse(inu);
             }
-                response.sendRedirect("inUseDetalle.jsp");
+
+            request.getSession().setAttribute("conta", 1);
             request.getSession().setAttribute("msj", msj);
+            request.getSession().setAttribute("type", type);
+            response.sendRedirect("inUseDetalle.jsp");
         } catch (Exception e) {
             request.getSession().setAttribute("error", e.toString());
             response.sendRedirect("error.jsp");
+
         }
     }
 

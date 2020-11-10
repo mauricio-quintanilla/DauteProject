@@ -18,6 +18,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+         <!-- JQuery -->
+        <script type="text/javascript" src="jquery.js"></script>
+        <!-- SweetAlert -->
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
+        
         <%
             DecimalFormat df = new DecimalFormat("##.00");
             HttpSession sesion = request.getSession();
@@ -62,6 +67,7 @@
 <center><h2>Personal de <%= session.getAttribute("name_attr")%></h2></center>
 <div class="container">
     <form id="frmMain" action="workingDetalleController" method="POST">
+        <div id="question"></div>
         <div class='row'>
             <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
             <input type="hidden" name="slctProId" id="slctProId" value="<%= (Integer) session.getAttribute("id_attr")%>">

@@ -18,6 +18,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <script type="text/javascript" src="jquery.js"></script>
+        <!-- SweetAlert -->
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
         <%
             DecimalFormat df = new DecimalFormat("##.##");
             HttpSession sesion = request.getSession();
@@ -40,8 +43,9 @@
     %>
     <title><%= session.getAttribute("name_attr")%></title>
     <script type="text/javascript" src="jquery.js"></script>
+
     <script>
-        function myLoad(id, equi, proj, df, dt, eqQ, cst) {
+        function myLoad(id, equi, proj, df, dt, eqQ, cst, stock) {
             $("#txtId").val(id);
             $("#slctEqId").val(equi);
             $("#slctProId").val(proj);
@@ -49,25 +53,103 @@
             $("#datTo").val(dt);
             $("#numEqQu").val(eqQ);
             $("#numCost").val(cst);
+            $("#vliStock").val(eqQ);
+            $("#numEqQu").attr('max', $("#stock").val());
+
+            $('#btnUpdate').attr('disabled', false);
+            $('#btnDelete').attr('disabled', false);
+            $('#btnCreate').attr('disabled', true);
         }
+
+        function clean() {
+            $('#btnCreate').attr('disabled', false);
+            $('#btnUpdate').attr('disabled', true);
+            $('#btnDelete').attr('disabled', true);
+        }
+
     </script>
 </head>
 <body>
+    <header>
+        <script>
+            $(document).ready(function () {
+
+                //update question
+                $('#btnUpdate').click(function () {
+                    swal.fire({
+                        type: "question",
+                        title: "¿Desea Modficar el registro?",
+                        text: "La modificación será irreversible",
+                        showCancelButton: true,
+                        cancelButtonColor: "red",
+                        ShowConfirmButton: true,
+                        confirmButtonColor: '#5cb85c',
+                        confirmButtonText: "Sí, Modificar"
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#question').append("<input type='hidden' name='btnUpdate'>");
+                            $('#frmMain').submit();
+                        }
+                    });
+
+                });
+
+                $('#btnDelete').click(function () {
+                    swal.fire({
+                        type: "question",
+                        title: "¿Desea eliminar registro?",
+                        text: "No se prodrá recuperar el registro",
+                        showCancelButton: true,
+                        cancelButtonColor: "red",
+                        ShowConfirmButton: true,
+                        confirmButtonColor: '#5cb85c',
+                        confirmButtonText: "Sí, eliminar"
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#question').append("<input type='hidden' name='btnDelete'>");
+                            $('#frmMain').submit();
+                        }
+                    });
+                });
+            });
+
+        </script>
+        <%
+            if ((request.getSession().getAttribute("msj") != null)
+                    && (request.getSession().getAttribute("conta").equals(1))) {
+        %>
+        <script type="text/javascript">
+
+            Swal.fire(
+                    'Project',
+                    '<%= request.getSession().getAttribute("msj")%>',
+                    '<%= request.getSession().getAttribute("type")%>'
+                    );
+
+        </script>
+        <%
+                request.getSession().setAttribute("conta", 2);
+            }
+        %>
+    </header>
 <center><h2><%= session.getAttribute("name_attr")%> Equipment in use CRUD</h2></center>
 <div class="container">
     <form id="frmMain" action="inUseDetController" method="POST">
+        <div id="question"></div>
         <input type="hidden" name="slctProId" id="slctProId" value="<%= (Integer) session.getAttribute("id_attr")%>" class='form-control'>
-
+        <input type="hidden" name="vliStock" id="vliStock">
         <div class='row'>
             <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
             <div class='col-md-6'>
                 <label>Equipment</label>
-                <select name="slctEqId" id="slctEqId" class='form-control'>
+                <select name="slctEqId" id="slctEqId" required="required" class='form-control'>
+                    <option value="">Elige una opción</option>
                     <%
                         List<Equipment> lst = equ.showEqu();
                         for (Equipment e : lst) {
                     %>
-                    <option value="<%= e.getId()%>"><%= e.getName()%> <%= e.getModel()%></option>
+                    <option value="<%= e.getId()%>"><%= e.getName()%> <%= e.getModel()%>
+                          (<%= e.getStock()%> En Stock)</option>
                     <%
                         }
                     %>
@@ -77,11 +159,19 @@
         <div class='row'>
             <div class='col-md-6'>
                 <label>en projecto desde</label>
-                <input type="date" name="datFrom" id="datFrom" class='form-control' min='' max='' required/>
+                <input type="date" name="datFrom" id="datFrom" class='form-control' 
+                       value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>"
+                       min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
+                       max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' 
+                       required/>
             </div>
             <div class='col-md-6'>
                 <label>en projecto hasta</label>
-                <input type="date" name="datTo" id="datTo" class='form-control' min='' max='' required/>
+                <input type="date" name="datTo" id="datTo" class='form-control'
+                       value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>"
+                       min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
+                       max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' 
+                       required/>
             </div>
 
         </div>
@@ -89,7 +179,10 @@
         <div class='row'>
             <div class='col-md-6'>
                 <label>Número de unidades a asignar </label>
-                <input type="number" name="numEqQu" id="numEqQu" min="1" step="1" class='form-control' required/>
+
+                <input type="number" name="numEqQu" id="numEqQu"
+                       value="" min="1" 
+                       step="1" class='form-control' required/>
             </div>
             <div class='col-md-6'>
                 <label>Precio Unitario de rentaje</label>
@@ -99,10 +192,10 @@
 
 
         <br>
-        <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-        <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-        <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-        <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
+        <input type="reset" name="btnNew" onclick="clean();" value="Add/Clear" class="btn btn-outline-info"/>
+        <input type="submit" disabled="disabled" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
+        <input type="button" disabled="disabled" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
+        <input type="button" disabled="disabled" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
     </form>
     <br>
     <table  class='table table-hover'>
@@ -130,22 +223,22 @@
         <tr>
             <td><%= name%></td>
             <td><%= i.getEquipment_quantity()%></td> 
-            <td><%= equ.getEqu(i.getEquipment_id()).getStock() %></td>
+            <td><%= equ.getEqu(i.getEquipment_id()).getStock()%></td>
             <td><%= i.getIn_pro_from()%></td>
             <td><%= i.getIn_pro_to()%></td>
             <td><%= i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())%></td>
-            <td><%= df.format(i.getCost())%></td>
+            <td>$<%= df.format(i.getCost())%></td>
             <%
                 //here we need to calculate total cost per truck daysInUse
                 totalM = (i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())) * (i.getCost() * i.getEquipment_quantity());
                 totalFM = totalFM + totalM;
 
             %>
-            <td><%= df.format(totalM)%></td>
+            <td>$<%= df.format(totalM)%></td>
             <td>
                 <a href="javascript:myLoad(<%= i.getId()%>,<%= i.getEquipment_id()%>,<%= i.getProject_id()%>, 
                    '<%= i.getIn_pro_from()%>', '<%= i.getIn_pro_to()%>', <%= i.getEquipment_quantity()%>, 
-                   <%= i.getCost()%>)">Select</a></td>
+                   <%= i.getCost()%>, <%= equ.getEqu(i.getEquipment_id()).getStock()%>)">Select</a></td>
             </td>
             <%
                 }
@@ -153,8 +246,8 @@
 
         </tr>
         <tr>
-            <th colspan="7">Total</th>
-            <th><%= df.format(totalFM)%></th>
+            <th colspan="8">Total</th>
+            <th>$<%= df.format(totalFM)%></th>
 
         </tr>
     </table>
