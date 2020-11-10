@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 * Nombre del servlet: LoginController
 * Fecha: 27-10-2020
 * CopyRight: OpenSource
-* Version: 1.0
-* @author Quintanilla Bernabe
+* Version: 2.0
+* @author Quintanilla Bernabe, ismael
  */
 public class LoginController extends HttpServlet {
 
@@ -26,8 +26,10 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
+        String vali = "";
         try {
             int level=0;
+            
             if(request.getParameter("btnLogIn")!=null){
                 Users usr = new Users();
                 Role rol = new Role();
@@ -44,11 +46,15 @@ public class LoginController extends HttpServlet {
                     session.setAttribute("usrId",usr.getId());
                     session.setAttribute("rolName",rolName);
                     session.setAttribute("profPic",profPic);
+                    session.setAttribute("bandera2",1);
                     response.sendRedirect("index.jsp");
                 }
                 else{
                     //aqui una alerta de invalid user or password
                     //JOptionPane.showMessageDialog(null, "invalid user or pwd" + level);
+                     vali = "Usuario o contraseña invalido";
+                    session.setAttribute("vl",vali);
+                    session.setAttribute("bandera",1);//valida que no aparezca el mensaje más de una vez al recargar la pagina
                     response.sendRedirect("login.jsp");
                 }
             }
@@ -59,7 +65,9 @@ public class LoginController extends HttpServlet {
             }
             if(request.getParameter("nosession")!=null){
                 session.invalidate();
-                //aqui tiene que ir un alert de que necesita iniciar sesion para entrar al programa
+                 vali = "Necesita iniciar sesion para entrar al Constru SV";
+                 session.setAttribute("vl",vali);//---Mensaje
+                 session.setAttribute("bandera",1);
                 response.sendRedirect("login.jsp");
             }
         } catch (Exception e) {

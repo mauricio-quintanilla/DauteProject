@@ -1,7 +1,7 @@
 <%-- 
     Document   : department
     Created on : Oct 19, 2020, 1:53:15 AM
-    Author     : demon
+    Author     : demon, ismael
 --%>
 
 <%@page import="java.util.List"%>
@@ -30,11 +30,21 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
-        <script type="text/javascript" src="sweetalert2.all.min.js"></script>
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
         <script>
             function myLoad(id, name) {
                 $("#txtDeptId").val(id);
                 $("#txtDeptName").val(name);
+                
+                $('#btnUpdate').attr('disabled',false);
+                $('#btnDelete').attr('disabled',false);
+                $('#btnCreate').attr('disabled',true); 
+            }
+            
+            function clean(){
+                $('#btnCreate').attr('disabled',false);
+                $('#btnUpdate').attr('disabled',true);
+                $('#btnDelete').attr('disabled',true);
             }
         </script>
     </head>
@@ -43,17 +53,64 @@
     %>
     <body class="bg-black">
         <header>
-            <%
-                if (request.getSession().getAttribute("msj") != null) {
-            %>
-            <script type="text/javascript">
-                Swal.fire(
-                    'Department',
-                    '<%= request.getSession().getAttribute("msj")%>',
-                    'success'
-                );
+            <script>
+                $(document).ready(function () {
+
+                    //update question
+                    $('#btnUpdate').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea Modficar el registro?",
+                            text: "La modificación será irreversible",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, Modificar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnUpdate'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+
+                    });
+
+                    $('#btnDelete').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea eliminar registro?",
+                            text: "No se prodrá recuperar el registro",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, eliminar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnDelete'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+                    });
+                });
+
             </script>
             <%
+                if (request.getSession().getAttribute("msj") != null
+                        && request.getSession().getAttribute("conta").equals(1)) {
+            %>
+            <script type="text/javascript">
+
+                Swal.fire(
+                        'Department',
+                        '<%= request.getSession().getAttribute("msj")%>',
+                        'success'
+                        );
+
+            </script>
+            <%
+                    request.getSession().setAttribute("conta", 2);
                 }
             %>
         </header>
@@ -76,14 +133,14 @@
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">ProjectVIew</a></div>
                     </div>
                 </div>
-                
+
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
                     <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
                         <h1 class="font-bold text-lg text-center">Usuarios:</h1>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="role.jsp">Gestionar Roles</a></div>
-                    
+
                     </div>
                 </div>
             </div>
@@ -117,48 +174,49 @@
             <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
         </div>
         <div class="text-white flex justify-center w-full md:w-auto mt-4">
-                <form id="frmMain" action="departmentController" method="POST">
-                    <input type="hidden" name="txtDeptId" id="txtDeptId" value="0"/>
-                    <label class="font-bold text-lg">Nombre: </label>
-                    <input type="text" name="txtDeptName" id="txtDeptName" class="text-black font-bold text-lg p-2 rounded" required/>
-                    <div class="mt-8">
-                        <input type="reset" name="btnNew" value="Limpiar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input type="submit" name="btnCreate" id="btnCreate" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                    </div>
-                </form>
+            <form id="frmMain" action="departmentController" method="POST">
+                <div id="question"></div>
+                <input type="hidden" name="txtDeptId" id="txtDeptId" value="0"/>
+                <label class="font-bold text-lg">Nombre: </label>
+                <input type="text" name="txtDeptName" id="txtDeptName" class="text-black font-bold text-lg p-2 rounded" required/>
+                <div class="mt-8">
+                    <input type="reset" name="btnNew" value="Limpiar" onclick="clean();" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    <input type="submit" name="btnCreate" id="btnCreate" disabled="disabled" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    <input type="button" id="btnUpdate" value="Actualizar" disabled="disabled" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    <input type="button" id="btnDelete" value="Eliminar" disabled="disabled"  class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                </div>
+            </form>
         </div>
         <div class="text-white flex justify-center w-full md:w-auto mt-4">
-    
-                <table>
-                    <thead>
-                        <th class="border-2 border-white border-dashed p-4 text-lg">ID</th>
-                        <th class="border-2 border-white border-dashed p-4 text-lg">Nombre</th>
-                        <th class="border-2 border-white border-dashed p-4 text-lg">Seleccionar</th>
-                    </thead>
-                    <tbody>
+
+            <table>
+                <thead>
+                <th class="border-2 border-white border-dashed p-4 text-lg">ID</th>
+                <th class="border-2 border-white border-dashed p-4 text-lg">Nombre</th>
+                <th class="border-2 border-white border-dashed p-4 text-lg">Seleccionar</th>
+                </thead>
+                <tbody>
                     <%
                         List<Department> lst = dpt.showDept();
                         for (Department d : lst) {
                     %>
-                        <tr>
-                            <td class="border-2 border-white border-dashed p-4 text-center font-bold"><%= d.getId()%></td>
-                            <td class="border-2 border-white border-dashed p-4"><%= d.getName()%></td>
-                            <td class="border-2 border-white border-dashed p-4">
-                                <a href="javascript:myLoad('<%= d.getId()%>','<%= d.getName()%>')" class="font-bold text-blue-500 hover:underline">Seleccionar</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="border-2 border-white border-dashed p-4 text-center font-bold"><%= d.getId()%></td>
+                        <td class="border-2 border-white border-dashed p-4"><%= d.getName()%></td>
+                        <td class="border-2 border-white border-dashed p-4">
+                            <a href="javascript:myLoad('<%= d.getId()%>','<%= d.getName()%>')" class="font-bold text-blue-500 hover:underline">Seleccionar</a>
+                        </td>
+                    </tr>
                     <%
                         }
                     %>
-                    </tbody>
-                </table>
-                <br>
-                
-            </div>
+                </tbody>
+            </table>
+            <br>
+
         </div>
+    </div>
     <!-- Navbar -->
     <script src="js/navbar.js"></script>
-    </body>
+</body>
 </html>
