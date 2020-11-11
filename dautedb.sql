@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2020 at 12:22 PM
+-- Generation Time: Nov 11, 2020 at 07:21 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dautedb2`
+-- Database: `dautedb`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE `client` (
   `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `phone_number` varchar(255) DEFAULT NULL,
-  `NIT` varchar(255) DEFAULT NULL UNIQUE,
+  `NIT` varchar(255) DEFAULT NULL,
   `company_name` varchar(255) DEFAULT NULL,
   `company_address` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
@@ -43,11 +43,11 @@ CREATE TABLE `client` (
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`id`, `name`, `email`, `phone_number`, `NIT`, `company_name`, `company_address`,`user_id`) VALUES
-(3, 'Ing. Fulanito Menganito', 'fulanito@holcim.com.sv', '7171-7171', '0611-061099-112-2', 'Holcim SA de CV', 'col no address av no adress 2266 #22 SS',-1),
-(4, 'Menganita', 'menganita@itca.edu.sv', '2257-7777', '0614-142536-112-1', 'Itca fepade', 'col santa tecla santa tecla LL',-1),
-(5, 'Zapatero', 'zapatero@adoc.com.sv', '2154-2154', '0614-362514-112-2', 'ADOC', 'col soyapango san salvador',-1),
-(6, 'Muray Meza', 'murray@laconstancia.com.sv', '2222-8080', '0615-215487-212-2', 'La Constancia S.A de C.V', 'Avenida Independencia, #526, S.S.',-1);
+INSERT INTO `client` (`id`, `name`, `email`, `phone_number`, `NIT`, `company_name`, `company_address`, `user_id`) VALUES
+(3, 'Ing. Fulanito Menganito', 'fulanito@holcim.com.sv', '7171-7171', '0611-061099-112-2', 'Holcim SA de CV', 'col no address av no adress 2266 #22 SS', -1),
+(4, 'Menganita', 'menganita@itca.edu.sv', '2257-7777', '0614-142536-112-1', 'Itca fepade', 'col santa tecla santa tecla LL', -1),
+(5, 'Zapatero', 'zapatero@adoc.com.sv', '2154-2154', '0614-362514-112-2', 'ADOC', 'col soyapango san salvador', -1),
+(6, 'Muray Meza', 'murray@laconstancia.com.sv', '2222-8080', '0615-215487-212-2', 'La Constancia S.A de C.V', 'Avenida Independencia, #526, S.S.', -1);
 
 -- --------------------------------------------------------
 
@@ -85,12 +85,11 @@ CREATE TABLE `employees` (
   `dob` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `phone_number` varchar(255) DEFAULT NULL,
-  `DUI` varchar(255) DEFAULT NULL UNIQUE,
-  `NIT` varchar(255) DEFAULT NULL UNIQUE,
+  `DUI` varchar(255) DEFAULT NULL,
+  `NIT` varchar(255) DEFAULT NULL,
   `salary` double DEFAULT NULL,
   `position_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -98,15 +97,15 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `first_name`, `last_name`, `dob`, `address`, `phone_number`, `DUI`, `NIT`, `salary`, `position_id`, `user_id`, `status`, `image`) VALUES
-(1, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2257-7777', '01254758-9', '0611-121212-121-1', 666.66, 6, 1, 'Unavailable', 'nopic.png'),
-(2, 'Melissa', 'Bonilla', '2002-12-10', 'no no no', '2257-7777', '11111111-5', '1548-595959', 700, 8, 5, 'Unavailable', 'nopic.png'),
-(5, 'Luis', 'Bonilla', '2002-12-03', 'col luis bonilla', '2255-9966', '25414785-9', '2154-326598-987-4', 700, 2, 3, 'Unavailable', 'nopic.png'),
-(7, 'Ismael', 'Castillo', '2000-12-02', 'isma place', '8754-8754', '69584758-9', '3625-144758-698-9', 700, 7, 4, 'Unavailable', 'nopic.png'),
-(8, 'iris', 'carpio', '2002-12-24', 'iris', '98764', '987987987', '987987', 987, 7, 6, 'Unavailable', 'nopic.png'),
-(10, 'Giovanni', 'Tzec', '2002-12-31', 'col itca', '6666-6666', '987654-654321', '6546798-654', 700, 9, 7, 'Unavailable', 'nopic.png'),
-(14, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2257-7777', '01254758-3', '0611-121212-121-2', 666.66, 6, 1, 'Unavailable', 'nopic.png'),
-(15, 'luis', 'merino', '2002-12-18', 'asamblea legislativa', '2154-8754', '01478523-9', '0616-458985-987-4', 500, 2, -1, 'Unavailable', 'nopic.png');
+INSERT INTO `employees` (`id`, `first_name`, `last_name`, `dob`, `address`, `phone_number`, `DUI`, `NIT`, `salary`, `position_id`, `user_id`, `image`) VALUES
+(1, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2257-7777', '01254758-9', '0611-121212-121-1', 666.66, 6, 1, 'nopic.png'),
+(2, 'Melissa', 'Bonilla', '2002-12-10', 'no no no', '2257-7777', '11111111-5', '1548-595959', 700, 8, 5, 'nopic.png'),
+(5, 'Luis', 'Bonilla', '2002-12-03', 'col luis bonilla', '2255-9966', '25414785-9', '2154-326598-987-4', 700, 2, 3, 'nopic.png'),
+(7, 'Ismael', 'Castillo', '2000-12-02', 'isma place', '8754-8754', '69584758-9', '3625-144758-698-9', 700, 7, 4, 'nopic.png'),
+(8, 'iris', 'carpio', '2002-12-24', 'iris', '98764', '987987987', '987987', 987, 7, 6, 'nopic.png'),
+(10, 'Giovanni', 'Tzec', '2002-12-31', 'col itca', '6666-6666', '987654-654321', '6546798-654', 700, 2, 7, 'nopic.png'),
+(15, 'luis', 'merino', '2002-12-18', 'asamblea legislativa', '2154-8754', '01478523-9', '0616-458985-987-4', 500, 2, -1, 'nopic.png'),
+(17, 'pedro', 'aznar', '2002-12-03', 'baires', '3265-9865', '01258746-5', '0612-458798-985-4', 600, 2, -1, 'nopic.png');
 
 -- --------------------------------------------------------
 
@@ -258,7 +257,7 @@ CREATE TABLE `project` (
 INSERT INTO `project` (`id`, `name`, `description`, `started_date`, `finish_date`, `address`, `lat`, `lng`, `client_id`, `status`) VALUES
 (1, 'Ampliacion Itca', 'Construccion 5ta planta edificio b', '2020-11-02', '2020-11-27', 'santa tecla itca edif b', '13.674010189525355', '-89.27885055541992', 3, 'activo'),
 (3, 'Edif Cholate', 'contruccion edificio chocolate 15 plantas ', '2020-12-16', '2021-01-13', 'chocolatelandia', '13.699270111105124', '-89.10703082495961', 4, 'no-iniciado'),
-(4, 'Los jardines de babilonia', 'Jardines Flotantes de babilonia', '2020-11-11', '2020-11-30', 'babilonia', '30.730063767905886', '35.79234850044137', 3, 'no-iniciado'),
+(4, 'Los jardines de babilonia', 'Jardines Colgantes de babilonia', '2020-11-10', '2020-11-30', 'babilonia', '31.761377794215278', '35.210795402526855', 3, 'activo'),
 (5, 'Nueva Planta ADOC', 'construccion planta n5 ADOC', '2020-12-01', '2021-01-31', 'bosques de prusia soyapando', '13.719778133527141', '-89.19504056245091', 5, 'no-iniciado'),
 (6, 'Construccion Molino Principal', 'Molino para Cereales 4.50 tons', '2020-11-02', '2020-11-08', 'av revolucion san salvador / planta 4 la constancia', '13.699068259084237', '-89.18061138295043', 6, 'finalizado');
 
@@ -332,12 +331,14 @@ CREATE TABLE `working_on_project` (
 --
 
 INSERT INTO `working_on_project` (`id`, `project_id`, `employee_id`, `in_pro_from`, `in_pro_to`, `cost`) VALUES
-(5, 1, 1, '2020-11-02', '2020-11-04', 700.5),
-(9, 4, 5, '2002-12-01', '2002-12-26', 900),
-(14, 3, 7, '2020-12-16', '2021-01-13', 200),
-(15, 3, 8, '2020-12-16', '2021-01-14', 500),
-(16, 5, 10, '2020-12-15', '2021-01-28', 500),
-(17, 6, 15, '2020-11-02', '2020-11-08', 700);
+(18, 1, 1, '2020-11-03', '2020-11-12', 800),
+(19, 1, 5, '2020-11-02', '2020-11-27', 900),
+(20, 3, 2, '2020-12-16', '2021-01-13', 900),
+(21, 3, 8, '2020-12-16', '2021-01-07', 1000),
+(22, 4, 7, '2020-11-10', '2020-11-30', 999.99),
+(23, 4, 10, '2020-11-10', '2020-11-18', 900),
+(24, 5, 15, '2020-12-01', '2021-01-31', 850),
+(25, 6, 17, '2020-11-02', '2020-11-08', 875.95);
 
 --
 -- Indexes for dumped tables
@@ -348,6 +349,7 @@ INSERT INTO `working_on_project` (`id`, `project_id`, `employee_id`, `in_pro_fro
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `NIT` (`NIT`),
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -361,6 +363,8 @@ ALTER TABLE `department`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `DUI` (`DUI`),
+  ADD UNIQUE KEY `NIT` (`NIT`),
   ADD KEY `position_id` (`position_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -440,7 +444,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `equipment`
@@ -488,7 +492,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `working_on_project`
 --
 ALTER TABLE `working_on_project`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
@@ -499,7 +503,6 @@ ALTER TABLE `working_on_project`
 --
 ALTER TABLE `client`
   ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
 
 --
 -- Constraints for table `employees`

@@ -135,7 +135,7 @@ public class Equipment extends Conexion{
             pre.setString(3, equ.getModel());
             pre.setString(4, equ.getDescription());
             pre.setString(5, equ.getBrand());
-            pre.setInt(6, equ.getStock());
+            pre.setInt(6, equ.getInventory());
             pre.setInt(7, equ.getInventory());
             pre.setInt(8, equ.getType());
             pre.setDouble(9, equ.getRentalPrice());

@@ -51,12 +51,12 @@ public class DepartmentController extends HttpServlet {
                 msj=dpt.deleteDept(dpt);
                 dpt.trkLogD(usrId, dc);
             }
-            response.sendRedirect("department.jsp");
+            
            
             
             request.getSession().setAttribute("msj",msj);
             request.getSession().setAttribute("conta",1);
-            
+            response.sendRedirect("department.jsp");
             
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());

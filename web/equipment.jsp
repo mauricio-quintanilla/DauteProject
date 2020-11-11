@@ -30,7 +30,7 @@
         <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
         <!-- SWEET ALERT -->
-        <script type="text/javascript" src="sweetalert2.all.min.js"></script>
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
         
         <script>
             function myLoad(id, name, model, desc, brand, stock, inv, type, rentalPrice, image) {
@@ -44,6 +44,16 @@
                 $("#numType").val(type);
                 $("#rentalPrice").val(rentalPrice);
                 $("#fileImgBU").val(image);
+                
+                $('#btnUpdate').attr('disabled',false);
+                $('#btnDelete').attr('disabled',false);
+                $('#btnCreate').attr('disabled',true); 
+            }
+            
+            function clean(){
+                $('#btnCreate').attr('disabled',false);
+                $('#btnUpdate').attr('disabled',true);
+                $('#btnDelete').attr('disabled',true);
             }
         </script>
     </head>
@@ -51,6 +61,67 @@
     Equipment equ = new Equipment();
 %>
     <body class="bg-black">
+        <header>
+            <script>
+                $(document).ready(function () {
+
+                    //update question
+                    $('#btnUpdate').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea Modficar el registro?",
+                            text: "La modificación será irreversible",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, Modificar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnUpdate'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+
+                    });
+
+                    $('#btnDelete').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea eliminar registro?",
+                            text: "No se prodrá recuperar el registro",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, eliminar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnDelete'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+                    });
+                });
+
+            </script>
+            <%//&& 
+                if (request.getSession().getAttribute("msj") != null && request.getSession().getAttribute("conta").equals(1)) {
+            %>
+            <script type="text/javascript">
+
+                Swal.fire(
+                        'Department',
+                        '<%= request.getSession().getAttribute("msj")%>',
+                        'success'
+                        );
+
+            </script>
+            <%
+                    request.getSession().setAttribute("conta", 2);
+                }
+            %>
+        </header>
         <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
             <div class="flex items-center justify-center w-ful flex-wrap">
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
@@ -115,6 +186,7 @@
 
         <div class="text-white flex justify-center w-full mt-4 px-4">
             <form id="frmMain" action="" method="POST" enctype="multipart/form-data">
+                <div id="question"></div>
                     <input type="hidden" name="txtId" id="txtId" value="0"/>
 
                     <div class="flex flex-wrap w-full">
@@ -133,17 +205,17 @@
 
                         </div>
                         <div class="w-full md:w-1/2 md:pl-4">
-                            <label class="font-bold text-lg">En Almacen: </label><br>
-                            <input type="number" name="numStock" id="numStock" class='text-black font-bold text-lg p-2 rounded w-full' min="0" step="1" required/><br>
+                            <label class="font-bold text-lg">En Stock: </label><br>
+                            <input type="number" name="numStock" readonly="readonly" value="0" id="numStock" class='text-black font-bold text-lg p-2 rounded w-full' min="0" step="1" required/><br>
     
-                            <label class="font-bold text-lg">Inventario: </label><br>
+                            <label class="font-bold text-lg">Unidades en Inventario: </label><br>
                             <input type="number" name="numInv" id="numInv" class='text-black font-bold text-lg p-2 rounded w-full' min="1" step="1" required/><br>
 
                             <label class="font-bold text-lg">Tipo: </label><br>
                             <input type="number" name="numType" id="numType" class='text-black font-bold text-lg p-2 rounded w-full' min="1" step="1" required/><br>
 
-                            <label class="font-bold text-lg">Depreciación Diaria: </label><br>
-                            <input type="number" name="rentalPrice" id="rentalPrice" min='0.00' step="0.01" max="100" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <label class="font-bold text-lg">Precio de renta Diario (unitario): </label><br>
+                            <input type="number" name="rentalPrice" id="rentalPrice" min='1' step="0.01" max="500000" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
 
                             <label class="font-bold text-lg">Imagen: </label><br>
                             <input type="file" class="bg-white text-black font-bold text-lg p-2 rounded w-full" name="fileImg" id="fileImg" value="Escoge un Archivo"><br>
@@ -154,10 +226,10 @@
                     <input type="hidden" name="fileImgBU" id="fileImgBU" value=""/>
                 <div class="mt-8">
                     <div class="md:flex md:justify-center w-full p-2">
-                        <input type="reset" name="btnNew" value="Limpiar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="equipmentController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="equipmentController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="equipmentController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="reset" onclick="clean()" name="btnNew" value="Limpiar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input disabled formaction="equipmentController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input disabled formaction="equipmentController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input disabled formaction="equipmentController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                     </div>    
                 </div>
             </form>
@@ -175,7 +247,7 @@
                     <th class="border-2 border-white border-dashed p-4 text-lg">En Almacen:</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Inventario</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Tipo</th>
-                    <th class="border-2 border-white border-dashed p-4 text-lg">Depreciación Diaria</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Precio de renta Diario (unitario)</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Imagen</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Seleccionar</th>
                 </thead>
@@ -193,7 +265,7 @@
                         <td class="border-2 border-white border-dashed p-4"><%= e.getStock()%> units</td>
                         <td class="border-2 border-white border-dashed p-4"><%= e.getInventory()%> units</td>
                         <td class="border-2 border-white border-dashed p-4"><%= e.getType()%></td>
-                        <td class="border-2 border-white border-dashed p-4"><%= e.getRentalPrice()%>%</td>
+                        <td class="border-2 border-white border-dashed p-4">$<%= e.getRentalPrice()%></td>
                         <td class="border-2 border-white border-dashed p-4"><img src="imgs/<%= e.getImage()%>" width="100px"></td>
                         <td class="border-2 border-white border-dashed p-4">
                             <a href="javascript:myLoad('<%= e.getId()%>','<%= e.getName()%>','<%= e.getModel()%>',
