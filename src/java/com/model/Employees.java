@@ -147,6 +147,7 @@ public class Employees extends Conexion {
     }
 //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="create employee">
     public String createEmp(Employees emp) {
         try {
             this.conectar();
@@ -172,7 +173,7 @@ public class Employees extends Conexion {
             this.desconectar();
         }
     }
-
+//</editor-fold>
     public String updateEmp(Employees emp) {
         try {
             this.conectar();

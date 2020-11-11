@@ -28,7 +28,6 @@
                 color:red;
             }
         </style>
-
     </head>
     <body>
         <%
@@ -91,11 +90,9 @@
                             <h2><%= session.getAttribute("name_attr")%></h2>
                             <a>De (<%= session.getAttribute("dIni")%>) hasta (<%= session.getAttribute("dFin")%>)</a>
                             <h5 class="tr"><%= session.getAttribute("status_attr")%></h5>
-                            
                     </center>
                 </div>
             </section>
-
             <div class="album py-5 bg-light">
                 <div class="container">
                     <div class="row justify-content-center">

@@ -277,5 +277,25 @@ public class InUse extends Conexion{
         double nod = (ChronoUnit.DAYS.between(dateBefore, dateAfter))+1;
         return nod;
     }
-     
+    public InUse getQuantInPro(int idEq, int idPro ){
+        InUse inu = new InUse();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select equipment_quantity from in_use WHERE project_id=? AND equipment_id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,idPro);
+            pre.setInt(2,idEq);
+            res=pre.executeQuery();
+            while(res.next()){
+                inu.setEquipment_quantity(res.getInt("equipment_quantity"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return inu;
+    }
 }

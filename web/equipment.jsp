@@ -33,13 +33,12 @@
         <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
         
         <script>
-            function myLoad(id, name, model, desc, brand, stock, inv, type, rentalPrice, image) {
+            function myLoad(id, name, model, desc, brand, inv, type, rentalPrice, image) {
                 $("#txtId").val(id);
                 $("#txtName").val(name);
                 $("#txtModel").val(model);
                 $("#txtDesc").val(desc);
                 $("#txtBrand").val(brand);
-                $("#numStock").val(stock);
                 $("#numInv").val(inv);
                 $("#numType").val(type);
                 $("#rentalPrice").val(rentalPrice);
@@ -205,8 +204,6 @@
 
                         </div>
                         <div class="w-full md:w-1/2 md:pl-4">
-                            <label class="font-bold text-lg">En Stock: </label><br>
-                            <input type="number" name="numStock" readonly="readonly" value="0" id="numStock" class='text-black font-bold text-lg p-2 rounded w-full' min="0" step="1" required/><br>
     
                             <label class="font-bold text-lg">Unidades en Inventario: </label><br>
                             <input type="number" name="numInv" id="numInv" class='text-black font-bold text-lg p-2 rounded w-full' min="1" step="1" required/><br>
@@ -244,7 +241,6 @@
                     <th class="border-2 border-white border-dashed p-4 text-lg">Modelo</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Descripción</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Marca</th>
-                    <th class="border-2 border-white border-dashed p-4 text-lg">En Almacen:</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Inventario</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Tipo</th>
                     <th class="border-2 border-white border-dashed p-4 text-lg">Precio de renta Diario (unitario)</th>
@@ -262,14 +258,13 @@
                         <td class="border-2 border-white border-dashed p-4"><%= e.getModel()%></td>
                         <td class="border-2 border-white border-dashed p-4"><%= e.getDescription()%></td>
                         <td class="border-2 border-white border-dashed p-4"><%= e.getBrand()%></td>
-                        <td class="border-2 border-white border-dashed p-4"><%= e.getStock()%> units</td>
                         <td class="border-2 border-white border-dashed p-4"><%= e.getInventory()%> units</td>
                         <td class="border-2 border-white border-dashed p-4"><%= e.getType()%></td>
                         <td class="border-2 border-white border-dashed p-4">$<%= e.getRentalPrice()%></td>
                         <td class="border-2 border-white border-dashed p-4"><img src="imgs/<%= e.getImage()%>" width="100px"></td>
                         <td class="border-2 border-white border-dashed p-4">
                             <a href="javascript:myLoad('<%= e.getId()%>','<%= e.getName()%>','<%= e.getModel()%>',
-                               '<%= e.getDescription()%>','<%= e.getBrand()%>','<%= e.getStock()%>','<%= e.getInventory()%>',
+                               '<%= e.getDescription()%>','<%= e.getBrand()%>','<%= e.getInventory()%>',
                                '<%= e.getType()%>','<%= e.getRentalPrice()%>','<%= e.getImage()%>')"
                                class="font-bold text-blue-500 hover:underline">Seleccionar</a>
                         </td>

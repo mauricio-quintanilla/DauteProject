@@ -46,6 +46,10 @@
 
     <script>
         function myLoad(id, equi, proj, df, dt, eqQ, cst, stock) {
+            var textSelected = document.getElementById("slctEqId");
+            var str = textSelected.options[textSelected.selectedIndex].text;
+            var maxi = str.match(/\(([^)]+)\)/)[1];
+            $("#numEqQu").attr('max', stock);
             $("#txtId").val(id);
             $("#slctEqId").val(equi);
             $("#slctProId").val(proj);
@@ -54,11 +58,18 @@
             $("#numEqQu").val(eqQ);
             $("#numCost").val(cst);
             $("#vliStock").val(eqQ);
-            $("#numEqQu").attr('max', $("#stock").val());
-
             $('#btnUpdate').attr('disabled', false);
             $('#btnDelete').attr('disabled', false);
             $('#btnCreate').attr('disabled', true);
+        }
+        
+        function getMInMax(){
+            var textSelected = document.getElementById("slctEqId");
+            var str = textSelected.options[textSelected.selectedIndex].text;
+            var patt = /\((\d)\)/;
+            var maxi = str.match(/\(([^)]+)\)/)[1];
+            $("#numEqQu").attr('max', maxi);
+            $("#numEqQu").val(1);
         }
 
         function clean() {
@@ -142,19 +153,22 @@
             <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
             <div class='col-md-6'>
                 <label>Equipment</label>
-                <select name="slctEqId" id="slctEqId" required="required" class='form-control'>
-                    <option value="">Elige una opción</option>
+                <select name="slctEqId" id="slctEqId" required="required" class='form-control' onchange="getMInMax()">
                     <%
                         List<Equipment> lst = equ.showEqu();
                         for (Equipment e : lst) {
+                            int inv = e.getInventory();
+                            int quant = inu.getQuantInPro(e.getId(),(Integer) session.getAttribute("id_attr")).getEquipment_quantity();
+                            int stockTrue = inv - quant;
                     %>
                     <option value="<%= e.getId()%>"><%= e.getName()%> <%= e.getModel()%>
-                          (<%= e.getStock()%> En Stock)</option>
+                        En Stock (<%= stockTrue%>)</option>
                     <%
                         }
                     %>
                 </select>
             </div>
+                
         </div>
         <div class='row'>
             <div class='col-md-6'>
@@ -180,13 +194,12 @@
             <div class='col-md-6'>
                 <label>Número de unidades a asignar </label>
 
-                <input type="number" name="numEqQu" id="numEqQu"
-                       value="" min="1" 
+                <input type="number" name="numEqQu" id="numEqQu" max="" min="1"
                        step="1" class='form-control' required/>
             </div>
             <div class='col-md-6'>
-                <label>Precio Unitario de rentaje</label>
-                <input type="number" name="numCost" id="numCost" min="5" step="1" class='form-control' required/>
+                <label>Precio Unitario de alquiler</label>
+                <input type="number" name="numCost" id="numCost" min="5" step="0.01" class='form-control' required/>
             </div>
         </div>
 
@@ -223,7 +236,7 @@
         <tr>
             <td><%= name%></td>
             <td><%= i.getEquipment_quantity()%></td> 
-            <td><%= equ.getEqu(i.getEquipment_id()).getStock()%></td>
+            <td><%= equ.getEqu(i.getEquipment_id()).getInventory()-i.getEquipment_quantity() %></td>
             <td><%= i.getIn_pro_from()%></td>
             <td><%= i.getIn_pro_to()%></td>
             <td><%= i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())%></td>
@@ -236,9 +249,9 @@
             %>
             <td>$<%= df.format(totalM)%></td>
             <td>
-                <a href="javascript:myLoad(<%= i.getId()%>,<%= i.getEquipment_id()%>,<%= i.getProject_id()%>, 
+                <a><button onclick="myLoad(<%= i.getId()%>,<%= i.getEquipment_id()%>,<%= i.getProject_id()%>, 
                    '<%= i.getIn_pro_from()%>', '<%= i.getIn_pro_to()%>', <%= i.getEquipment_quantity()%>, 
-                   <%= i.getCost()%>, <%= equ.getEqu(i.getEquipment_id()).getStock()%>)">Select</a></td>
+          <%= i.getCost()%>, <%= equ.getEqu(i.getEquipment_id()).getInventory()-i.getEquipment_quantity() %>)">Select</button></a></td>
             </td>
             <%
                 }

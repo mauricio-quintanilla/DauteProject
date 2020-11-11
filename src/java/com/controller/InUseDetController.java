@@ -28,7 +28,6 @@ public class InUseDetController extends HttpServlet {
         Equipment equ = new Equipment();
         String msj = "";
         String type = "success";
-        int stocker = 5;
         try {
             inu.setId(Integer.parseInt(request.getParameter("txtId")));
             inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqId")));
@@ -38,32 +37,11 @@ public class InUseDetController extends HttpServlet {
             inu.setEquipment_quantity(Integer.parseInt(request.getParameter("numEqQu")));
             inu.setCost(Double.parseDouble(request.getParameter("numCost")));
 
-            //Integer.parseInt(request.getParameter("numEqQu")) >= equ.getEqu(inu.getId()).getStock()
-            stocker = equ.getEqu(inu.getEquipment_id()).getStock();
-            
-            int cambio = inu.getEquipment_quantity();
             if (request.getParameter("btnCreate") != null) {
-                if (cambio<=stocker) {
-                    equ.updateStock(inu, 1);
                     msj = inu.createInUse(inu);
-                }else {
-
-                    msj = "No se pudo hacer la inserción, no hay stock sufiente. (Stock " + stocker + ")";
-                    type = "error";
-                }
             } else if (request.getParameter("btnUpdate") != null) {
-                int cantEqu = Integer.parseInt(request.getParameter("vliStock"));
-                if ((stocker + cantEqu - cambio) >= 0) {
-                    equ.updateStock(inu, 1);
                     msj = inu.updateInUse(inu);
-                } else {
-
-                    msj = "No se pudo hacer la Modificación, no hay stock sufiente. (Stock " + stocker + ")";
-                    type = "error";
-                }
-
             } else {
-                equ.updateStock(inu, 2);
                 msj = inu.deleteInUse(inu);
             }
 

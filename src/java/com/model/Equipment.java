@@ -4,10 +4,7 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -24,7 +21,6 @@ public class Equipment extends Conexion{
     private String model;
     private String description;
     private String brand;
-    private int stock;
     private int inventory;
     private int type;
     private double rentalPrice;
@@ -33,102 +29,95 @@ public class Equipment extends Conexion{
     public Equipment() {
     }
 
-    public Equipment(int id, String name, String model, String description, String brand, int stock, int inventory, int type, double rentalPrice, String image) {
+    public Equipment(int id, String name, String model, String description, String brand, int inventory, int type, double rentalPrice, String image) {
         this.id = id;
         this.name = name;
         this.model = model;
         this.description = description;
         this.brand = brand;
-        this.stock = stock;
         this.inventory = inventory;
         this.type = type;
         this.rentalPrice = rentalPrice;
         this.image = image;
     }
 
+//<editor-fold defaultstate="collapsed" desc="getters y setters">
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public String getModel() {
         return model;
     }
-
+    
     public void setModel(String model) {
         this.model = model;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
     public String getBrand() {
         return brand;
     }
-
+    
     public void setBrand(String brand) {
         this.brand = brand;
     }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
+        
     public int getInventory() {
         return inventory;
     }
-
+    
     public void setInventory(int inventory) {
         this.inventory = inventory;
     }
-
+    
     public int getType() {
         return type;
     }
-
+    
     public void setType(int type) {
         this.type = type;
     }
-
+    
     public double getRentalPrice() {
         return rentalPrice;
     }
-
+    
     public void setRentalPrice(double rentalPrice) {
         this.rentalPrice = rentalPrice;
     }
-
+    
     public String getImage() {
         return image;
     }
-
+    
     public void setImage(String image) {
         this.image = image;
     }
+//</editor-fold>
     public String createEqu(Equipment equ){
         try {
             this.conectar();
-            String sql="INSERT INTO equipment VALUES(?,?,?,?,?,?,?,?,?,?)";
+            String sql="INSERT INTO equipment VALUES(?,?,?,?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setString(2, equ.getName());
@@ -136,10 +125,9 @@ public class Equipment extends Conexion{
             pre.setString(4, equ.getDescription());
             pre.setString(5, equ.getBrand());
             pre.setInt(6, equ.getInventory());
-            pre.setInt(7, equ.getInventory());
-            pre.setInt(8, equ.getType());
-            pre.setDouble(9, equ.getRentalPrice());
-            pre.setString(10, equ.getImage());
+            pre.setInt(7, equ.getType());
+            pre.setDouble(8, equ.getRentalPrice());
+            pre.setString(9, equ.getImage());
             pre.executeUpdate();
             return "Equipment successfuly created";
         } catch (Exception e) {
@@ -152,18 +140,17 @@ public class Equipment extends Conexion{
     public String updateEqu(Equipment equ){
         try {
             this.conectar();
-            String sql="UPDATE equipment SET name=?, model=?, description=?, brand=?, stock=?, inventory=?, type=?, rental_price=?, image=? WHERE id=?";
+            String sql="UPDATE equipment SET name=?, model=?, description=?, brand=?, inventory=?, type=?, rental_price=?, image=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1, equ.getName());
             pre.setString(2, equ.getModel());
             pre.setString(3, equ.getDescription());
             pre.setString(4, equ.getBrand());
-            pre.setInt(5, equ.getStock());
-            pre.setInt(6, equ.getInventory());
-            pre.setInt(7, equ.getType());
-            pre.setDouble(8, equ.getRentalPrice());
-            pre.setString(9, equ.getImage());
-            pre.setInt(10, equ.getId());
+            pre.setInt(5, equ.getInventory());
+            pre.setInt(6, equ.getType());
+            pre.setDouble(7, equ.getRentalPrice());
+            pre.setString(8, equ.getImage());
+            pre.setInt(9, equ.getId());
             pre.executeUpdate();
             return "Equipment successfuly updated";
         } catch (Exception e) {
@@ -203,7 +190,6 @@ public class Equipment extends Conexion{
                 equ.setModel(res.getString("model"));
                 equ.setDescription(res.getString("description"));
                 equ.setBrand(res.getString("brand"));
-                equ.setStock(res.getInt("stock"));
                 equ.setInventory(res.getInt("inventory"));
                 equ.setType(res.getInt("type"));
                 equ.setRentalPrice(res.getDouble("rental_price"));
@@ -233,7 +219,6 @@ public class Equipment extends Conexion{
                 equ.setModel(res.getString("model"));
                 equ.setDescription(res.getString("description"));
                 equ.setBrand(res.getString("brand"));
-                equ.setStock(res.getInt("stock"));
                 equ.setInventory(res.getInt("inventory"));
                 equ.setType(res.getInt("type"));
                 equ.setRentalPrice(res.getDouble("rental_price"));
@@ -249,34 +234,37 @@ public class Equipment extends Conexion{
         
         return equ;
     }
-    public void updateStock(InUse inu, int axn){
-        InUse crntInUse = new InUse();
-        int eqId = inu.getEquipment_id();//id de equipo que esta siendo creado, modif o eliminado
-        int crntQuant = crntInUse.getInUse(inu.getId()).getEquipment_quantity();//la cantidad actual que esta siendo usada en proyeto
-        int actualStk = getEqu(eqId).getStock(); //las unidades de este equ que estan actualmente en stock
-        int unitRqst = inu.getEquipment_quantity();// las unidades que se han pedido en el POST
-        int newStk= actualStk;//la cantidad de unidades que quedan en stock//by default in case request is same as original
-        if(axn==1){//si btn es crear o update
-            if(unitRqst<crntQuant)//si las unidades pedidas son menores que la cantidad en uso actual entonces la dif se suma al actual stock
-                newStk = actualStk + (crntQuant - unitRqst);
-            if(unitRqst>crntQuant)//si las unidades pedidas son mayores que la cantidad en uso actual entonces la dif se resta al actual stock
-                newStk = actualStk - (unitRqst- crntQuant);
-        }
-        if(axn==2)//si btn es eliminar
-            newStk = actualStk + (crntQuant); //las unidades en uso son sumadas al stock
-        try{
+
+    public List<Equipment> showEquAvaila(String ini, String fin){
+        List<Equipment>listaEqu = new ArrayList();
+        ResultSet res;
+        try {
             this.conectar();
-            String sql="UPDATE equipment SET stock=? WHERE id=?";
+            String sql="SELECT * FROM equipment WHERE id NOT IN (SELECT equipment_id from in_use WHERE in_pro_from>=? AND in_pro_to<=?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setInt(1,newStk);
-            pre.setInt(2, eqId);
-            pre.executeUpdate();
+            pre.setString(1, ini);
+            pre.setString(2, fin);
+            res=pre.executeQuery();
+            while(res.next()){
+                Equipment equ = new Equipment();
+                equ.setId(res.getInt("id"));
+                equ.setName(res.getString("name"));
+                equ.setModel(res.getString("model"));
+                equ.setDescription(res.getString("description"));
+                equ.setBrand(res.getString("brand"));
+                equ.setInventory(res.getInt("inventory"));
+                equ.setType(res.getInt("type"));
+                equ.setRentalPrice(res.getDouble("rental_price"));
+                equ.setImage(res.getString("image"));
+                listaEqu.add(equ);
+            }
         } catch (Exception e) {
-            System.out.println("error "+e.getMessage());
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
         }
         finally{
             this.desconectar();
         }
+        return listaEqu;
     }
 
 }

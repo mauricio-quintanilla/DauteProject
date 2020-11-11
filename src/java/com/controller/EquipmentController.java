@@ -52,7 +52,8 @@ public class EquipmentController extends HttpServlet {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (!fileItem.isFormField()) {
                         if (fileItem.getName() != "") {
-                            File f = new File("C:\\Users\\abc\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+                            File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+//                            File f = new File("\\DauteProject\\web\\imgs\\" + fileItem.getName());
                             fileItem.write(f);
                             equ.setImage(fileItem.getName());
                         } else {
@@ -67,10 +68,9 @@ public class EquipmentController extends HttpServlet {
                 equ.setModel(lista.get(2));
                 equ.setDescription(lista.get(3));
                 equ.setBrand(lista.get(4));
-                equ.setStock(Integer.parseInt(lista.get(5)));
-                equ.setInventory(Integer.parseInt(lista.get(6)));
-                equ.setType(Integer.parseInt(lista.get(7)));
-                equ.setRentalPrice(Double.parseDouble(lista.get(8)));
+                equ.setInventory(Integer.parseInt(lista.get(5)));
+                equ.setType(Integer.parseInt(lista.get(6)));
+                equ.setRentalPrice(Double.parseDouble(lista.get(7)));
                 if (request.getParameter("btnCreate") != null) {
                     if (img != "") {
                         equ.setImage(img);
@@ -79,7 +79,7 @@ public class EquipmentController extends HttpServlet {
                 }
                 if (request.getParameter("btnUpdate") != null) {
                     if (img != "") {
-                        equ.setImage(lista.get(9));
+                        equ.setImage(lista.get(8));
                     }
                     msj = equ.updateEqu(equ);
                 }
@@ -89,7 +89,8 @@ public class EquipmentController extends HttpServlet {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (!fileItem.isFormField()) {
                         if (fileItem.getName() != "") {
-                            File f = new File("C:\\Users\\abc\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+                            File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+//                          File f = new File("C:\\Users\\abc\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
                             fileItem.write(f);
                             equ.setImage(fileItem.getName());
                         } else {
@@ -104,10 +105,9 @@ public class EquipmentController extends HttpServlet {
                 equ.setModel(lista.get(2));
                 equ.setDescription(lista.get(3));
                 equ.setBrand(lista.get(4));
-                equ.setStock(Integer.parseInt(lista.get(5)));
-                equ.setInventory(Integer.parseInt(lista.get(6)));
-                equ.setType(Integer.parseInt(lista.get(7)));
-                equ.setRentalPrice(Double.parseDouble(lista.get(8)));
+                equ.setInventory(Integer.parseInt(lista.get(5)));
+                equ.setType(Integer.parseInt(lista.get(6)));
+                equ.setRentalPrice(Double.parseDouble(lista.get(7)));
                 if (request.getParameter("btnCreate") != null) {
                     if (img != "") {
                         equ.setImage(img);
@@ -116,7 +116,7 @@ public class EquipmentController extends HttpServlet {
                 }
                 if (request.getParameter("btnUpdate") != null) {
                     if (img != "") {
-                        equ.setImage(lista.get(9));
+                        equ.setImage(lista.get(8));
                     }
                     msj = equ.updateEqu(equ);
                 }

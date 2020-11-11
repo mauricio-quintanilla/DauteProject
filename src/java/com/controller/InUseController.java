@@ -36,14 +36,11 @@ public class InUseController extends HttpServlet {
             inu.setCost(Double.parseDouble(request.getParameter("numCost")));
             
             if(request.getParameter("btnCreate")!=null){
-                equ.updateStock(inu, 1);
                 msj=inu.createInUse(inu);
             }
             else if(request.getParameter("btnUpdate")!=null){
-                equ.updateStock(inu, 1);
                 msj=inu.updateInUse(inu);
             }else{
-                equ.updateStock(inu, 2);
                 msj=inu.deleteInUse(inu);
             }
             response.sendRedirect("inuse.jsp");
