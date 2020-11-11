@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2020 at 07:21 AM
+-- Generation Time: Nov 11, 2020 at 01:23 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -119,7 +119,6 @@ CREATE TABLE `equipment` (
   `model` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `brand` varchar(255) DEFAULT NULL,
-  `stock` int(11) DEFAULT NULL,
   `inventory` int(11) DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   `rental_price` double DEFAULT NULL,
@@ -130,11 +129,12 @@ CREATE TABLE `equipment` (
 -- Dumping data for table `equipment`
 --
 
-INSERT INTO `equipment` (`id`, `name`, `model`, `description`, `brand`, `stock`, `inventory`, `type`, `rental_price`, `image`) VALUES
-(1, 'grua hidraulica', 'PK 9001 EH', 'Grua basculante Momento de carga: 77.5kNm max. alcance: 5.6m max: 1.047 - Carga util max.: 1.6t - unidad de longitud: max anchura del dispositivo: m', 'Palfinger', 8, 15, 1, 12, 'noeq.png'),
-(3, 'tractor oruga', 'D65E-8', 'empuje transporte material sobre orugas /neumaticos /chasis rigido o articulado', 'Komatsu', 12, 20, 1, 6.25, 'noeq.png'),
-(4, 'Bulldozer', 'D6T LGP', 'niveladora /topadora /movimiento de tierras, de excavacion', 'Caterpillar', 4, 8, 2, 19.66, 'noeq.png'),
-(29, 'nomachine', 'nomodel', 'nodescr', 'nobrand', 65, 66, 2, 66, 'noeq.png');
+INSERT INTO `equipment` (`id`, `name`, `model`, `description`, `brand`, `inventory`, `type`, `rental_price`, `image`) VALUES
+(1, 'grua hidraulica', 'PK 9001 EH', 'Grua basculante 650tons', 'Palfinger', 15, 1, 12, 'noeq.png'),
+(3, 'tractor oruga', 'D65E-8', 'empuje transporte material sobre orugas /neumaticos /chasis rigido o articulado', 'Komatsu', 20, 1, 6.25, 'noeq.png'),
+(4, 'Bulldozer', 'D6T LGP', 'niveladora /topadora /movimiento de tierras, de excavacion', 'Caterpillar', 8, 2, 19.66, 'noeq.png'),
+(29, 'loader mini bob', 's220', 'tractor de carga', 'BOBCAT', 66, 2, 66, 'bobcat.jpg'),
+(31, 'Compactadora', 'wm- 320', 'compactadora de tierra', 'WACKER N', 35, 1, 12.75, 'compactor.jpg');
 
 -- --------------------------------------------------------
 
@@ -157,14 +157,10 @@ CREATE TABLE `in_use` (
 --
 
 INSERT INTO `in_use` (`id`, `equipment_id`, `project_id`, `in_pro_from`, `in_pro_to`, `equipment_quantity`, `cost`) VALUES
-(9, 1, 1, '2020-11-09', '2020-11-17', 7, 212),
-(11, 3, 3, '2020-11-11', '2020-11-25', 6, 30),
-(12, 4, 1, '2020-10-06', '2020-11-19', 3, 10),
-(13, 29, 1, '2020-11-12', '2020-11-25', 1, 65),
-(14, 3, 3, '2020-11-06', '2020-11-13', 1, 25),
-(15, 1, 1, '2020-11-09', '2020-11-17', 7, 100),
-(16, 3, 4, '2020-11-10', '2020-11-25', 1, 5),
-(17, 4, 6, '2020-11-02', '2020-11-04', 1, 100);
+(17, 4, 6, '2020-11-02', '2020-11-04', 1, 100),
+(18, 1, 1, '2020-11-02', '2020-11-27', 7, 100),
+(19, 3, 1, '2020-11-02', '2020-11-27', 6, 250),
+(20, 29, 3, '2020-12-16', '2021-01-13', 6, 175.78);
 
 -- --------------------------------------------------------
 
@@ -450,13 +446,13 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `equipment`
 --
 ALTER TABLE `equipment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `in_use`
 --
 ALTER TABLE `in_use`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `logs`
