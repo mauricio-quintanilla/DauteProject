@@ -235,15 +235,14 @@ public class Equipment extends Conexion{
         return equ;
     }
 
-    public List<Equipment> showEquAvaila(String ini, String fin){
+    public List<Equipment> showEquAvaila(int proId){
         List<Equipment>listaEqu = new ArrayList();
         ResultSet res;
         try {
             this.conectar();
-            String sql="SELECT * FROM equipment WHERE id NOT IN (SELECT equipment_id from in_use WHERE in_pro_from>=? AND in_pro_to<=?)";
+            String sql="SELECT * FROM equipment WHERE id NOT IN (SELECT equipment_id from in_use WHERE project_id=?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setString(1, ini);
-            pre.setString(2, fin);
+            pre.setInt(1, proId);
             res=pre.executeQuery();
             while(res.next()){
                 Equipment equ = new Equipment();

@@ -61,6 +61,8 @@
             $('#btnUpdate').attr('disabled', false);
             $('#btnDelete').attr('disabled', false);
             $('#btnCreate').attr('disabled', true);
+            $('#divAdd').hide();
+            $('#divUpdDel').show();
         }
         
         function getMInMax(){
@@ -73,6 +75,8 @@
         }
 
         function clean() {
+            $('#divAdd').show();
+            $('#divUpdDel').hide();
             $('#btnCreate').attr('disabled', false);
             $('#btnUpdate').attr('disabled', true);
             $('#btnDelete').attr('disabled', true);
@@ -84,7 +88,8 @@
     <header>
         <script>
             $(document).ready(function () {
-
+                $('#divAdd').show();
+                $('#divUpdDel').hide();
                 //update question
                 $('#btnUpdate').click(function () {
                     swal.fire({
@@ -151,12 +156,29 @@
         <input type="hidden" name="vliStock" id="vliStock">
         <div class='row'>
             <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
-            <div class='col-md-6'>
+            <div class='col-md-6' id="divUpdDel">
                 <label>Equipment</label>
-                <select name="slctEqId" id="slctEqId" required="required" class='form-control' onchange="getMInMax()">
+                <select name="slctEqIdU" id="slctEqId" required="required" class='form-control' onchange="getMInMax()">
                     <%
                         List<Equipment> lst = equ.showEqu();
                         for (Equipment e : lst) {
+                            int inv = e.getInventory();
+                            int quant = inu.getQuantInPro(e.getId(),(Integer) session.getAttribute("id_attr")).getEquipment_quantity();
+                            int stockTrue = inv - quant;
+                    %>
+                    <option value="<%= e.getId()%>"><%= e.getName()%> <%= e.getModel()%>
+                        En Stock (<%= stockTrue%>)</option>
+                    <%
+                        }
+                    %>
+                </select>
+            </div>
+            <div class='col-md-6' id="divAdd">
+                <label>Equipment</label>
+                <select name="slctEqIdA" id="slctEqId" required="required" class='form-control' onchange="getMInMax()">
+                    <%
+                        List<Equipment> lstAdd = equ.showEquAvaila((Integer) session.getAttribute("id_attr"));
+                        for (Equipment e : lstAdd) {
                             int inv = e.getInventory();
                             int quant = inu.getQuantInPro(e.getId(),(Integer) session.getAttribute("id_attr")).getEquipment_quantity();
                             int stockTrue = inv - quant;

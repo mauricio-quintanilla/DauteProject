@@ -30,7 +30,6 @@ public class InUseDetController extends HttpServlet {
         String type = "success";
         try {
             inu.setId(Integer.parseInt(request.getParameter("txtId")));
-            inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqId")));
             inu.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
             inu.setIn_pro_from(request.getParameter("datFrom"));
             inu.setIn_pro_to(request.getParameter("datTo"));
@@ -38,8 +37,10 @@ public class InUseDetController extends HttpServlet {
             inu.setCost(Double.parseDouble(request.getParameter("numCost")));
 
             if (request.getParameter("btnCreate") != null) {
+                inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqIdA")));
                     msj = inu.createInUse(inu);
             } else if (request.getParameter("btnUpdate") != null) {
+                    inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqIdU")));
                     msj = inu.updateInUse(inu);
             } else {
                 msj = inu.deleteInUse(inu);
