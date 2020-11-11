@@ -72,7 +72,6 @@ public class EmployeesController extends HttpServlet {
                 emp.setSalary(Double.parseDouble(lista.get(8)));
                 emp.setPosition_id(Integer.parseInt(lista.get(9)));
                 emp.setUser_id(Integer.parseInt(lista.get(10)));
-                emp.setStatus(lista.get(11));
                 if (request.getParameter("btnCreate") != null) {
                     if(img!="")
                         emp.setImage(img);
@@ -80,7 +79,7 @@ public class EmployeesController extends HttpServlet {
                 }
                 if (request.getParameter("btnUpdate") != null) {
                     if(img!="")
-                        emp.setImage(lista.get(12));
+                        emp.setImage(lista.get(11));
                     msj = emp.updateEmp(emp);
                 }
             }

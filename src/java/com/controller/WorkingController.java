@@ -32,13 +32,11 @@ public class WorkingController extends HttpServlet {
             wop.setIn_pro_to(request.getParameter("datTo"));
             wop.setCost(Double.parseDouble(request.getParameter("numCost")));
             if(request.getParameter("btnCreate")!=null){
-                emp.changeStatus(wop, "Create");
                 msj=wop.createWorking(wop);
             }
             else if(request.getParameter("btnUpdate")!=null){
                 msj=wop.updateWorking(wop);
             }else{
-                emp.changeStatus(wop, "Delete");
                 msj=wop.deleteWorking(wop);
             }
             response.sendRedirect("working.jsp");

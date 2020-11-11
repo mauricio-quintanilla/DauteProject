@@ -45,39 +45,38 @@
     <title><%= session.getAttribute("name_attr")%> STAFF</title>
     <script type="text/javascript" src="jquery.js"></script>
     <script>
-
-   
-
         function myLoad(id, project, employee, from, to, cost, salario) {
+            $("#divAdd").hide();
+            $("#divUpdDel").show();
             $("#txtId").val(id);
             $("#slctProId").val(project);
-            $("#slctEmpId").val(employee);
+            $("#slctEmpId2").val(employee);
             $("#datFrom").val(from);
             $("#datTo").val(to);
             $("#numCost").val(cost);
-            $("#numCost").attr('min',salario);//cuando elegimos un empleado su salario en el proyecto 
-            //debe ser mayor a el salario de la empresa por eso damos el valor de salario como min attribute
-            
-             $('#btnUpdate').attr('disabled',false);
-                $('#btnDelete').attr('disabled',false);
-                $('#btnCreate').attr('disabled',true); 
+            $("#numCost").attr('min',salario);
+            $("#divAdd").hide();
+            $("#divUpdDel").show();
+            $('#btnUpdate').attr('disabled',false);
+            $('#btnDelete').attr('disabled',false);
+            $('#btnCreate').attr('disabled',true); 
         }
         
         function clean(){
+                $("#divAdd").show();
+                $("#divUpdDel").hide();
                 $('#btnCreate').attr('disabled',false);
                 $('#btnUpdate').attr('disabled',true);
                 $('#btnDelete').attr('disabled',true);
             }
-
-
-
     </script>
 </head>
 <body>
     <header>
             <script>
                 $(document).ready(function () {
-
+                    $("#divAdd").show();
+                    $("#divUpdDel").hide();
                     //update question
                     $('#btnUpdate').click(function () {
                         swal.fire({
@@ -143,16 +142,31 @@
         <div class='row'>
             <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
             <input type="hidden" name="slctProId" id="slctProId" value="<%= (Integer) session.getAttribute("id_attr")%>">
-            <div class="col-6">
-                <label>Employee</label>
+            <div class="col-6" id="divAdd">
+                <label>Empleados</label>
                 <select name="slctEmpId" id="slctEmpId" class='form-control'>
                     <%
-                        List<Employees> lst = emp.showEmp();
-
+                       String ini=prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date(); 
+                       String fin=prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date();
+                        List<Employees> lst = emp.showAvailaByDate(ini, fin);
                         for (Employees e : lst) {
                     %>
                     <option value="<%= e.getId()%>"><%= e.getFirst_name()%>
-                        <%= e.getLast_name()%> (<%= pos.getPos(e.getPosition_id()).getName()%>) - <%= e.getStatus()%> </option>
+                        <%= e.getLast_name()%> (<%= pos.getPos(e.getPosition_id()).getName()%>)</option>
+                        <%
+                            }
+                        %>
+                </select>
+            </div>
+            <div class="col-6" id="divUpdDel">
+                <label>Empleados</label>
+                <select name="slctEmpId2" id="slctEmpId2" class='form-control'>
+                    <%
+                        List<Employees> lst2 = emp.showEmp();
+                        for (Employees e : lst2) {
+                    %>
+                    <option value="<%= e.getId()%>"><%= e.getFirst_name()%>
+                        <%= e.getLast_name()%> (<%= pos.getPos(e.getPosition_id()).getName()%>)</option>
                         <%
                             }
                         %>

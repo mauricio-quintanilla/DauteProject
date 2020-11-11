@@ -35,33 +35,15 @@ public class workingDetalleController extends HttpServlet {
             wop.setIn_pro_from(request.getParameter("datFrom"));
             wop.setIn_pro_to(request.getParameter("datTo"));
             wop.setCost(Double.parseDouble(request.getParameter("numCost")));
-            available = emp.getEmp(wop.getEmployee_id()).getStatus();
-
             if (request.getParameter("btnCreate") != null) {
-                if (available.equals("Available")) {
-                    emp.changeStatus(wop, "Create");
+                    wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId")));
                     msj = wop.createWorking(wop);
-                } else {
-                    msj = "No se pudo insertar el registro, el empleado seleccionado no está disponible";
-                    type = "error";
-
-                }
-
             } else if (request.getParameter("btnUpdate") != null) {
-                if (available.equals("Available")) {
+                    wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId2")));
                     msj = wop.updateWorking(wop);
-
-                }else {
-                    msj = "No se pudo insertar el registro, el empleado seleccionado no está disponible "+ available;
-                    type = "error";
-
-                }
-
             } else {
-                emp.changeStatus(wop, "Delete");
                 msj = wop.deleteWorking(wop);
             }
-            
             request.getSession().setAttribute("msj", msj);
             request.getSession().setAttribute("type", type);
             request.getSession().setAttribute("conta", 1);

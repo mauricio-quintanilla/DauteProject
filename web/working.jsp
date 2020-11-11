@@ -90,7 +90,7 @@
                             for (Employees e : lst) {
                         %>
                             <option value="<%= e.getId()%>"><%= e.getFirst_name()%>
-                                <%= e.getLast_name()%> (<%= pos.getPos(e.getPosition_id()).getName()%>) - <%= e.getStatus()%> </option>
+                                <%= e.getLast_name()%> (<%= pos.getPos(e.getPosition_id()).getName()%>)</option>
                         <%
                             }
                         %>
