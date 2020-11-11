@@ -137,7 +137,7 @@
                             <label>Usuario: </label><br>
                             <select name="slctUser" id="slctUser" class='text-black font-bold text-lg p-2 rounded w-full'>
                                 <%
-                                    List<Users> lst2 = usr.showUsers();
+                                    List<Users> lst2 = usr.showClientUsers();
                                     for (Users u : lst2) {
                                 %>
                                 <option value="<%= u.getId()%>"><%= u.getUser_name()%></option>
