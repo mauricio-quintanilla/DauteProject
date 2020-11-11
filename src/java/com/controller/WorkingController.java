@@ -24,13 +24,18 @@ public class WorkingController extends HttpServlet {
         Working wop = new Working();
         Employees emp = new Employees();
         String msj="";
+        double total = 0;
         try {
             wop.setId(Integer.parseInt(request.getParameter("txtId")));
             wop.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
             wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId")));
             wop.setIn_pro_from(request.getParameter("datFrom"));
             wop.setIn_pro_to(request.getParameter("datTo"));
+            wop.setIn_pro_to(request.getParameter("datTo"));
+            wop.setNum_days((int)(wop.daysIn(request.getParameter("datFrom"), request.getParameter("datTo"))));
             wop.setCost(Double.parseDouble(request.getParameter("numCost")));
+            total = (wop.daysIn(request.getParameter("datFrom"), request.getParameter("datTo"))) * (Double.parseDouble(request.getParameter("numCost")) / 30);
+            wop.setTotal_cost(total);
             if(request.getParameter("btnCreate")!=null){
                 msj=wop.createWorking(wop);
             }

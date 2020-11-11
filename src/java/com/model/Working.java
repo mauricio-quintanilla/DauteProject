@@ -23,18 +23,20 @@ public class Working extends Conexion {
     private int employee_id;
     private String in_pro_from;
     private String in_pro_to;
+    private int num_days;
     private double cost;
-
+    private double total_cost;
     public Working() {
     }
 
-    public Working(int id, int project_id, int employee_id, String in_pro_from, String in_pro_to, double cost) {
+    public Working(int id, int project_id, int employee_id, String in_pro_from, String in_pro_to, int num_days, double cost, double total_cost) {
         this.id = id;
         this.project_id = project_id;
         this.employee_id = employee_id;
         this.in_pro_from = in_pro_from;
         this.in_pro_to = in_pro_to;
-        this.cost = cost;
+        this.num_days = num_days;
+        this.total_cost = total_cost;
     }
 
     //<editor-fold defaultstate="collapsed" desc="getters y setters">
@@ -77,6 +79,14 @@ public class Working extends Conexion {
     public void setIn_pro_to(String in_pro_to) {
         this.in_pro_to = in_pro_to;
     }
+
+    public int getNum_days() {
+        return num_days;
+    }
+
+    public void setNum_days(int num_days) {
+        this.num_days = num_days;
+    }
     
     public double getCost() {
         return cost;
@@ -85,19 +95,31 @@ public class Working extends Conexion {
     public void setCost(double cost) {
         this.cost = cost;
     }
+
+    public double getTotal_cost() {
+        return total_cost;
+    }
+
+    public void setTotal_cost(double total_cost) {
+        this.total_cost = total_cost;
+    }
+    
+    
 //</editor-fold>
 
     public String createWorking(Working wop) {
         try {
             this.conectar();
-            String sql = "INSERT INTO working_on_project VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO working_on_project VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setInt(2, wop.getProject_id());
             pre.setInt(3, wop.getEmployee_id());
             pre.setString(4, wop.getIn_pro_from());
             pre.setString(5, wop.getIn_pro_to());
-            pre.setDouble(6, wop.getCost());
+            pre.setInt(6, wop.getNum_days());
+            pre.setDouble(7, wop.getCost());
+            pre.setDouble(8, wop.getTotal_cost());
             pre.executeUpdate();
             return "Employee successfuly added to project";
         } catch (Exception e) {
@@ -110,14 +132,17 @@ public class Working extends Conexion {
     public String updateWorking(Working wop) {
         try {
             this.conectar();
-            String sql = "UPDATE working_on_project SET project_id=?, employee_id=?, in_pro_from=?, in_pro_to=?, cost=? WHERE id=?";
+            String sql = "UPDATE working_on_project SET project_id=?, employee_id=?, in_pro_from=?, in_pro_to=?, num_days=?, cost=?, total_cost=? WHERE id=?";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, wop.getProject_id());
             pre.setInt(2, wop.getEmployee_id());
             pre.setString(3, wop.getIn_pro_from());
             pre.setString(4, wop.getIn_pro_to());
-            pre.setDouble(5, wop.getCost());
-            pre.setInt(6, wop.getId());
+            pre.setInt(5, wop.getNum_days());
+            pre.setDouble(6, wop.getCost());
+            pre.setDouble(7, wop.getTotal_cost());
+            pre.setInt(8, wop.getId());
+            
             pre.executeUpdate();
             return "Employee on project successfuly updated";
         } catch (Exception e) {
