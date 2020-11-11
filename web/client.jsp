@@ -8,28 +8,32 @@
 <%@page import="com.model.Client"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
 <!doctype html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <%
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-        %>
-        <label>Role: <%= session.getAttribute("rolName")%></label>
-        <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-        <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-        <a href="loginController?logout=y">Log out</a>
-        <%
-            Client cli = new Client();
-        %>
-        <title>Client</title>
+        <title>Clientes - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
+
+        <!-- SWEET ALERT -->
+        <script type="text/javascript" src="sweetalert2.all.min.js"></script>
+        
+        
         <script>
             function myLoad(id, name, email, phone, nit, comName, comAdd) {
                 $("#txtId").val(id);
@@ -42,66 +46,146 @@
             }
         </script>
     </head>
-    <body>
-        <h1>Client CRUD</h1>
-        <div class="container">
-            <form id="frmMain" action="clientController" method="POST">
-                <div class='col-6'>
-                    <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
-                    <label>Client Name</label>
-                    <input type="text" name="txtName" id="txtName" class='form-control' required/>
-                    <label>Client Email</label>
-                    <input type="email" name="txtEmail" id="txtEmail" class='form-control' required/>
-                    <label>Client Phone Number</label>
-                    <input type="text" name="txtPhone" id="txtPhone" class='form-control' required/>
-                    <label>NIT</label>
-                    <input type="text" name="txtNit" id="txtNit" class='form-control' required/>
-                    <label>Company Name</label>
-                    <input type="text" name="txtComName" id="txtComName" class='form-control' required/>
-                    <label>Company Address</label>
-                    <textarea class="form-control" name="txtComAdd" id="txtComAdd" placeholder="Address" required rows="3"></textarea>
+<%
+    Client cli = new Client();
+%>
+    <body class="bg-black">
+        <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
+            <div class="flex items-center justify-center w-ful flex-wrap">
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
+                    </div>
                 </div>
-                <br>
-                <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-                <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-                <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-                <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
-            </form>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Usuarios:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="role.jsp">Gestionar Roles</a></div>
+                    
+                    </div>
+                </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Empresa:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center mt-4">
+                <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
+            </div>
+        </div> 
+        <!--  -->
 
+
+        <div class="flex bg-gray w-full px-4 md:px-16">
+            <div class="flex w-8/12 py-2">
+                <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                    <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                    <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+                </div>
+                <div class="flex items-center">
+                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+                </div>
+            </div>
+            <div class="flex justify-end w-4/12 py-2">
+                <div class="flex items-center justify-center">
+                    <button class="text-white p-1 border-2 boder-white rounded-lg hover:bg-white hover:text-gray-800 focus:outline-none" onclick="menu()" id="menu">Menú</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------------- -->
+        <div class="text-white flex justify-center mt-4">
+            <h1 class="text-white text-4xl font-bold text-center">Gestión Clientes</h1>
+        </div>
+        <div class="flex justify-center">
+            <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+        </div>
+        
+        <div class="text-white flex justify-center w-full md:w-auto mt-4">
+            <form id="frmMain" action="clientController" method="POST">
+                    <input type="hidden" name="txtId" id="txtId" class='text-black font-bold text-lg p-2 rounded w-full' value="0"/>
+                    <div class="flex flex-wrap w-full">
+                        <div class="w-full md:w-1/2">
+                            <label>Nombre: </label><br>
+                            <input type="text" name="txtName" id="txtName" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <label>Correo: </label><br>
+                            <input type="email" name="txtEmail" id="txtEmail" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <label>Número de Teléfono: </label><br>
+                            <input type="text" name="txtPhone" id="txtPhone" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        </div>
+                        <div class="w-full md:w-1/2 md:pl-4">
+                            <label>NIT: </label><br>
+                            <input type="text" name="txtNit" id="txtNit" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <label>Compañía: </label><br>
+                            <input type="text" name="txtComName" id="txtComName" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <label>Dirección Compañía:</label><br>
+                            <textarea class='text-black font-bold text-lg p-2 rounded w-full' name="txtComAdd" id="txtComAdd" required rows="3"></textarea><br>
+                        </div>
+                    </div>
+
+                
+                <div class="mt-8">
+                    <div class="md:flex md:justify-center w-full p-2">
+                        <input type="reset" name="btnNew" value="Add/Clear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="text-white w-full md:flex md:justify-center md:w-auto mt-4 px-4 overflow-x-auto">
             <table border="1" class=''>
-                <tr>
-                    <th>Client Id</th>
-                    <th>Client name</th>
-                    <th>email</th>
-                    <th>phone #</th>
-                    <th>NIT</th>
-                    <th>Company name</th>
-                    <th>Company address</th>
-                    <th>Action</th>
-                </tr>
+                <thead>
+                    <th class="border-2 border-white border-dashed p-2">ID</th>
+                    <th class="border-2 border-white border-dashed p-2">Nombre Cliente</th>
+                    <th class="border-2 border-white border-dashed p-2">Correo</th>
+                    <th class="border-2 border-white border-dashed p-2">Teléfono</th>
+                    <th class="border-2 border-white border-dashed p-2">NIT</th>
+                    <th class="border-2 border-white border-dashed p-2">Compañía</th>
+                    <th class="border-2 border-white border-dashed p-2">Dirección Compañía</th>
+                    <th class="border-2 border-white border-dashed p-2">Seleccionar</th>
+                </thead>
+                <tbody>
                 <%
                     List<Client> lst = cli.showClient();
                     for (Client c : lst) {
                 %>
                 <tr>
-                    <td><%= c.getId()%></td>
-                    <td><%= c.getName()%></td>
-                    <td><%= c.getEmail()%></td>
-                    <td><%= c.getPhone_number()%></td>
-                    <td><%= c.getNit()%></td>
-                    <td><%= c.getCompany_name()%></td>
-                    <td><%= c.getCompany_address()%></td>
-                    <td><a href="javascript:myLoad('<%= c.getId()%>','<%= c.getName()%>','<%= c.getEmail()%>',
-                           '<%= c.getPhone_number()%>','<%= c.getNit()%>','<%= c.getCompany_name()%>','<%= c.getCompany_address()%>')">Select</a></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= c.getId()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= c.getName()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= c.getEmail()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= c.getPhone_number()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= c.getNit()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= c.getCompany_name()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= c.getCompany_address()%></td>
+                    <td class="border-2 border-white border-dashed p-2">
+                        <a href="javascript:myLoad('<%= c.getId()%>','<%= c.getName()%>','<%= c.getEmail()%>',
+                           '<%= c.getPhone_number()%>','<%= c.getNit()%>','<%= c.getCompany_name()%>','<%= c.getCompany_address()%>')"
+                           class="font-bold text-blue-500 hover:underline">Seleccionar</a>
+                    </td>
                 </tr>
                 <%
                     }
                 %>
+                </tbody>
             </table>
-            <br>
-            <p>go back to <a href="index.jsp">index</a></p>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+            <br>
+
+        <!-- Navbar -->
+    <script src="js/navbar.js"></script>
     </body>
 </html>

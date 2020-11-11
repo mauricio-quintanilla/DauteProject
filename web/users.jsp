@@ -9,53 +9,120 @@
 <%@page import="com.model.Users"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
+
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <%
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-        %>
-        <label>Role: <%= session.getAttribute("rolName")%></label>
-        <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-        <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-        <a href="loginController?logout=y">Log out</a>
-        <%
-            Users usr = new Users();
-            Role roll = new Role();
-        %>
-        <title>Users</title>
-        <script type="text/javascript" src="jquery.js"></script>
-        <script>
-            function myLoad(id, user_name, email, password, role) {
-                $("#txtUsrId").val(id);
-                $("#txtUsrName").val(user_name);
-                $("#txtUsrEmail").val(email);
-                $("#pwdPassword").val(password);
-                $("#slctRol").val(role);
-            }
-        </script>
-    </head>
-    <body>
-        <h1>Users CRUD</h1>
-        <div class="container">
-            <form id="frmMain" action="usersController" method="POST">
-                <div class='col-6'>
-                    <input type="hidden" name="txtUsrId" id="txtUsrId" class='form-control' value="0"/>
-                    <label>User name</label>
-                    <input type="text" name="txtUsrName" id="txtUsrName" class='form-control' required/>
-                    <label>User Email</label>
-                    <input type="email" name="txtUsrEmail" id="txtUsrEmail" class='form-control' required/>
-                    <label>User Password</label>
-                    <input type="password" name="pwdPassword" id="pwdPassword" class='form-control' required/>
-                    <label>Role</label>
-                    <select name="slctRol" id="slctRol" class='form-control'>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Usuarios - CONSTRU SV</title>
+    <!-- Icon -->
+    <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+    <!-- Tailwind -->
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- JQuery -->
+    <script type="text/javascript" src="jquery.js"></script>
+
+    <script>
+        function myLoad(id, user_name, email, password, role) {
+            $("#txtUsrId").val(id);
+            $("#txtUsrName").val(user_name);
+            $("#txtUsrEmail").val(email);
+            $("#pwdPassword").val(password);
+            $("#slctRol").val(role);
+        }
+    </script>
+</head>
+<%
+    Users usr = new Users();
+    Role roll = new Role();
+%>
+<body class="bg-black">
+    <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
+        <div class="flex items-center justify-center w-ful flex-wrap">
+            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
+                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                    <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
+                </div>
+            </div>
+            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
+                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                    <h1 class="font-bold text-lg text-center">Usuarios:</h1>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="role.jsp">Gestionar Roles</a></div>
+                
+                </div>
+            </div>
+            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
+                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                    <h1 class="font-bold text-lg text-center">Empresa:</h1>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center justify-center mt-4">
+            <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
+        </div>
+    </div>
+
+
+
+    <div class="flex bg-gray w-full px-4 md:px-16">
+        <div class="flex w-8/12 py-2">
+            <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+            </div>
+            <div class="flex items-center">
+                <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+            </div>
+        </div>
+        <div class="flex justify-end w-4/12 py-2">
+            <div class="flex items-center justify-center">
+                <button class="text-white p-1 border-2 boder-white rounded-lg hover:bg-white hover:text-gray-800 focus:outline-none" onclick="menu()" id="menu">Menú</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------------------------------------------------------------------- -->
+
+    <div class="text-white flex justify-center mt-4">
+        <h1 class="text-white text-4xl font-bold text-center">Gestión Usuarios</h1>
+    </div>
+    <div class="flex justify-center">
+        <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+    </div>
+    <div class="text-white flex justify-center w-full md:w-auto mt-4">
+        <form id="frmMain" action="usersController" method="POST">
+                <input type="hidden" name="txtUsrId" id="txtUsrId" class='form-control' value="0"/>
+
+                <div>
+                    <label>Username: </label><br>
+                    <input type="text" name="txtUsrName" id="txtUsrName" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                    <label>Correo: </label><br>
+                    <input type="email" name="txtUsrEmail" id="txtUsrEmail" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                    <label>Contraseña: </label><br>
+                    <input type="password" name="pwdPassword" id="pwdPassword" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                    <label>Rol: </label><br>
+                    <select name="slctRol" id="slctRol" class='text-black font-bold text-lg p-2 rounded w-full'>
                         <%
                             List<Role> lst = roll.showRole();
                             for (Role r : lst) {
@@ -65,44 +132,57 @@
                             }
                         %>
                     </select>
-                </div>
-                <br>
-                <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-                <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-                <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-                <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
-            </form>
 
-            <table border="1" class=''>
-                <tr>
-                    <th>user id</th>
-                    <th>user name</th>
-                    <th>email</th>
-                    <th>password</th>
-                    <th>role</th>
-                    <th>action</th>
-                </tr>
-                <%
-                    List<Users> lst2 = usr.showUsers();
-                    for (Users u : lst2) {
-                %>
-                <tr>
-                    <td><%= u.getId()%></td>
-                    <td><%= u.getUser_name()%></td>
-                    <td><%= u.getEmail()%></td>
-                    <td><%= u.getPassword()%></td>
-                    <td><%= roll.getRole(u.getRole_id()).getName()%></td>
-                    <td><a href="javascript:myLoad('<%= u.getId()%>','<%= u.getUser_name()%>',
-                           '<%= u.getEmail()%>','<%= u.getPassword()%>','<%= u.getRole_id()%>')">Select</a></td>
-                </tr>
-                <%
-                    }
-                %>
-            </table>
-            <br>
-            <p>go back to <a href="index.jsp">index</a></p>
-        </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    </body>
+                </div>
+            </div>
+            <div class="mt-8">
+                <div class="md:flex md:justify-center w-full p-2">
+                    <input type="reset" name="btnNew" value="Add/Clear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="text-white flex justify-center w-full md:w-auto mt-4 px-4 overflow-x-auto">
+        
+
+        <table>
+            <thead>
+                <th class="border-2 border-white border-dashed p-2">ID</th>
+                <th class="border-2 border-white border-dashed p-2">Username</th>
+                <th class="border-2 border-white border-dashed p-2">Correo</th>
+                <th class="border-2 border-white border-dashed p-2">Contraseña</th>
+                <th class="border-2 border-white border-dashed p-2">Rol</th>
+                <th class="border-2 border-white border-dashed p-2">Seleccionar</th>
+            </thead>
+            <tbody>
+            <%
+                List<Users> lst2 = usr.showUsers();
+                for (Users u : lst2) {
+            %>
+            <tr>
+                <td class="border-2 border-white border-dashed p-2"><%= u.getId()%></td>
+                <td class="border-2 border-white border-dashed p-2"><%= u.getUser_name()%></td>
+                <td class="border-2 border-white border-dashed p-2"><%= u.getEmail()%></td>
+                <td class="border-2 border-white border-dashed p-2"><%= u.getPassword()%></td>
+                <td class="border-2 border-white border-dashed p-2"><%= roll.getRole(u.getRole_id()).getName()%></td>
+                <td class="border-2 border-white border-dashed p-2">
+                    <a href="javascript:myLoad('<%= u.getId()%>','<%= u.getUser_name()%>',
+                        '<%= u.getEmail()%>','<%= u.getPassword()%>','<%= u.getRole_id()%>')"
+                        class="font-bold text-blue-500 hover:underline">Seleccionar</a>
+                </td>
+            </tr>
+            <%
+                }
+            %>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <!-- Navbar -->
+    <script src="js/navbar.js"></script>
+</body>
 </html>

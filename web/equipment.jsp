@@ -8,28 +8,30 @@
 <%@page import="com.model.Equipment"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page session="true"%>
+<%
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
 <!doctype html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <%
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-        %>
-        <label>Role: <%= session.getAttribute("rolName")%></label>
-        <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-        <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-        <a href="loginController?logout=y">Log out</a>
-        <%
-            Equipment equ = new Equipment();
-        %>
-        <title>Equipment</title>
+        <title>Inventario Equipo - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
+        <!-- SWEET ALERT -->
+        <script type="text/javascript" src="sweetalert2.all.min.js"></script>
+        
         <script>
             function myLoad(id, name, model, desc, brand, stock, inv, type, rentalPrice, image) {
                 $("#txtId").val(id);
@@ -45,86 +47,171 @@
             }
         </script>
     </head>
-    <body>
-        <h1>Equipment CRUD</h1>
-        <div class="container">
+<%
+    Equipment equ = new Equipment();
+%>
+    <body class="bg-black">
+        <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
+            <div class="flex items-center justify-center w-ful flex-wrap">
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
+                    </div>
+                </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Usuarios:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="role.jsp">Gestionar Roles</a></div>
+                    
+                    </div>
+                </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Empresa:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center mt-4">
+                <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
+            </div>
+        </div>
+
+
+
+        <div class="flex bg-gray w-full px-4 md:px-16">
+            <div class="flex w-8/12 py-2">
+                <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                    <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                    <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+                </div>
+                <div class="flex items-center">
+                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+                </div>
+            </div>
+            <div class="flex justify-end w-4/12 py-2">
+                <div class="flex items-center justify-center">
+                    <button class="text-white p-1 border-2 boder-white rounded-lg hover:bg-white hover:text-gray-800 focus:outline-none" onclick="menu()" id="menu">Menú</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------------- -->
+        <div class="text-white flex justify-center mt-4">
+            <h1 class="text-white text-4xl font-bold text-center">Gestión Inventario Equipo</h1>
+        </div>
+        <div class="flex justify-center">
+            <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+        </div>
+
+        <div class="text-white flex justify-center w-full mt-4 px-4">
             <form id="frmMain" action="" method="POST" enctype="multipart/form-data">
-                <div class='col-6'>
-                    <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
-                    <label>Equipment name</label>
-                    <input type="text" name="txtName" id="txtName" class='form-control' required/>
-                    <label>Model</label>
-                    <input type="text" name="txtModel" id="txtModel" class='form-control' required/>
-                    <label>Description</label>
-                    <textarea class="form-control" name="txtDesc" id="txtDesc" placeholder="Description" required rows="3"></textarea>
-                    <label>Brand</label>
-                    <input type="text" name="txtBrand" id="txtBrand" class='form-control' required/>
-                    <label>In Stock</label>
-                    <input type="number" name="numStock" id="numStock" class='form-control' min="0" step="1" required/>
-                    <label>Inventory</label>
-                    <input type="number" name="numInv" id="numInv" class='form-control' min="1" step="1" required/>
-                    <label>Type</label>
-                    <input type="number" name="numType" id="numType" class='form-control' min="1" step="1" required/>
-                    <label>Daily unit Price</label>
-                    <input type="number" name="rentalPrice" id="rentalPrice" min='0.00' step="0.01" max="100" class='form-control' required/>
-                    <label>Image</label>
-                    <div class="input-group mb-3">
-                        <div class="custom-file">
-                          <input type="file" class="custom-file-input" name="fileImg" id="fileImg" aria-describedby="inputGroupFileAddon03">
-                          <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+                    <input type="hidden" name="txtId" id="txtId" value="0"/>
+
+                    <div class="flex flex-wrap w-full">
+                        <div class="w-full md:w-1/2">
+                            <label class="font-bold text-lg">Nombre de equipo: </label><br>
+                            <input type="text" name="txtName" id="txtName" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+
+                            <label class="font-bold text-lg">Modelo: </label><br>
+                            <input type="text" name="txtModel" id="txtModel" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+
+                            <label class="font-bold text-lg">Descripción: </label><br>
+                            <textarea class="text-black font-bold text-lg p-2 rounded w-full" name="txtDesc" id="txtDesc" required rows="3"></textarea><br>
+
+                            <label class="font-bold text-lg">Marca: </label><br>
+                            <input type="text" name="txtBrand" id="txtBrand" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+
+                        </div>
+                        <div class="w-full md:w-1/2 md:pl-4">
+                            <label class="font-bold text-lg">En Almacen: </label><br>
+                            <input type="number" name="numStock" id="numStock" class='text-black font-bold text-lg p-2 rounded w-full' min="0" step="1" required/><br>
+    
+                            <label class="font-bold text-lg">Inventario: </label><br>
+                            <input type="number" name="numInv" id="numInv" class='text-black font-bold text-lg p-2 rounded w-full' min="1" step="1" required/><br>
+
+                            <label class="font-bold text-lg">Tipo: </label><br>
+                            <input type="number" name="numType" id="numType" class='text-black font-bold text-lg p-2 rounded w-full' min="1" step="1" required/><br>
+
+                            <label class="font-bold text-lg">Depreciación Diaria: </label><br>
+                            <input type="number" name="rentalPrice" id="rentalPrice" min='0.00' step="0.01" max="100" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+
+                            <label class="font-bold text-lg">Imagen: </label><br>
+                            <input type="file" class="bg-white text-black font-bold text-lg p-2 rounded w-full" name="fileImg" id="fileImg" value="Escoge un Archivo"><br>
                         </div>
                     </div>
+                                        
                     <!-- this input allows us to temporarily store img value in case update is in process-->
-                    <input type="hidden" name="fileImgBU" id="fileImgBU" class='form-control' value=""/>
+                    <input type="hidden" name="fileImgBU" id="fileImgBU" value=""/>
+                <div class="mt-8">
+                    <div class="md:flex md:justify-center w-full p-2">
+                        <input type="reset" name="btnNew" value="Limpiar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input formaction="equipmentController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input formaction="equipmentController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input formaction="equipmentController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    </div>    
                 </div>
-                <br>
-                <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-                <input formaction="equipmentController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-                <input formaction="equipmentController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-                <input formaction="equipmentController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
             </form>
-
-            <table border="1" class=''>
-                <tr>
-                    <th>Equ id</th>
-                    <th>name</th>
-                    <th>model</th>
-                    <th>description</th>
-                    <th>brand</th>
-                    <th>stock</th>
-                    <th>inventory</th>
-                    <th>Type</th>
-                    <th>Rental Price</th>
-                    <th>picture</th>
-                    <th>Action</th>
-                </tr>
-                <%
-                    List<Equipment> lst = equ.showEqu();
-                    for (Equipment e : lst) {
-                %>
-                <tr>
-                    <td><%= e.getId()%></td>
-                    <td><%= e.getName()%></td>
-                    <td><%= e.getModel()%></td>
-                    <td><%= e.getDescription()%></td>
-                    <td><%= e.getBrand()%></td>
-                    <td><%= e.getStock()%> units</td>
-                    <td><%= e.getInventory()%> units</td>
-                    <td><%= e.getType()%></td>
-                    <td><%= e.getRentalPrice()%>%</td>
-                    <td><img src="imgs/<%= e.getImage()%>" height="75px" width="100px"></td>
-                    <td><a href="javascript:myLoad('<%= e.getId()%>','<%= e.getName()%>','<%= e.getModel()%>',
-                           '<%= e.getDescription()%>','<%= e.getBrand()%>','<%= e.getStock()%>','<%= e.getInventory()%>',
-                           '<%= e.getType()%>','<%= e.getRentalPrice()%>','<%= e.getImage()%>')">Select</a></td>
-                </tr>
-                <%
-                    }
-                %>
-            </table>
-            <br>
-            <p>go back to <a href="index.jsp">index</a></p>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+
+        <div class="text-white md:flex md:justify-center w-full md:w-auto mt-4 px-4 overflow-x-auto">
+            <table>
+                <thead>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Id</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Nombre</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Modelo</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Descripción</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Marca</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">En Almacen:</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Inventario</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Tipo</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Depreciación Diaria</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Imagen</th>
+                    <th class="border-2 border-white border-dashed p-4 text-lg">Seleccionar</th>
+                </thead>
+                <tbody>
+                    <%
+                        List<Equipment> lst = equ.showEqu();
+                        for (Equipment e : lst) {
+                    %>
+                    <tr>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getId()%></td>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getName()%></td>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getModel()%></td>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getDescription()%></td>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getBrand()%></td>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getStock()%> units</td>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getInventory()%> units</td>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getType()%></td>
+                        <td class="border-2 border-white border-dashed p-4"><%= e.getRentalPrice()%>%</td>
+                        <td class="border-2 border-white border-dashed p-4"><img src="imgs/<%= e.getImage()%>" width="100px"></td>
+                        <td class="border-2 border-white border-dashed p-4">
+                            <a href="javascript:myLoad('<%= e.getId()%>','<%= e.getName()%>','<%= e.getModel()%>',
+                               '<%= e.getDescription()%>','<%= e.getBrand()%>','<%= e.getStock()%>','<%= e.getInventory()%>',
+                               '<%= e.getType()%>','<%= e.getRentalPrice()%>','<%= e.getImage()%>')"
+                               class="font-bold text-blue-500 hover:underline">Seleccionar</a>
+                        </td>
+                    </tr>
+                    <%
+                }
+                %>
+                </tbody>
+            </table>
+        </div>    
+
+            
+            <br>
+    <!-- Navbar -->
+    <script src="js/navbar.js"></script>
     </body>
 </html>
