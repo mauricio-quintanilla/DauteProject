@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2020 at 03:44 PM
+-- Generation Time: Nov 11, 2020 at 04:35 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -328,22 +328,24 @@ CREATE TABLE `working_on_project` (
   `employee_id` int(11) DEFAULT NULL,
   `in_pro_from` varchar(255) DEFAULT NULL,
   `in_pro_to` varchar(255) DEFAULT NULL,
-  `cost` double NOT NULL
+  `num_days` int(11) DEFAULT NULL,
+  `cost` double NOT NULL,
+  `total_cost` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `working_on_project`
 --
 
-INSERT INTO `working_on_project` (`id`, `project_id`, `employee_id`, `in_pro_from`, `in_pro_to`, `cost`) VALUES
-(18, 1, 1, '2020-11-03', '2020-11-12', 800),
-(19, 1, 5, '2020-11-02', '2020-11-27', 900),
-(20, 3, 2, '2020-12-16', '2021-01-13', 900),
-(21, 3, 8, '2020-12-16', '2021-01-07', 1000),
-(22, 4, 7, '2020-11-10', '2020-11-30', 999.99),
-(23, 4, 10, '2020-11-10', '2020-11-18', 900),
-(24, 5, 15, '2020-12-01', '2021-01-31', 850),
-(25, 6, 17, '2020-11-02', '2020-11-08', 875.95);
+INSERT INTO `working_on_project` (`id`, `project_id`, `employee_id`, `in_pro_from`, `in_pro_to`, `num_days`, `cost`, `total_cost`) VALUES
+(18, 1, 1, '2020-11-03', '2020-11-12', 10, 800, 266.667),
+(19, 1, 5, '2020-11-02', '2020-11-27', 26, 900, 780),
+(20, 3, 2, '2020-12-16', '2021-01-13', 29, 900, 870),
+(21, 3, 8, '2020-12-16', '2021-01-07', 23, 1000, 766.667),
+(22, 4, 7, '2020-11-10', '2020-11-30', 21, 999.99, 699.993),
+(23, 4, 10, '2020-11-10', '2020-11-18', 9, 900, 270),
+(24, 5, 15, '2020-12-01', '2021-01-31', 62, 850, 1756.67),
+(25, 6, 17, '2020-11-02', '2020-11-08', 7, 875.95, 204.39);
 
 --
 -- Indexes for dumped tables
