@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2020 at 01:23 PM
+-- Generation Time: Nov 11, 2020 at 03:01 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -130,10 +130,10 @@ CREATE TABLE `equipment` (
 --
 
 INSERT INTO `equipment` (`id`, `name`, `model`, `description`, `brand`, `inventory`, `type`, `rental_price`, `image`) VALUES
-(1, 'grua hidraulica', 'PK 9001 EH', 'Grua basculante 650tons', 'Palfinger', 15, 1, 12, 'noeq.png'),
-(3, 'tractor oruga', 'D65E-8', 'empuje transporte material sobre orugas /neumaticos /chasis rigido o articulado', 'Komatsu', 20, 1, 6.25, 'noeq.png'),
-(4, 'Bulldozer', 'D6T LGP', 'niveladora /topadora /movimiento de tierras, de excavacion', 'Caterpillar', 8, 2, 19.66, 'noeq.png'),
-(29, 'loader mini bob', 's220', 'tractor de carga', 'BOBCAT', 66, 2, 66, 'bobcat.jpg'),
+(1, 'grua hidraulica', 'PK 9001 EH', 'Grua basculante 650tons', 'Palfinger', 15, 1, 125.3, 'noeq.png'),
+(3, 'tractor oruga', 'D65E-8', 'empuje transporte material sobre orugas /neumaticos /chasis rigido o articulado', 'Komatsu', 20, 1, 126.25, 'noeq.png'),
+(4, 'Bulldozer', 'D6T LGP', 'niveladora /topadora /movimiento de tierras, de excavacion', 'Caterpillar', 8, 2, 72.19, 'noeq.png'),
+(29, 'loader mini bob', 's220', 'tractor de carga', 'BOBCAT', 66, 2, 60.15, 'bobcat.jpg'),
 (31, 'Compactadora', 'wm- 320', 'compactadora de tierra', 'WACKER N', 35, 1, 12.75, 'compactor.jpg');
 
 -- --------------------------------------------------------
@@ -158,9 +158,16 @@ CREATE TABLE `in_use` (
 
 INSERT INTO `in_use` (`id`, `equipment_id`, `project_id`, `in_pro_from`, `in_pro_to`, `equipment_quantity`, `cost`) VALUES
 (17, 4, 6, '2020-11-02', '2020-11-04', 1, 100),
-(18, 1, 1, '2020-11-02', '2020-11-27', 7, 100),
-(19, 3, 1, '2020-11-02', '2020-11-27', 6, 250),
-(20, 29, 3, '2020-12-16', '2021-01-13', 6, 175.78);
+(18, 1, 1, '2020-11-02', '2020-11-05', 1, 175.5),
+(19, 3, 1, '2020-11-02', '2020-11-05', 3, 190),
+(20, 29, 3, '2020-12-16', '2020-12-19', 4, 75.12),
+(21, 31, 4, '2020-11-10', '2020-11-12', 10, 15.23),
+(22, 3, 4, '2020-11-10', '2020-11-11', 1, 135.3),
+(23, 29, 4, '2020-11-10', '2020-11-13', 3, 72.5),
+(24, 29, 5, '2020-12-01', '2020-12-04', 2, 78.35),
+(25, 3, 5, '2020-12-01', '2020-12-03', 1, 150),
+(26, 4, 5, '2020-12-01', '2020-12-02', 1, 79.32),
+(27, 4, 1, '2020-11-02', '2020-11-04', 3, 81.1);
 
 -- --------------------------------------------------------
 
@@ -452,7 +459,7 @@ ALTER TABLE `equipment`
 -- AUTO_INCREMENT for table `in_use`
 --
 ALTER TABLE `in_use`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `logs`
