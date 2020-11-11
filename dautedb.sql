@@ -99,14 +99,14 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `first_name`, `last_name`, `dob`, `address`, `phone_number`, `DUI`, `NIT`, `salary`, `position_id`, `user_id`, `status`, `image`) VALUES
-(1, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2657-7777', '01654758-9', '0611-126212-121-1', 666.66, 6, 1, 'Unavailable', 'nopic.png'),
-(2, 'Melissa', 'Bonilla', '2002-12-10', 'no no no', '2257-8777', '11811111-5', '1548-598959', 700, 8, 5, 'Unavailable', 'nopic.png'),
+(1, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2257-7777', '01254758-9', '0611-121212-121-1', 666.66, 6, 1, 'Unavailable', 'nopic.png'),
+(2, 'Melissa', 'Bonilla', '2002-12-10', 'no no no', '2257-7777', '11111111-5', '1548-595959', 700, 8, 5, 'Unavailable', 'nopic.png'),
 (5, 'Luis', 'Bonilla', '2002-12-03', 'col luis bonilla', '2255-9966', '25414785-9', '2154-326598-987-4', 700, 2, 3, 'Unavailable', 'nopic.png'),
-(7, 'Ismael', 'Castillo', '2000-12-02', 'isma place', '8784-8754', '69284758-9', '3625-144058-698-9', 700, 7, 4, 'Unavailable', 'nopic.png'),
-(8, 'iris', 'carpio', '2002-12-24', 'iris', '98784', '987387987', '987387', 987, 7, 6, 'Unavailable', 'nopic.png'),
-(10, 'Giovanni', 'Tzec', '2002-12-31', 'col itca', '6666-6666', '987652-654321', '6546798-654', 700, 9, 7, 'Unavailable', 'nopic.png'),
-(14, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2257-2777', '01250758-9', '0611-120212-121-1', 666.66, 6, 1, 'Unavailable', 'nopic.png'),
-(15, 'luis', 'merino', '2002-12-18', 'asamblea legislativa', '0354-8754', '01478023-9', '0616-458085-987-4', 500, 2, -1, 'Unavailable', 'nopic.png');
+(7, 'Ismael', 'Castillo', '2000-12-02', 'isma place', '8754-8754', '69584758-9', '3625-144758-698-9', 700, 7, 4, 'Unavailable', 'nopic.png'),
+(8, 'iris', 'carpio', '2002-12-24', 'iris', '98764', '987987987', '987987', 987, 7, 6, 'Unavailable', 'nopic.png'),
+(10, 'Giovanni', 'Tzec', '2002-12-31', 'col itca', '6666-6666', '987654-654321', '6546798-654', 700, 9, 7, 'Unavailable', 'nopic.png'),
+(14, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2257-7777', '01254758-3', '0611-121212-121-2', 666.66, 6, 1, 'Unavailable', 'nopic.png'),
+(15, 'luis', 'merino', '2002-12-18', 'asamblea legislativa', '2154-8754', '01478523-9', '0616-458985-987-4', 500, 2, -1, 'Unavailable', 'nopic.png');
 
 -- --------------------------------------------------------
 
@@ -498,7 +498,7 @@ ALTER TABLE `working_on_project`
 -- Constraints for table `client`
 --
 ALTER TABLE `client`
-  ADD CONSTRAINT `client_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 
 --
