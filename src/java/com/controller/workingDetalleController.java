@@ -1,4 +1,3 @@
-
 package com.controller;
 
 import com.model.Employees;
@@ -16,18 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 * CopyRight: OpenSource
 * Version: 1.0
 * @author Ismael Castillo
-*/
+ */
 public class workingDetalleController extends HttpServlet {
 
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         Working wop = new Working();
         Employees emp = new Employees();
-        String msj="";
+        String msj = "";
+        String type = "success";
+        String available = "";
         try {
             wop.setId(Integer.parseInt(request.getParameter("txtId")));
             wop.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
@@ -35,21 +35,39 @@ public class workingDetalleController extends HttpServlet {
             wop.setIn_pro_from(request.getParameter("datFrom"));
             wop.setIn_pro_to(request.getParameter("datTo"));
             wop.setCost(Double.parseDouble(request.getParameter("numCost")));
-            
-            if(request.getParameter("btnCreate")!=null){
-                emp.changeStatus(wop, "Create");
-                msj=wop.createWorking(wop);
-            }
-            else if(request.getParameter("btnUpdate")!=null){
-                msj=wop.updateWorking(wop);
-            }else{
+            available = emp.getEmp(wop.getEmployee_id()).getStatus();
+
+            if (request.getParameter("btnCreate") != null) {
+                if (available.equals("Available")) {
+                    emp.changeStatus(wop, "Create");
+                    msj = wop.createWorking(wop);
+                } else {
+                    msj = "No se pudo insertar el registro, el empleado seleccionado no está disponible";
+                    type = "error";
+
+                }
+
+            } else if (request.getParameter("btnUpdate") != null) {
+                if (available.equals("Available")) {
+                    msj = wop.updateWorking(wop);
+
+                }else {
+                    msj = "No se pudo insertar el registro, el empleado seleccionado no está disponible "+ available;
+                    type = "error";
+
+                }
+
+            } else {
                 emp.changeStatus(wop, "Delete");
-                msj=wop.deleteWorking(wop);
+                msj = wop.deleteWorking(wop);
             }
+            
+            request.getSession().setAttribute("msj", msj);
+            request.getSession().setAttribute("type", type);
+            request.getSession().setAttribute("conta", 1);
             response.sendRedirect("workingDetalle.jsp");
-            request.getSession().setAttribute("msj",msj);
         } catch (Exception e) {
-            request.getSession().setAttribute("error",e.toString());
+            request.getSession().setAttribute("error", e.toString());
             response.sendRedirect("error.jsp");
         }
     }

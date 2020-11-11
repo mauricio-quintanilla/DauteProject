@@ -1,4 +1,3 @@
-
 package com.model;
 
 import com.conexion.Conexion;
@@ -13,9 +12,10 @@ import javax.swing.JOptionPane;
 * Fecha: 19-10-2020
 * CopyRight: OpenSource
 * Version: 1.0
-* @author Quintanilla Bernabe
-*/
-public class Employees extends Conexion{
+* @author Quintanilla Bernabe, Ismael Castillo
+ */
+public class Employees extends Conexion {
+
     private int id;
     private String first_name;
     private String last_name;
@@ -144,7 +144,7 @@ public class Employees extends Conexion{
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     public String getImage() {
         return image;
     }
@@ -152,11 +152,12 @@ public class Employees extends Conexion{
     public void setImage(String image) {
         this.image = image;
     }
-    public String createEmp(Employees emp){
+
+    public String createEmp(Employees emp) {
         try {
             this.conectar();
-            String sql="INSERT INTO employees VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            String sql = "INSERT INTO employees VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setString(2, emp.getFirst_name());
             pre.setString(3, emp.getLast_name());
@@ -173,17 +174,17 @@ public class Employees extends Conexion{
             pre.executeUpdate();
             return "Employee successfuly created";
         } catch (Exception e) {
-            return "error "+e.getMessage();
-        }
-        finally{
+            return "error " + e.getMessage();
+        } finally {
             this.desconectar();
         }
     }
-    public String updateEmp(Employees emp){
+
+    public String updateEmp(Employees emp) {
         try {
             this.conectar();
-            String sql="UPDATE employees SET first_name=?, last_name=?, dob=?, address=?, phone_number=?, DUI=?, NIT=?, salary=?, position_id=?, user_id=?, status=?, image=? WHERE id=?";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            String sql = "UPDATE employees SET first_name=?, last_name=?, dob=?, address=?, phone_number=?, DUI=?, NIT=?, salary=?, position_id=?, user_id=?, status=?, image=? WHERE id=?";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1, emp.getFirst_name());
             pre.setString(2, emp.getLast_name());
             pre.setString(3, emp.getDob());
@@ -200,36 +201,36 @@ public class Employees extends Conexion{
             pre.executeUpdate();
             return "Employee successfuly updated";
         } catch (Exception e) {
-            return "error "+e.getMessage();
-        }
-        finally{
+            return "error " + e.getMessage();
+        } finally {
             this.desconectar();
         }
     }
-    public String deleteEmp(Employees emp){
+
+    public String deleteEmp(Employees emp) {
         try {
             this.conectar();
-            String sql="DELETE FROM employees WHERE id=?";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            String sql = "DELETE FROM employees WHERE id=?";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, emp.getId());
             pre.executeUpdate();
             return "Employee successfuly deleted";
         } catch (Exception e) {
-            return "error "+e.getMessage();
-        }
-        finally{
+            return "error " + e.getMessage();
+        } finally {
             this.desconectar();
         }
     }
-    public List<Employees> showEmp(){
-        List<Employees>listaEmp = new ArrayList();
+
+    public List<Employees> showEmp() {
+        List<Employees> listaEmp = new ArrayList();
         ResultSet res;
         try {
             this.conectar();
-            String sql="SELECT * from employees";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
-            res=pre.executeQuery();
-            while(res.next()){
+            String sql = "SELECT * from employees";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            res = pre.executeQuery();
+            while (res.next()) {
                 Employees emp = new Employees();
                 emp.setId(res.getInt("id"));
                 emp.setFirst_name(res.getString("first_name"));
@@ -247,22 +248,22 @@ public class Employees extends Conexion{
                 listaEmp.add(emp);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
-        }
-        finally{
+            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
+        } finally {
             this.desconectar();
         }
         return listaEmp;
     }
-    public List<Employees> showEmpAvaila(){
-        List<Employees>listaEmp = new ArrayList();
+
+    public List<Employees> showEmpAvaila() {
+        List<Employees> listaEmp = new ArrayList();
         ResultSet res;
         try {
             this.conectar();
-            String sql="SELECT * from employees WHERE status='Available'";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
-            res=pre.executeQuery();
-            while(res.next()){
+            String sql = "SELECT * from employees WHERE status='Available'";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            res = pre.executeQuery();
+            while (res.next()) {
                 Employees emp = new Employees();
                 emp.setId(res.getInt("id"));
                 emp.setFirst_name(res.getString("first_name"));
@@ -280,23 +281,23 @@ public class Employees extends Conexion{
                 listaEmp.add(emp);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
-        }
-        finally{
+            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
+        } finally {
             this.desconectar();
         }
         return listaEmp;
     }
-    public Employees getEmp(int id){
+
+    public Employees getEmp(int id) {
         Employees emp = new Employees();
-        ResultSet res=null;
+        ResultSet res = null;
         try {
             this.conectar();
-            String sql="select * from employees where id=?";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setInt(1,id);
-            res=pre.executeQuery();
-            while(res.next()){
+            String sql = "select * from employees where id=?";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setInt(1, id);
+            res = pre.executeQuery();
+            while (res.next()) {
                 emp.setId(res.getInt("id"));
                 emp.setFirst_name(res.getString("first_name"));
                 emp.setLast_name(res.getString("last_name"));
@@ -312,50 +313,68 @@ public class Employees extends Conexion{
                 emp.setImage(res.getString("image"));
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
-        }
-        finally{
+            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
+        } finally {
             this.desconectar();
         }
         return emp;
     }
-    public Employees getEmpSes(int id){//this fuction is used to get personal data from user logged in session 
+
+    public Employees getEmpSes(int id) {//this fuction is used to get personal data from user logged in session 
         Employees emp = new Employees();
-        ResultSet res=null;
+        ResultSet res = null;
         try {
             this.conectar();
-            String sql="select * from employees where user_id=?";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
-            pre.setInt(1,id);
-            res=pre.executeQuery();
-            while(res.next()){
+            String sql = "select * from employees where user_id=?";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setInt(1, id);
+            res = pre.executeQuery();
+            while (res.next()) {
                 emp.setFirst_name(res.getString("first_name"));
                 emp.setLast_name(res.getString("last_name"));
                 emp.setImage(res.getString("image"));
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
-        }
-        finally{
+            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
+        } finally {
             this.desconectar();
         }
         return emp;
     }
-    public void changeStatus(Working wop, String axn){
-        String status="Available";
-        if(axn=="Create")
-            status="Unavailable";
+
+    public void changeStatus(Working wop, String axn) {
+        String status = "Available";
+        if (axn == "Create") {
+            status = "Unavailable";
+        }
         try {
             this.conectar();
-            String sql="UPDATE employees SET status=? WHERE id=?";
-            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            String sql = "UPDATE employees SET status=? WHERE id=?";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1, status);
             pre.setInt(2, wop.getEmployee_id());
             pre.executeUpdate();
         } catch (Exception e) {
-            System.out.println("error "+e.getMessage());
+            System.out.println("error " + e.getMessage());
+        } finally {
+            this.desconectar();
         }
-        finally{
+    }
+
+    public void changeStatusUpdate(Working wop, int id_wkon) {
+        String status1 = "Available";
+        String status2 = "Unavailable";
+        
+        try {
+            this.conectar();
+            String sql = "UPDATE employees SET status=? WHERE id=?";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setString(1, status);
+            pre.setInt(2, wop.getEmployee_id());
+            pre.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("error " + e.getMessage());
+        } finally {
             this.desconectar();
         }
     }

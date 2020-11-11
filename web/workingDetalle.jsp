@@ -57,13 +57,85 @@
             $("#numCost").val(cost);
             $("#numCost").attr('min',salario);//cuando elegimos un empleado su salario en el proyecto 
             //debe ser mayor a el salario de la empresa por eso damos el valor de salario como min attribute
+            
+             $('#btnUpdate').attr('disabled',false);
+                $('#btnDelete').attr('disabled',false);
+                $('#btnCreate').attr('disabled',true); 
         }
+        
+        function clean(){
+                $('#btnCreate').attr('disabled',false);
+                $('#btnUpdate').attr('disabled',true);
+                $('#btnDelete').attr('disabled',true);
+            }
 
 
 
     </script>
 </head>
 <body>
+    <header>
+            <script>
+                $(document).ready(function () {
+
+                    //update question
+                    $('#btnUpdate').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea Modficar el registro?",
+                            text: "La modificación será irreversible",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, Modificar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnUpdate'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+
+                    });
+
+                    $('#btnDelete').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea eliminar registro?",
+                            text: "No se prodrá recuperar el registro",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, eliminar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnDelete'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+                    });
+                });
+
+            </script>
+            <%
+                if (request.getSession().getAttribute("msj") != null
+                        && request.getSession().getAttribute("conta").equals(1)) {
+            %>
+            <script type="text/javascript">
+
+                Swal.fire(
+                        'Department',
+                        '<%= request.getSession().getAttribute("msj")%>',
+                        '<%= request.getSession().getAttribute("type")%>'
+                        );
+
+            </script>
+            <%
+                    request.getSession().setAttribute("conta", 2);
+                }
+            %>
+        </header>
 <center><h2>Personal de <%= session.getAttribute("name_attr")%></h2></center>
 <div class="container">
     <form id="frmMain" action="workingDetalleController" method="POST">
@@ -118,10 +190,10 @@
 
 
         <br>
-        <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-        <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-        <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-        <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
+        <input type="reset" onclick="clean();" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
+        <input type="submit" name="btnCreate" disabled="disabled" id="btnCreate" value="Create" class="btn btn-outline-success"/>
+        <input type="button" name="btnUpdate" disabled="disabled" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
+        <input type="button" name="btnDelete" disabled="disabled" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
     </form>
 
     <br>
