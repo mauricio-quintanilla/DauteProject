@@ -31,6 +31,7 @@ public class ClientController extends HttpServlet {
             cli.setNit(request.getParameter("txtNit"));
             cli.setCompany_name(request.getParameter("txtComName"));
             cli.setCompany_address(request.getParameter("txtComAdd"));
+            cli.setUser_id(Integer.parseInt(request.getParameter("slctUser")));
             if(request.getParameter("btnCreate")!=null){
                 msj=cli.createClient(cli);
             }
