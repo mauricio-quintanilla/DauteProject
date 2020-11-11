@@ -89,7 +89,9 @@
 
                         <div class="col-5">
                             <h2><%= session.getAttribute("name_attr")%></h2>
-
+                            <a>De (<%= session.getAttribute("dIni")%>) hasta (<%= session.getAttribute("dFin")%>)</a>
+                            <h5 class="tr"><%= session.getAttribute("status_attr")%></h5>
+                            
                     </center>
                 </div>
             </section>
@@ -154,11 +156,16 @@
                                         </table>
                                     </div>
 
-
+                                    <%
+                                        if(!session.getAttribute("status_attr").equals("finalizado")){
+                                    %>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <p><a class="btn btn-sm btn-outline-secondary" href="workingDetalle.jsp" role="button">go to CRUD &raquo;</a></p>
                                         <small class="text-muted">CRUD</small>
                                     </div>
+                                    <%
+                                      }
+                                    %>
                                 </div>
                             </div>
                         </div>
@@ -212,10 +219,16 @@
                                             <th>$<%= df.format(totalFM)%></th>
                                         </tr>
                                     </table>
+                                    <%
+                                        if(!session.getAttribute("status_attr").equals("finalizado")){
+                                    %>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <p><a class="btn btn-sm btn-outline-secondary" href="inUseDetalle.jsp" role="button">go to CRUD&raquo;</a></p>
                                         <small class="text-muted">CRUD</small>
                                     </div>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
                         </div>

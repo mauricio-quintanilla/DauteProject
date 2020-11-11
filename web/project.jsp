@@ -59,6 +59,8 @@
             $("#txtDesc").val(desc);
             $("#dapStart").val(start);
             $("#dapFinish").val(finish);
+            $("#dsHidden").val(start);
+            $("#dfHidden").val(finish);
             $("#txtAddress").val(address);
             $("#my_lat").val(lat);
             $("#my_lng").val(lng);
@@ -66,6 +68,7 @@
             $("#txtStatus").val(status);
             $("#idHidden").val(id);
             $("#nameHidden").val(name);
+            $("#statusHidden").val(status);
             document.getElementById("edit-mark").disabled = false;
             document.getElementById("add-mark").disabled = true;
             document.getElementById("maquinaria").disabled = false;
@@ -125,6 +128,9 @@
                 <input type="submit" value="Recurso Humano y Maquinaria ->" id="maquinaria" disabled="disabled" name="btnMaquinaria" class="btn btn-outline-info">
                 <input type="hidden" name="nameHidden" id="nameHidden">
                 <input type="hidden" name="idHidden"  id="idHidden">
+                <input type="hidden" name="statusHidden"  id="statusHidden">
+                <input type="hidden" name="dsHidden"  id="dsHidden">
+                <input type="hidden" name="dfHidden"  id="dfHidden">
             </form>
         </div>
                 </div>
