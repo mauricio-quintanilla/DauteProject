@@ -37,53 +37,55 @@ public class Working extends Conexion {
         this.cost = cost;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="getters y setters">
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public int getProject_id() {
         return project_id;
     }
-
+    
     public void setProject_id(int project_id) {
         this.project_id = project_id;
     }
-
+    
     public int getEmployee_id() {
         return employee_id;
     }
-
+    
     public void setEmployee_id(int employee_id) {
         this.employee_id = employee_id;
     }
-
+    
     public String getIn_pro_from() {
         return in_pro_from;
     }
-
+    
     public void setIn_pro_from(String in_pro_from) {
         this.in_pro_from = in_pro_from;
     }
-
+    
     public String getIn_pro_to() {
         return in_pro_to;
     }
-
+    
     public void setIn_pro_to(String in_pro_to) {
         this.in_pro_to = in_pro_to;
     }
-
+    
     public double getCost() {
         return cost;
     }
-
+    
     public void setCost(double cost) {
         this.cost = cost;
     }
+//</editor-fold>
 
     public String createWorking(Working wop) {
         try {
@@ -199,4 +201,5 @@ public class Working extends Conexion {
         double nod = (ChronoUnit.DAYS.between(dateBefore, dateAfter))+1;
         return nod;
     }
+    
 }

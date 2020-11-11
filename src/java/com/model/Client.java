@@ -23,11 +23,12 @@ public class Client extends Conexion{
     private String nit;
     private String company_name;
     private String company_address;
-
+    private int user_id;
+    
     public Client() {
     }
 
-    public Client(int id, String name, String email, String phone_number, String nit, String company_name, String company_address) {
+    public Client(int id, String name, String email, String phone_number, String nit, String company_name, String company_address, int user_id) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -35,6 +36,7 @@ public class Client extends Conexion{
         this.nit = nit;
         this.company_name = company_name;
         this.company_address = company_address;
+        this.user_id = user_id;
     }
 
     public int getId() {
@@ -92,11 +94,20 @@ public class Client extends Conexion{
     public void setCompany_address(String company_address) {
         this.company_address = company_address;
     }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+    
     
     public String createClient(Client cli){
         try {
             this.conectar();
-            String sql="INSERT INTO client VALUES(?,?,?,?,?,?,?)";
+            String sql="INSERT INTO client VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setString(2, cli.getName());
@@ -105,6 +116,7 @@ public class Client extends Conexion{
             pre.setString(5, cli.getNit());
             pre.setString(6, cli.getCompany_name());
             pre.setString(7, cli.getCompany_address());
+            pre.setInt(8, cli.getUser_id());
             pre.executeUpdate();
             return "Client successfuly created";
         } catch (Exception e) {
@@ -117,7 +129,7 @@ public class Client extends Conexion{
     public String updateClient(Client cli){
         try {
             this.conectar();
-            String sql="UPDATE client SET name=?, email=?, phone_number=?, NIT=?, company_name=?, company_address=? WHERE id=?";
+            String sql="UPDATE client SET name=?, email=?, phone_number=?, NIT=?, company_name=?, company_address=?, user_id=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1, cli.getName());
             pre.setString(2, cli.getEmail());
@@ -125,7 +137,8 @@ public class Client extends Conexion{
             pre.setString(4, cli.getNit());
             pre.setString(5, cli.getCompany_name());
             pre.setString(6, cli.getCompany_address());
-            pre.setInt(7, cli.getId());
+            pre.setInt(7, cli.getUser_id());
+            pre.setInt(8, cli.getId());
             pre.executeUpdate();
             return "Client successfuly updated";
         } catch (Exception e) {
@@ -167,6 +180,7 @@ public class Client extends Conexion{
                 cli.setNit(res.getString("NIT"));
                 cli.setCompany_name(res.getString("company_name"));
                 cli.setCompany_address(res.getString("company_address"));
+                cli.setUser_id(res.getInt("user_id"));
                 listaCli.add(cli);
             }
         } catch (Exception e) {
@@ -194,6 +208,7 @@ public class Client extends Conexion{
                 cli.setNit(res.getString("NIT"));
                 cli.setCompany_name(res.getString("company_name"));
                 cli.setCompany_address(res.getString("company_address"));
+                cli.setUser_id(res.getInt("user_id"));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error "+e.getMessage());

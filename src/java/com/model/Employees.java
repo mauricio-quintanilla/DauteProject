@@ -27,13 +27,14 @@ public class Employees extends Conexion {
     private double salary;
     private int position_id;
     private int user_id;
-    private String status;
     private String image;
 
     public Employees() {
     }
 
-    public Employees(int id, String first_name, String last_name, String dob, String address, String phone_number, String dui, String nit, double salary, int position_id, int user_id, String status, String image) {
+    public Employees(int id, String first_name, String last_name, String dob,
+            String address, String phone_number, String dui, String nit,
+            double salary, int position_id, int user_id, String image) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -45,118 +46,111 @@ public class Employees extends Conexion {
         this.salary = salary;
         this.position_id = position_id;
         this.user_id = user_id;
-        this.status = status;
         this.image = image;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="getters y setters">
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getFirst_name() {
         return first_name;
     }
-
+    
     public void setFirst_name(String first_name) {
         this.first_name = first_name;
     }
-
+    
     public String getLast_name() {
         return last_name;
     }
-
+    
     public void setLast_name(String last_name) {
         this.last_name = last_name;
     }
-
+    
     public String getDob() {
         return dob;
     }
-
+    
     public void setDob(String dob) {
         this.dob = dob;
     }
-
+    
     public String getAddress() {
         return address;
     }
-
+    
     public void setAddress(String address) {
         this.address = address;
     }
-
+    
     public String getPhone_number() {
         return phone_number;
     }
-
+    
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
-
+    
     public String getDui() {
         return dui;
     }
-
+    
     public void setDui(String dui) {
         this.dui = dui;
     }
-
+    
     public String getNit() {
         return nit;
     }
-
+    
     public void setNit(String nit) {
         this.nit = nit;
     }
-
+    
     public double getSalary() {
         return salary;
     }
-
+    
     public void setSalary(double salary) {
         this.salary = salary;
     }
-
+    
     public int getPosition_id() {
         return position_id;
     }
-
+    
     public void setPosition_id(int position_id) {
         this.position_id = position_id;
     }
-
+    
     public int getUser_id() {
         return user_id;
     }
-
+    
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
+        
     public String getImage() {
         return image;
     }
-
+    
     public void setImage(String image) {
         this.image = image;
     }
+//</editor-fold>
 
     public String createEmp(Employees emp) {
         try {
             this.conectar();
-            String sql = "INSERT INTO employees VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO employees VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setString(2, emp.getFirst_name());
@@ -169,8 +163,7 @@ public class Employees extends Conexion {
             pre.setDouble(9, emp.getSalary());
             pre.setInt(10, emp.getPosition_id());
             pre.setInt(11, emp.getUser_id());
-            pre.setString(12, emp.getStatus());
-            pre.setString(13, emp.getImage());
+            pre.setString(12, emp.getImage());
             pre.executeUpdate();
             return "Employee successfuly created";
         } catch (Exception e) {
@@ -183,7 +176,7 @@ public class Employees extends Conexion {
     public String updateEmp(Employees emp) {
         try {
             this.conectar();
-            String sql = "UPDATE employees SET first_name=?, last_name=?, dob=?, address=?, phone_number=?, DUI=?, NIT=?, salary=?, position_id=?, user_id=?, status=?, image=? WHERE id=?";
+            String sql = "UPDATE employees SET first_name=?, last_name=?, dob=?, address=?, phone_number=?, DUI=?, NIT=?, salary=?, position_id=?, user_id=?, image=? WHERE id=?";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             pre.setString(1, emp.getFirst_name());
             pre.setString(2, emp.getLast_name());
@@ -195,9 +188,8 @@ public class Employees extends Conexion {
             pre.setDouble(8, emp.getSalary());
             pre.setInt(9, emp.getPosition_id());
             pre.setInt(10, emp.getUser_id());
-            pre.setString(11, emp.getStatus());
-            pre.setString(12, emp.getImage());
-            pre.setInt(13, emp.getId());
+            pre.setString(11, emp.getImage());
+            pre.setInt(12, emp.getId());
             pre.executeUpdate();
             return "Employee successfuly updated";
         } catch (Exception e) {
@@ -243,7 +235,6 @@ public class Employees extends Conexion {
                 emp.setSalary(res.getDouble("salary"));
                 emp.setPosition_id(res.getInt("position_id"));
                 emp.setUser_id(res.getInt("user_id"));
-                emp.setStatus(res.getString("status"));
                 emp.setImage(res.getString("image"));
                 listaEmp.add(emp);
             }
@@ -255,12 +246,12 @@ public class Employees extends Conexion {
         return listaEmp;
     }
 
-    public List<Employees> showEmpAvaila() {
+    public List<Employees> showEmpAvaila(Project prj) {
         List<Employees> listaEmp = new ArrayList();
         ResultSet res;
         try {
             this.conectar();
-            String sql = "SELECT * from employees WHERE status='Available'";
+            String sql = "SELECT * from employees";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
             res = pre.executeQuery();
             while (res.next()) {
@@ -276,7 +267,6 @@ public class Employees extends Conexion {
                 emp.setSalary(res.getDouble("salary"));
                 emp.setPosition_id(res.getInt("position_id"));
                 emp.setUser_id(res.getInt("user_id"));
-                emp.setStatus(res.getString("status"));
                 emp.setImage(res.getString("image"));
                 listaEmp.add(emp);
             }
@@ -309,7 +299,6 @@ public class Employees extends Conexion {
                 emp.setSalary(res.getDouble("salary"));
                 emp.setPosition_id(res.getInt("position_id"));
                 emp.setUser_id(res.getInt("user_id"));
-                emp.setStatus(res.getString("status"));
                 emp.setImage(res.getString("image"));
             }
         } catch (Exception e) {
@@ -342,40 +331,38 @@ public class Employees extends Conexion {
         return emp;
     }
 
-    public void changeStatus(Working wop, String axn) {
-        String status = "Available";
-        if (axn == "Create") {
-            status = "Unavailable";
-        }
+    
+    public List<Employees> showAvailaByDate(String ini, String fin) {
+        List<Employees> listaEmp = new ArrayList();
+        ResultSet res;
         try {
             this.conectar();
-            String sql = "UPDATE employees SET status=? WHERE id=?";
+            String sql = "SELECT * from employees WHERE id NOT IN (SELECT employee_id from working_on_project WHERE in_pro_from>=? AND in_pro_to<=?)";
             PreparedStatement pre = this.getCon().prepareStatement(sql);
-            pre.setString(1, status);
-            pre.setInt(2, wop.getEmployee_id());
-            pre.executeUpdate();
+            pre.setString(1, ini);
+            pre.setString(2, fin);
+            res = pre.executeQuery();
+            while (res.next()) {
+                Employees emp = new Employees();
+                emp.setId(res.getInt("id"));
+                emp.setFirst_name(res.getString("first_name"));
+                emp.setLast_name(res.getString("last_name"));
+                emp.setDob(res.getString("dob"));
+                emp.setAddress(res.getString("address"));
+                emp.setPhone_number(res.getString("phone_number"));
+                emp.setDui(res.getString("DUI"));
+                emp.setNit(res.getString("NIT"));
+                emp.setSalary(res.getDouble("salary"));
+                emp.setPosition_id(res.getInt("position_id"));
+                emp.setUser_id(res.getInt("user_id"));
+                emp.setImage(res.getString("image"));
+                listaEmp.add(emp);
+            }
         } catch (Exception e) {
-            System.out.println("error " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
         } finally {
             this.desconectar();
         }
-    }
-
-    public void changeStatusUpdate(Working wop, int id_wkon) {
-        String status1 = "Available";
-        String status2 = "Unavailable";
-        
-        try {
-            this.conectar();
-            String sql = "UPDATE employees SET status=? WHERE id=?";
-            PreparedStatement pre = this.getCon().prepareStatement(sql);
-            pre.setString(1, status);
-            pre.setInt(2, wop.getEmployee_id());
-            pre.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("error " + e.getMessage());
-        } finally {
-            this.desconectar();
-        }
+        return listaEmp;
     }
 }

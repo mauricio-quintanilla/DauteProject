@@ -314,4 +314,7 @@ public class Project extends Conexion{
             prcnt=1;
         return prcnt;
     }
+     public void updateStockProStatus(Project prj, Equipment eqId){
+         
+     }
 }

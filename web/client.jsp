@@ -4,6 +4,7 @@
     Author     : demon
 --%>
 
+<%@page import="com.model.Users"%>
 <%@page import="java.util.List"%>
 <%@page import="com.model.Client"%>
 <%@page session="true"%>
@@ -35,7 +36,7 @@
         
         
         <script>
-            function myLoad(id, name, email, phone, nit, comName, comAdd) {
+            function myLoad(id, name, email, phone, nit, comName, comAdd, userId) {
                 $("#txtId").val(id);
                 $("#txtName").val(name);
                 $("#txtEmail").val(email);
@@ -43,11 +44,13 @@
                 $("#txtNit").val(nit);
                 $("#txtComName").val(comName);
                 $("#txtComAdd").val(comAdd);
+                $("#slctUser").val(userId);
             }
         </script>
     </head>
 <%
     Client cli = new Client();
+    Users usr = new Users();
 %>
     <body class="bg-black">
         <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
@@ -123,14 +126,25 @@
                             <input type="email" name="txtEmail" id="txtEmail" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                             <label>Número de Teléfono: </label><br>
                             <input type="text" name="txtPhone" id="txtPhone" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
-                        </div>
-                        <div class="w-full md:w-1/2 md:pl-4">
                             <label>NIT: </label><br>
                             <input type="text" name="txtNit" id="txtNit" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        </div>
+                        <div class="w-full md:w-1/2 md:pl-4">
                             <label>Compañía: </label><br>
                             <input type="text" name="txtComName" id="txtComName" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                             <label>Dirección Compañía:</label><br>
                             <textarea class='text-black font-bold text-lg p-2 rounded w-full' name="txtComAdd" id="txtComAdd" required rows="3"></textarea><br>
+                            <label>Usuario: </label><br>
+                            <select name="slctUser" id="slctUser" class='text-black font-bold text-lg p-2 rounded w-full'>
+                                <%
+                                    List<Users> lst2 = usr.showUsers();
+                                    for (Users u : lst2) {
+                                %>
+                                <option value="<%= u.getId()%>"><%= u.getUser_name()%></option>
+                                <%
+                                    }
+                                %>
+                            </select><br>
                         </div>
                     </div>
 
@@ -156,6 +170,7 @@
                     <th class="border-2 border-white border-dashed p-2">NIT</th>
                     <th class="border-2 border-white border-dashed p-2">Compañía</th>
                     <th class="border-2 border-white border-dashed p-2">Dirección Compañía</th>
+                    <th class="border-2 border-white border-dashed p-2">Usuario</th>
                     <th class="border-2 border-white border-dashed p-2">Seleccionar</th>
                 </thead>
                 <tbody>
@@ -171,9 +186,10 @@
                     <td class="border-2 border-white border-dashed p-2"><%= c.getNit()%></td>
                     <td class="border-2 border-white border-dashed p-2"><%= c.getCompany_name()%></td>
                     <td class="border-2 border-white border-dashed p-2"><%= c.getCompany_address()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= usr.getUsers(c.getUser_id()).getUser_name() %></td>
                     <td class="border-2 border-white border-dashed p-2">
                         <a href="javascript:myLoad('<%= c.getId()%>','<%= c.getName()%>','<%= c.getEmail()%>',
-                           '<%= c.getPhone_number()%>','<%= c.getNit()%>','<%= c.getCompany_name()%>','<%= c.getCompany_address()%>')"
+                           '<%= c.getPhone_number()%>','<%= c.getNit()%>','<%= c.getCompany_name()%>','<%= c.getCompany_address()%>','<%= c.getUser_id()%>')"
                            class="font-bold text-blue-500 hover:underline">Seleccionar</a>
                     </td>
                 </tr>

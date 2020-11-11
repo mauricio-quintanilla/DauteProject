@@ -23,7 +23,6 @@ public class Conexion {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection("jdbc:mysql://localhost:3306/dautedb","root","");
-            //con=DriverManager.getConnection("jdbc:mysql://localhost:3306/dautedb2","root","");
             return true;
         } catch (SQLException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Conx error: "+e.getMessage());

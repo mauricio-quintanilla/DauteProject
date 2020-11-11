@@ -37,7 +37,7 @@
 
 
         <script>
-            function myLoad(id, first, last, dob, address, phone, dui, nit, salary, position, user, status, imga) {
+            function myLoad(id, first, last, dob, address, phone, dui, nit, salary, position, user, imga) {
                 $("#txtId").val(id);
                 $("#txtName").val(first);
                 $("#txtLast").val(last);
@@ -49,7 +49,6 @@
                 $("#numSalary").val(salary);
                 $("#slctPos").val(position);
                 $("#slctUser").val(user);
-                $("#txtStatus").val(status);
                 $("#fileImgBU").val(imga);
             }
         </script>
@@ -167,8 +166,6 @@
                                 }
                             %>
                         </select><br>
-                        <label>Estado: </label><br>
-                        <input type="text" name="txtStatus" id="txtStatus" class='text-black font-bold text-lg p-2 rounded w-full' value="Disponible" readonly/><br>                   
                         <label>Foto: </label><br>
                         <input type="file" class="bg-white text-black font-bold text-lg p-2 rounded w-full" name="fileImg" id="fileImg" aria-describedby="inputGroupFileAddon03"><br>
                     </div>
@@ -204,7 +201,6 @@
                     <th class="border-2 border-white border-dashed p-2">Salario</th>
                     <th class="border-2 border-white border-dashed p-2">Posición</th>
                     <th class="border-2 border-white border-dashed p-2">Usuario</th>
-                    <th class="border-2 border-white border-dashed p-2">Estado</th>
                     <th class="border-2 border-white border-dashed p-2">Foto</th>
                     <th class="border-2 border-white border-dashed p-2">Seleccionar</th>
                 </thead>
@@ -225,13 +221,12 @@
                     <td class="border-2 border-white border-dashed p-2">$<%= e.getSalary()%></td>
                     <td class="border-2 border-white border-dashed p-2"><%= pos.getPos(e.getPosition_id()).getName()%></td>
                     <td class="border-2 border-white border-dashed p-2"><%= usr.getUsers(e.getUser_id()).getUser_name()%></td>
-                    <td class="border-2 border-white border-dashed p-2"><%= e.getStatus()%></td>
                     <td class="border-2 border-white border-dashed p-2"><img src="imgs/<%= e.getImage()%>" height="75px" width="100px"></td>
                     <td class="border-2 border-white border-dashed p-2">
                         <a href="javascript:myLoad('<%= e.getId()%>','<%= e.getFirst_name()%>','<%= e.getLast_name()%>',
                            '<%= e.getDob()%>','<%= e.getAddress()%>','<%= e.getPhone_number()%>','<%= e.getDui()%>',
                            '<%= e.getNit()%>','<%= e.getSalary()%>','<%= e.getPosition_id()%>','<%= e.getUser_id()%>',
-                           '<%= e.getStatus()%>','<%= e.getImage()%>')"
+                           '<%= e.getImage()%>')"
                            class="font-bold text-blue-500 hover:underline">Seleccionar</a>
                     </td>
                 </tr>

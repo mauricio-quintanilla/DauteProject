@@ -64,10 +64,11 @@ public class LoginController extends HttpServlet {
                 response.sendRedirect("login.jsp?logout");
             }
             if(request.getParameter("nosession")!=null){
+                
+                vali = "Necesita iniciar sesion para entrar al Constru SV";
+                session.setAttribute("vl",vali);//---Mensaje
+                session.setAttribute("bandera",1);
                 session.invalidate();
-                 vali = "Necesita iniciar sesion para entrar al Constru SV";
-                 session.setAttribute("vl",vali);//---Mensaje
-                 session.setAttribute("bandera",1);
                 response.sendRedirect("login.jsp");
             }
         } catch (Exception e) {
