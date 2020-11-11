@@ -89,8 +89,8 @@ public class EquipmentController extends HttpServlet {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (!fileItem.isFormField()) {
                         if (fileItem.getName() != "") {
-                            File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
-//                          File f = new File("C:\\Users\\abc\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+//                            File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+                         File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
                             fileItem.write(f);
                             equ.setImage(fileItem.getName());
                         } else {

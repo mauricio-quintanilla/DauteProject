@@ -30,6 +30,7 @@ public class UsersController extends HttpServlet {
             usr.setEmail(request.getParameter("txtUsrEmail"));
             usr.setPassword(request.getParameter("pwdPassword"));
             usr.setRole_id(Integer.parseInt(request.getParameter("slctRol")));
+            usr.setPasswordV(request.getParameter("pwdPasswordHidden"));
             if(request.getParameter("btnCreate")!=null){
                 msj=usr.createUser(usr);
             }

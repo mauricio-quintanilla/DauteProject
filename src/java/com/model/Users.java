@@ -23,16 +23,18 @@ public class Users extends Conexion {
     private String email;
     private String password;
     private int role_id;
+    private String passwordV;
 
     public Users() {
     }
 
-    public Users(int id, String user_name, String email, String password, int role_id) {
+    public Users(int id, String user_name, String email, String password, int role_id, String passwordV) {
         this.id = id;
         this.user_name = user_name;
         this.email = email;
         this.password = password;
         this.role_id = role_id;
+        this.passwordV = passwordV;
     }
 
     public int getId() {
@@ -74,6 +76,15 @@ public class Users extends Conexion {
     public void setRole_id(int role_id) {
         this.role_id = role_id;
     }
+    
+    
+    public String getPasswordV() {
+        return passwordV;
+    }
+
+    public void setPasswordV(String password) {
+        this.passwordV = password;
+    }
     public String createUser(Users usr){
         String crypto="";
         try {
@@ -102,21 +113,25 @@ public class Users extends Conexion {
     }
     public String updateUser(Users usr){
         String crypto="";
-        String pass;
+      
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             digest.reset();
             digest.update(usr.getPassword().getBytes("utf8"));
             crypto = String.format("%040x", new BigInteger(1, digest.digest()));
             
-            pass=this.getUsers(usr.getId()).getPassword();
+            
             
             this.conectar();
             String sql="UPDATE users SET user_name=?, email=?, password=?, role_id=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setString(1, usr.getUser_name());
-            pre.setString(2, usr.getEmail());  
-            pre.setString(3, crypto);
+            pre.setString(2, usr.getEmail());
+            if(!usr.getPasswordV().equals(usr.getPassword())){
+                pre.setString(3, crypto);
+            }else{
+                pre.setString(3, usr.getPassword());
+            }   
             pre.setInt(4, usr.getRole_id());
             pre.setInt(5, usr.getId());
             pre.executeUpdate();

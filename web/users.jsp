@@ -40,6 +40,7 @@
             $("#txtUsrEmail").val(email);
             $("#pwdPassword").val(password);
             $("#slctRol").val(role);
+            $("#pwdPasswordHidden").val(password);
         }
     </script>
 </head>
@@ -121,6 +122,7 @@
                     <input type="email" name="txtUsrEmail" id="txtUsrEmail" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                     <label>Contraseña: </label><br>
                     <input type="password" name="pwdPassword" id="pwdPassword" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                    <input type="hidden" name="pwdPasswordHidden" id="pwdPasswordHidden"  required/><br>
                     <label>Rol: </label><br>
                     <select name="slctRol" id="slctRol" class='text-black font-bold text-lg p-2 rounded w-full'>
                         <%
