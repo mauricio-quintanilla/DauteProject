@@ -25,6 +25,7 @@ public class InUseController extends HttpServlet {
         PrintWriter out = response.getWriter();
         InUse inu = new InUse();
         Equipment equ= new Equipment();
+        double totalM = 0.0;
         String msj="";
         try {
             inu.setId(Integer.parseInt(request.getParameter("txtId")));
@@ -32,8 +33,11 @@ public class InUseController extends HttpServlet {
             inu.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
             inu.setIn_pro_from(request.getParameter("datFrom"));
             inu.setIn_pro_to(request.getParameter("datTo"));
+            inu.setNum_days((int) inu.daysInUse(request.getParameter("datFrom"), request.getParameter("datTo")));
             inu.setEquipment_quantity(Integer.parseInt(request.getParameter("numEqQu")));
             inu.setCost(Double.parseDouble(request.getParameter("numCost")));
+            totalM = (inu.daysInUse(request.getParameter("datFrom"), request.getParameter("datTo"))) * (Double.parseDouble(request.getParameter("numCost")) * Integer.parseInt(request.getParameter("numEqQu")));
+            inu.setTotal_cost(totalM);
             
             if(request.getParameter("btnCreate")!=null){
                 msj=inu.createInUse(inu);

@@ -27,15 +27,18 @@ public class InUseDetController extends HttpServlet {
         InUse inu = new InUse();
         Equipment equ = new Equipment();
         String msj = "";
+        double totalM = 0.0;
         String type = "success";
         try {
             inu.setId(Integer.parseInt(request.getParameter("txtId")));
             inu.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
             inu.setIn_pro_from(request.getParameter("datFrom"));
             inu.setIn_pro_to(request.getParameter("datTo"));
+            inu.setNum_days((int) inu.daysInUse(request.getParameter("datFrom"), request.getParameter("datTo")));
             inu.setEquipment_quantity(Integer.parseInt(request.getParameter("numEqQu")));
             inu.setCost(Double.parseDouble(request.getParameter("numCost")));
-
+            totalM = (inu.daysInUse(request.getParameter("datFrom"), request.getParameter("datTo"))) * (Double.parseDouble(request.getParameter("numCost")) * Integer.parseInt(request.getParameter("numEqQu")));
+            inu.setTotal_cost(totalM);
             if (request.getParameter("btnCreate") != null) {
                 inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqIdA")));
                     msj = inu.createInUse(inu);

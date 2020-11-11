@@ -23,92 +23,119 @@ public class InUse extends Conexion{
     private int project_id;
     private String in_pro_from;
     private String in_pro_to;
+    private int num_days;
     private int equipment_quantity;
     private double cost;
+    private double total_cost;
 
     public InUse() {
     }
 
-    public InUse(int id, int equipment_id, int project_id, String in_pro_from, String in_pro_to, int equipment_quantity, double cost) {
+    public InUse(int id, int equipment_id, int project_id, String in_pro_from, String in_pro_to, int num_days, int equipment_quantity, double cost, double total_cost) {
         this.id = id;
         this.equipment_id = equipment_id;
         this.project_id = project_id;
         this.in_pro_from = in_pro_from;
         this.in_pro_to = in_pro_to;
+        this.num_days = num_days;
         this.equipment_quantity = equipment_quantity;
         this.cost = cost;
+        this.total_cost = total_cost;
     }
 
     
 
+    //<editor-fold defaultstate="collapsed" desc="getters and setters">
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public int getEquipment_id() {
         return equipment_id;
     }
-
+    
     public void setEquipment_id(int equipment_id) {
         this.equipment_id = equipment_id;
     }
-
+    
     public int getProject_id() {
         return project_id;
     }
-
+    
     public void setProject_id(int project_id) {
         this.project_id = project_id;
     }
-
+    
     public String getIn_pro_from() {
         return in_pro_from;
     }
-
+    
     public void setIn_pro_from(String in_pro_from) {
         this.in_pro_from = in_pro_from;
     }
-
+    
     public String getIn_pro_to() {
         return in_pro_to;
     }
-
+    
     public void setIn_pro_to(String in_pro_to) {
         this.in_pro_to = in_pro_to;
     }
 
+    public int getNum_days() {
+        return num_days;
+    }
+
+    public void setNum_days(int num_days) {
+        this.num_days = num_days;
+    }
+    
     public int getEquipment_quantity() {
         return equipment_quantity;
     }
-
+    
     public void setEquipment_quantity(int equipment_quantity) {
         this.equipment_quantity = equipment_quantity;
     }
-
+    
     public double getCost() {
         return cost;
     }
-
+    
     public void setCost(double cost) {
         this.cost = cost;
     }
+
+    public double getTotal_cost() {
+        return total_cost;
+    }
+
+    public void setTotal_cost(double total_cost) {
+        this.total_cost = total_cost;
+    }
+    
+    
+    
+//</editor-fold>
     
     public String createInUse(InUse inu){
         try {
             this.conectar();
-            String sql="INSERT INTO in_use VALUES(?,?,?,?,?,?,?)";
+            String sql="INSERT INTO in_use VALUES(?,?,?,?,?,?,?,?,?)";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, 0);
             pre.setInt(2, inu.getEquipment_id());
             pre.setInt(3, inu.getProject_id());
             pre.setString(4, inu.getIn_pro_from());
             pre.setString(5, inu.getIn_pro_to());
-            pre.setInt(6, inu.getEquipment_quantity());
-            pre.setDouble(7, inu.getCost());
+            pre.setInt(6, inu.getNum_days());
+            pre.setInt(7, inu.getEquipment_quantity());
+            pre.setDouble(8, inu.getCost());
+            pre.setDouble(9, inu.getTotal_cost());
             pre.executeUpdate();
             return "Equ in use successfuly created";
         } catch (Exception e) {
@@ -121,15 +148,17 @@ public class InUse extends Conexion{
     public String updateInUse(InUse inu){
         try {
             this.conectar();
-            String sql="UPDATE in_use SET equipment_id=?, project_id=?, in_pro_from=?, in_pro_to=?, equipment_quantity=?, cost=? WHERE id=?";
+            String sql="UPDATE in_use SET equipment_id=?, project_id=?, in_pro_from=?, in_pro_to=?, num_days=?, equipment_quantity=?, cost=?, total_cost=? WHERE id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, inu.getEquipment_id());
             pre.setInt(2, inu.getProject_id());
             pre.setString(3, inu.getIn_pro_from());
             pre.setString(4, inu.getIn_pro_to());
-            pre.setInt(5, inu.getEquipment_quantity());
-            pre.setDouble(6, inu.getCost());
-            pre.setInt(7, inu.getId());
+            pre.setInt(5, inu.getNum_days());
+            pre.setInt(6, inu.getEquipment_quantity());
+            pre.setDouble(7, inu.getCost());
+            pre.setDouble(8, inu.getTotal_cost());
+            pre.setInt(9, inu.getId());
             pre.executeUpdate();
             return "Equ in use successfuly updated";
         } catch (Exception e) {
