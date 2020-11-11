@@ -93,7 +93,7 @@
             </div>
             <div class="flex justify-end w-4/12 py-2">
                 <div class="flex items-center justify-center">
-                    <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
+                    <button id="btnLogout" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</button><br>
                 </div>
             </div>
         </div>
