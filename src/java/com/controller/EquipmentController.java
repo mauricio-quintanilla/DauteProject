@@ -30,12 +30,12 @@ public class EquipmentController extends HttpServlet {
 
         PrintWriter out = response.getWriter();
         Equipment equ = new Equipment();
-        String img="";
+        String img = "";
         String msj = "";
         try {
-                FileItemFactory file = new DiskFileItemFactory();
-                ServletFileUpload fileUpload = new ServletFileUpload(file);
-                List items = fileUpload.parseRequest(request);
+            FileItemFactory file = new DiskFileItemFactory();
+            ServletFileUpload fileUpload = new ServletFileUpload(file);
+            List items = fileUpload.parseRequest(request);
             if (request.getParameter("btnDelete") != null) {
                 for (int i = 0; i < items.size(); i++) {
                     FileItem fileItem = (FileItem) items.get(i);
@@ -46,17 +46,18 @@ public class EquipmentController extends HttpServlet {
                     }
                 }
                 msj = equ.deleteEqu(equ);
-            }else{
+            } else if (request.getParameter("btnCreate") != null) {
                 ArrayList<String> lista = new ArrayList<>();
                 for (int i = 0; i < items.size(); i++) {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (!fileItem.isFormField()) {
-                        if(fileItem.getName()!=""){
-                            File f = new File("C:\\Users\\demon\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+                        if (fileItem.getName() != "") {
+                            File f = new File("C:\\Users\\abc\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
                             fileItem.write(f);
                             equ.setImage(fileItem.getName());
-                        }else
-                            img="noproject.png";
+                        } else {
+                            img = "noproject.png";
+                        }
                     } else {
                         lista.add(fileItem.getString());
                     }
@@ -70,21 +71,62 @@ public class EquipmentController extends HttpServlet {
                 equ.setInventory(Integer.parseInt(lista.get(6)));
                 equ.setType(Integer.parseInt(lista.get(7)));
                 equ.setRentalPrice(Double.parseDouble(lista.get(8)));
-                if(request.getParameter("btnCreate")!=null){
-                    if(img!="")
+                if (request.getParameter("btnCreate") != null) {
+                    if (img != "") {
                         equ.setImage(img);
-                    msj=equ.createEqu(equ);
+                    }
+                    msj = equ.createEqu(equ);
                 }
-                if(request.getParameter("btnUpdate")!=null){
-                    if(img!="")
+                if (request.getParameter("btnUpdate") != null) {
+                    if (img != "") {
                         equ.setImage(lista.get(9));
-                    msj=equ.updateEqu(equ);
+                    }
+                    msj = equ.updateEqu(equ);
+                }
+            } else if(request.getParameter("btnUpdate") != null) {
+                ArrayList<String> lista = new ArrayList<>();
+                for (int i = 0; i < items.size(); i++) {
+                    FileItem fileItem = (FileItem) items.get(i);
+                    if (!fileItem.isFormField()) {
+                        if (fileItem.getName() != "") {
+                            File f = new File("C:\\Users\\abc\\Documents\\NetBeansProjects\\DauteProject\\web\\imgs\\" + fileItem.getName());
+                            fileItem.write(f);
+                            equ.setImage(fileItem.getName());
+                        } else {
+                            img = "noproject.png";
+                        }
+                    } else {
+                        lista.add(fileItem.getString());
+                    }
+                }
+                equ.setId(Integer.parseInt(lista.get(0)));
+                equ.setName(lista.get(1));
+                equ.setModel(lista.get(2));
+                equ.setDescription(lista.get(3));
+                equ.setBrand(lista.get(4));
+                equ.setStock(Integer.parseInt(lista.get(5)));
+                equ.setInventory(Integer.parseInt(lista.get(6)));
+                equ.setType(Integer.parseInt(lista.get(7)));
+                equ.setRentalPrice(Double.parseDouble(lista.get(8)));
+                if (request.getParameter("btnCreate") != null) {
+                    if (img != "") {
+                        equ.setImage(img);
+                    }
+                    msj = equ.createEqu(equ);
+                }
+                if (request.getParameter("btnUpdate") != null) {
+                    if (img != "") {
+                        equ.setImage(lista.get(9));
+                    }
+                    msj = equ.updateEqu(equ);
                 }
             }
-            request.getSession().setAttribute("msj",msj);
+            request.getSession().setAttribute("msj", msj);
+            request.getSession().setAttribute("conta", 1);
             response.sendRedirect("equipment.jsp");
         } catch (Exception e) {
             request.getSession().setAttribute("error", e.toString());
+            response.sendRedirect("error.jsp");
         }
     }
 
