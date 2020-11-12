@@ -133,7 +133,7 @@
                             <th class="border border-white p-1">Desde</th>
                             <th class="border border-white p-1">Hasta</th>
                             <th class="border border-white p-1">Días</th>
-                            <th class="border border-white p-1">Salario Mensual en Proyecto</th>
+                            <th class="border border-white p-1">Costo diario en Proyecto</th>
                             <th class="border border-white p-1">Costo</th>
                         </thead>
                                         <%
@@ -154,7 +154,7 @@
                                             <td class="border border-white p-1"><%= w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())%></td>
                                             <td class="border border-white p-1">$<%= df.format(w.getCost())%></td>
                                             <%
-                                                total = (w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())) * (w.getCost() / 30);
+                                                total = (w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())) * (w.getCost());
                                                 totalF = totalF + total;
 
 

@@ -219,8 +219,8 @@
             <th>desde</th>
             <th>hasta</th>
             <th>dias en project</th>
-            <th>sal mensual en proj</th>
-            <th>costo en project</th>
+            <th>costo diario en proj</th>
+            <th>costo total</th>
             <th>action</th>
         </tr>
         <%
@@ -241,7 +241,7 @@
             <td><%= w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())%></td>
             <td>$<%= df.format(w.getCost())%></td>
             <%
-                total = (w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())) * (w.getCost() / 30);
+                total = (w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())) * (w.getCost());
                 totalF = totalF + total;
 
 
