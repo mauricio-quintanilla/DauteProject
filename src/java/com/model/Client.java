@@ -191,12 +191,41 @@ public class Client extends Conexion{
         }
         return listaCli;
     }
+    
     public Client getClient(int id){
         Client cli = new Client();
         ResultSet res=null;
         try {
             this.conectar();
             String sql="select * from client where user_id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while(res.next()){
+                cli.setId(res.getInt("id"));
+                cli.setName(res.getString("name"));
+                cli.setEmail(res.getString("email"));
+                cli.setPhone_number(res.getString("phone_number"));
+                cli.setNit(res.getString("NIT"));
+                cli.setCompany_name(res.getString("company_name"));
+                cli.setCompany_address(res.getString("company_address"));
+                cli.setUser_id(res.getInt("user_id"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return cli;
+    }
+    
+    public Client getClientPjct(int id){
+        Client cli = new Client();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="select * from client where id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1,id);
             res=pre.executeQuery();

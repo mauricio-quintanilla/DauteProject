@@ -336,8 +336,7 @@
                             <th class="border-2 border-white border-dashed p-2 text-lg">Starts</th>
                             <th class="border-2 border-white border-dashed p-2 text-lg">Ends</th>
                             <th class="border-2 border-white border-dashed p-2 text-lg">address</th>
-                            <th class="border-2 border-white border-dashed p-2 text-lg">Lat</th>
-                            <th class="border-2 border-white border-dashed p-2 text-lg">Lng</th>
+                            
                             <th class="border-2 border-white border-dashed p-2 text-lg">Company</th>
                             <th class="border-2 border-white border-dashed p-2 text-lg">Status</th>
                             <th class="border-2 border-white border-dashed p-2 text-lg">Action</th>
@@ -355,9 +354,8 @@
                             <td class="border-2 border-white border-dashed p-1"><%= p.getStarted_date()%></td>
                             <td class="border-2 border-white border-dashed p-1"><%= p.getFinish_date()%></td>
                             <td class="border-2 border-white border-dashed p-1"><%= p.getAddress()%></td>
-                            <td class="border-2 border-white border-dashed p-1"><%= p.getLat()%></td>
-                            <td class="border-2 border-white border-dashed p-1"><%= p.getLng()%></td>
-                            <td class="border-2 border-white border-dashed p-1"><%= cli.getClient(p.getClient_id()).getCompany_name() %></td>
+                            
+                            <td class="border-2 border-white border-dashed p-1"><%= cli.getClientPjct(p.getClient_id()).getCompany_name() %></td>
                             <td class="border-2 border-white border-dashed p-1"><%= p.getStatus()%></td>
                             <td class="border-2 border-white border-dashed p-1">
                                 <a data-scroll href="#map" >
