@@ -221,6 +221,37 @@ public class Project extends Conexion{
         }
         return listaPrj;
     }
+    public List<Project> showPrjByCli(int cli_id){
+        List<Project>listaPrj=new ArrayList();
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql="SELECT * from project where client_id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,cli_id);
+            res=pre.executeQuery();
+            while(res.next()){
+                Project prj = new Project();
+                prj.setId(res.getInt("id"));
+                prj.setName(res.getString("name"));
+                prj.setDescription(res.getString("description"));
+                prj.setStarted_date(res.getString("started_date"));
+                prj.setFinish_date(res.getString("finish_date"));
+                prj.setAddress(res.getString("address"));
+                prj.setLat(res.getString("lat"));
+                prj.setLng(res.getString("lng"));
+                prj.setClient_id(res.getInt("client_id"));
+                prj.setStatus(setProStatus(res.getInt("id")));
+                listaPrj.add(prj);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return listaPrj;
+    }
     public Project getProyect(int id){
         Project prj = new Project();
         ResultSet res=null;
