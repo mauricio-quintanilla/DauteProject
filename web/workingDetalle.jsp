@@ -12,38 +12,30 @@
 <%@page import="com.model.Working"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    DecimalFormat df = new DecimalFormat("##.00");
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
 <!doctype html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-         <!-- JQuery -->
+        <title>Recurso Humano Proyecto - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
         <!-- SweetAlert -->
         <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
-        
-        <%
-            DecimalFormat df = new DecimalFormat("##.00");
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-        %>
-    <label>Role: <%= session.getAttribute("rolName")%></label>
-    <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-    <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-    <a href="loginController?logout=y">Log out</a>
-    <%
-        Working wop = new Working();
-        Project prj = new Project();
-        Employees emp = new Employees();
-        Position pos = new Position();
-
-    %>
-    <title><%= session.getAttribute("name_attr")%> STAFF</title>
-    <script type="text/javascript" src="jquery.js"></script>
     <script>
         function myLoad(id, project, employee, from, to, cost, salario) {
             $("#divAdd").hide();
@@ -71,7 +63,14 @@
             }
     </script>
 </head>
-<body>
+<%
+    Working wop = new Working();
+    Project prj = new Project();
+    Employees emp = new Employees();
+    Position pos = new Position();
+
+%>
+<body class="bg-black">
     <header>
             <script>
                 $(document).ready(function () {
@@ -114,6 +113,28 @@
                             }
                         });
                     });
+
+                    
+                $('#btnLogout').click(function () {
+                    swal.fire({
+                        type: "warning",
+                        title: "¿En realidad desea cerrar sesión?",
+
+                        showCancelButton: true,
+                        cancelButtonColor: "red",
+                        ShowConfirmButton: true,
+                        confirmButtonColor: '#5cb85c',
+                        confirmButtonText: "Cerrar Sesión",
+                        cancelButtonText: "Calcelar"
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#log').append("<a id='home-link' href='loginController?logout=y'></a>");
+                            document.getElementById("home-link").click();
+
+                        }
+                    });
+
+                });
                 });
 
             </script>
@@ -124,7 +145,7 @@
             <script type="text/javascript">
 
                 Swal.fire(
-                        'Department',
+                        'Recurso Humano',
                         '<%= request.getSession().getAttribute("msj")%>',
                         '<%= request.getSession().getAttribute("type")%>'
                         );
@@ -135,16 +156,46 @@
                 }
             %>
         </header>
-<center><h2>Personal de <%= session.getAttribute("name_attr")%></h2></center>
-<div class="container">
+
+        <div class="flex bg-gray w-full px-4 md:px-16">
+            <div class="flex w-8/12 py-2">
+                <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                    <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                    <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+                </div>
+                <div class="flex items-center">
+                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+                </div>
+            </div>
+            <div class="flex justify-end w-4/12 py-2">
+                <div class="flex items-center justify-center">
+                    <button id="btnLogout" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</button><br>
+                </div>
+            </div>
+        </div>
+
+        <div style="visibility: hidden;" id="log"></div>
+
+        <!-- ---------------------------------------------------------------------- -->
+        <div class="text-white flex justify-center mt-4">
+            <h1 class="text-white text-4xl font-bold text-center">Gestión Recurso Humano en Proyecto</h1>
+        </div>
+        <div class="flex justify-center">
+            <a href="proyectAdd.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+        </div>
+        <div class="text-white flex justify-center mt-4">
+            <h1 class="text-white text-xl font-bold text-center">Proyecto: <%= session.getAttribute("name_attr")%></h1>
+        </div>
+
+<div class="text-white flex justify-center w-full md:w-auto mt-4">
     <form id="frmMain" action="workingDetalleController" method="POST">
         <div id="question"></div>
-        <div class='row'>
-            <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
-            <input type="hidden" name="slctProId" id="slctProId" value="<%= (Integer) session.getAttribute("id_attr")%>">
-            <div class="col-6" id="divAdd">
-                <label>Empleados</label>
-                <select name="slctEmpId" id="slctEmpId" class='form-control'>
+        <input type="hidden" name="txtId" id="txtId" value="0"/>
+        <input type="hidden" name="slctProId" id="slctProId" value="<%= (Integer) session.getAttribute("id_attr")%>">
+        
+            <div id="divAdd">
+                <label>Empleado: </label><br>
+                <select name="slctEmpId" id="slctEmpId" class="text-black font-bold text-lg p-2 rounded">
                     <%
                        String ini=prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date(); 
                        String fin=prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date();
@@ -156,11 +207,11 @@
                         <%
                             }
                         %>
-                </select>
+                </select><br>
             </div>
-            <div class="col-6" id="divUpdDel">
-                <label>Empleados</label>
-                <select name="slctEmpId2" id="slctEmpId2" class='form-control'>
+            <div id="divUpdDel">
+                <label>Empleados</label><br>
+                <select name="slctEmpId2" id="slctEmpId2" class="text-black font-bold text-lg p-2 rounded">
                     <%
                         List<Employees> lst2 = emp.showEmp();
                         for (Employees e : lst2) {
@@ -170,59 +221,52 @@
                         <%
                             }
                         %>
-                </select>
+                </select><br>
             </div>
-            <div class="col-md-6">
+            
 
-                <label>Montly Cost</label>
-                <input type="number" name="numCost" id="numCost" min='0.01' step="0.01" class='form-control' required/>
-            </div>
-        </div>
+                <label>Costo Diario</label><br>
+                <input type="number" name="numCost" id="numCost" min='0.01' step="0.01" class="text-black font-bold text-lg p-2 rounded" required/><br>
+        
 
-        <div class="row">
-            <div class="col-md-6">
-                <label>en projecto desde</label>
-                <input type="date" name="datFrom" id="datFrom" class='form-control' 
+        
+                <label>En Proyecto desde</label><br>
+                <input type="date" name="datFrom" id="datFrom" class="text-black font-bold text-lg p-2 rounded" 
                        value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>" 
                        min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
-                       max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' required/>
-            </div>
-            <div class="col-md-6">
-                <label>en projecto hasta <%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%></label>
+                       max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' required/> <br>
+
+                <label>En Proyecto hasta <%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%></label> <br>
                 <input type="date" name="datTo" id="datTo" 
                        value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>" 
-                       class='form-control' 
+                       class="text-black font-bold text-lg p-2 rounded" 
                        min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
                        max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' 
                        required/>
-            </div>
+
+        <div class="mt-8">
+            <input type="reset" name="btnNew" value="Limpiar" onclick="clean();" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+            <input type="submit" name="btnCreate" id="btnCreate" disabled="disabled" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+            <input type="button" id="btnUpdate" value="Actualizar" disabled="disabled" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+            <input type="button" id="btnDelete" value="Eliminar" disabled="disabled"  class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
         </div>
-
-
-
-
-
-
-        <br>
-        <input type="reset" onclick="clean();" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-        <input type="submit" name="btnCreate" disabled="disabled" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-        <input type="button" name="btnUpdate" disabled="disabled" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-        <input type="button" name="btnDelete" disabled="disabled" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
     </form>
+</div>
 
     <br>
 
-    <table   class='table table-hover'>
-        <tr class="thead-dark">
-            <th>Nombre</th>
-            <th>Cargo</th>
-            <th>desde</th>
-            <th>hasta</th>
-            <th>dias en project</th>
-            <th>costo diario en proj</th>
-            <th>costo total</th>
-            <th>action</th>
-        </tr>
+    <div class="text-white md:flex md:justify-center w-full md:w-auto mt-4 px-4 overflow-x-auto">
+    <table>
+        <thead>
+            <th class="border-2 border-white border-dashed p-2">Nombre</th>
+            <th class="border-2 border-white border-dashed p-2">Cargo</th>
+            <th class="border-2 border-white border-dashed p-2">Desde</th>
+            <th class="border-2 border-white border-dashed p-2">Hasta</th>
+            <th class="border-2 border-white border-dashed p-2">Días en Proyecto</th>
+            <th class="border-2 border-white border-dashed p-2">Costo Diario</th>
+            <th class="border-2 border-white border-dashed p-2">Costo Total</th>
+            <th class="border-2 border-white border-dashed p-2">Seleccionar</th>
+        </thead>
         <%
             int idHere = (Integer) session.getAttribute("id_attr");
 
@@ -234,22 +278,23 @@
                         + " " + emp.getEmp(w.getEmployee_id()).getLast_name();
         %>
         <tr>
-            <td><%= name%></td>
-            <td><%= pos.getPos((emp.getEmp(w.getEmployee_id()).getPosition_id())).getName()%></td>
-            <td><%= w.getIn_pro_from()%></td>
-            <td><%= w.getIn_pro_to()%></td>
-            <td><%= w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())%></td>
-            <td>$<%= df.format(w.getCost())%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= name%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= pos.getPos((emp.getEmp(w.getEmployee_id()).getPosition_id())).getName()%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= w.getIn_pro_from()%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= w.getIn_pro_to()%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())%></td>
+            <td class="border-2 border-white border-dashed p-2">$<%= df.format(w.getCost())%></td>
             <%
                 total = (w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())) * (w.getCost());
                 totalF = totalF + total;
 
 
             %>
-            <td>$<%= df.format(total)%></td>
-            <td><a href="javascript:myLoad(<%= w.getId()%>,<%= w.getProject_id()%>,
+            <td class="border-2 border-white border-dashed p-2">$<%= df.format(total)%></td>
+            <td class="border-2 border-white border-dashed p-2"><a href="javascript:myLoad(<%= w.getId()%>,<%= w.getProject_id()%>,
                    <%= w.getEmployee_id()%>,'<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
-                   <%= w.getCost()%>,<%= emp.getEmp(w.getId()).getSalary()%>)">Select</a>
+                   <%= w.getCost()%>,<%= emp.getEmp(w.getId()).getSalary()%>)"
+                   class="font-bold text-blue-500 hover:underline">Seleccionar</a>
             </td>
             <%
                 }
@@ -257,15 +302,13 @@
 
         </tr>
         <tr>
-            <th colspan="7">Total</th>
-            <th>$<%= df.format(totalF)%></th>
+            <th colspan="6" class="border-2 border-white border-dashed p-2 text-right">Total</th>
+            <th class="border-2 border-white border-dashed p-2">$<%= df.format(totalF)%></th>
 
         </tr>
     </table>
-    <br>
-    <p>go back to <a href="proyectAdd.jsp">the <%= session.getAttribute("name_attr")%> Menú</a></p>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <br>
+
 </body>
 </html>
