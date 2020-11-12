@@ -12,37 +12,30 @@
 <%@page import="com.model.InUse"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    DecimalFormat df = new DecimalFormat("##.##");
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <title>Maquinaria Proyecto - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
         <!-- SweetAlert -->
         <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
-        <%
-            DecimalFormat df = new DecimalFormat("##.##");
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-        %>
-    <label>Role: <%= session.getAttribute("rolName")%></label>
-    <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-    <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-    <a href="loginController?logout=y">Log out</a>
-    <%
-        InUse inu = new InUse();
-        Project prj = new Project();
-        Equipment equ = new Equipment();
-        Working wrk = new Working();
-        int idCustom = 0;
-
-    %>
-    <title><%= session.getAttribute("name_attr")%></title>
-    <script type="text/javascript" src="jquery.js"></script>
 
     <script>
         function myLoad(id, equi, proj, df, dt, eqQ, cst, stock) {
@@ -84,7 +77,15 @@
 
     </script>
 </head>
-<body>
+<%
+    InUse inu = new InUse();
+    Project prj = new Project();
+    Equipment equ = new Equipment();
+    Working wrk = new Working();
+    int idCustom = 0;
+
+%>
+<body class="bg-black">
     <header>
         <script>
             $(document).ready(function () {
@@ -127,6 +128,27 @@
                         }
                     });
                 });
+
+                $('#btnLogout').click(function () {
+                    swal.fire({
+                        type: "warning",
+                        title: "¿En realidad desea cerrar sesión?",
+
+                        showCancelButton: true,
+                        cancelButtonColor: "red",
+                        ShowConfirmButton: true,
+                        confirmButtonColor: '#5cb85c',
+                        confirmButtonText: "Cerrar Sesión",
+                        cancelButtonText: "Calcelar"
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#log').append("<a id='home-link' href='loginController?logout=y'></a>");
+                            document.getElementById("home-link").click();
+
+                        }
+                    });
+
+                });
             });
 
         </script>
@@ -148,17 +170,46 @@
             }
         %>
     </header>
-<center><h2><%= session.getAttribute("name_attr")%> Equipment in use CRUD</h2></center>
-<div class="container">
+    <div class="flex bg-gray w-full px-4 md:px-16">
+        <div class="flex w-8/12 py-2">
+            <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+            </div>
+            <div class="flex items-center">
+                <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+            </div>
+        </div>
+        <div class="flex justify-end w-4/12 py-2">
+            <div class="flex items-center justify-center">
+                <button id="btnLogout" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</button><br>
+            </div>
+        </div>
+    </div>
+
+    <div style="visibility: hidden;" id="log"></div>
+
+    <!-- ---------------------------------------------------------------------- -->
+    <div class="text-white flex justify-center mt-4">
+        <h1 class="text-white text-4xl font-bold text-center">Maquinaria en Proyecto</h1>
+    </div>
+    <div class="flex justify-center">
+        <a href="proyectAdd.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+    </div>
+    <div class="text-white flex justify-center mt-4">
+        <h1 class="text-white text-xl font-bold text-center">Proyecto: <%= session.getAttribute("name_attr")%></h1>
+    </div>
+
+<div class="text-white flex justify-center w-full md:w-auto mt-4">
     <form id="frmMain" action="inUseDetController" method="POST">
         <div id="question"></div>
         <input type="hidden" name="slctProId" id="slctProId" value="<%= (Integer) session.getAttribute("id_attr")%>" class='form-control'>
         <input type="hidden" name="vliStock" id="vliStock">
-        <div class='row'>
-            <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
-            <div class='col-md-6' id="divUpdDel">
-                <label>Equipment</label>
-                <select name="slctEqIdU" id="slctEqId" required="required" class='form-control' onchange="getMInMax()">
+            <input type="hidden" name="txtId" id="txtId" value="0"/>
+
+            <div id="divUpdDel">
+                <label>Equipo:</label><br>
+                <select name="slctEqIdU" id="slctEqId" required="required" class="text-black font-bold text-lg p-2 rounded" onchange="getMInMax()">
                     <%
                         List<Equipment> lst = equ.showEqu();
                         for (Equipment e : lst) {
@@ -171,11 +222,11 @@
                     <%
                         }
                     %>
-                </select>
+                </select><br>
             </div>
-            <div class='col-md-6' id="divAdd">
-                <label>Equipment</label>
-                <select name="slctEqIdA" id="slctEqId" required="required" class='form-control' onchange="getMInMax()">
+            <div id="divAdd">
+                <label>Equipo:</label><br>
+                <select name="slctEqIdA" id="slctEqId" required="required" class="text-black font-bold text-lg p-2 rounded" onchange="getMInMax()">
                     <%
                         List<Equipment> lstAdd = equ.showEquAvaila((Integer) session.getAttribute("id_attr"));
                         for (Equipment e : lstAdd) {
@@ -188,63 +239,58 @@
                     <%
                         }
                     %>
-                </select>
+                </select><br>
             </div>
                 
-        </div>
-        <div class='row'>
-            <div class='col-md-6'>
-                <label>en projecto desde</label>
-                <input type="date" name="datFrom" id="datFrom" class='form-control' 
+
+                <label>En Proyecto desde: </label><br>
+                <input type="date" name="datFrom" id="datFrom" class="text-black font-bold text-lg p-2 rounded" 
                        value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>"
                        min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
                        max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' 
-                       required/>
-            </div>
-            <div class='col-md-6'>
-                <label>en projecto hasta</label>
-                <input type="date" name="datTo" id="datTo" class='form-control'
+                       required/> <br>
+            
+                <label>En proyecto hasta: </label> <br>
+                <input type="date" name="datTo" id="datTo" class="text-black font-bold text-lg p-2 rounded"
                        value="<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>"
                        min='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getStarted_date()%>' 
                        max='<%= prj.getProyect((Integer) session.getAttribute("id_attr")).getFinish_date()%>' 
-                       required/>
-            </div>
+                       required/> <br>
 
-        </div>
 
-        <div class='row'>
-            <div class='col-md-6'>
-                <label>Número de unidades a asignar </label>
+                <label>Número de unidades a asignar: </label> <br>
 
                 <input type="number" name="numEqQu" id="numEqQu" max="" min="1"
-                       step="1" class='form-control' required/>
-            </div>
-            <div class='col-md-6'>
-                <label>Precio Unitario de alquiler</label>
-                <input type="number" name="numCost" id="numCost" min="5" step="0.01" class='form-control' required/>
+                       step="1" class="text-black font-bold text-lg p-2 rounded" required/> <br>
+                <label>Precio Unitario de alquiler: </label> <br>
+                <input type="number" name="numCost" id="numCost" min="5" step="0.01" class="text-black font-bold text-lg p-2 rounded" required/> <br>
+
+
+
+        <div class="mt-8">
+            <div class="md:flex md:justify-center w-full p-2">
+                <input type="reset" name="btnNew" value="Limpiar" onclick="clean();" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                <input type="submit" name="btnCreate" id="btnCreate" disabled="disabled" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                <input type="button" id="btnUpdate" value="Actualizar" disabled="disabled" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                <input type="button" id="btnDelete" value="Eliminar" disabled="disabled"  class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
             </div>
         </div>
-
-
-        <br>
-        <input type="reset" name="btnNew" onclick="clean();" value="Add/Clear" class="btn btn-outline-info"/>
-        <input type="submit" disabled="disabled" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-        <input type="button" disabled="disabled" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-        <input type="button" disabled="disabled" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
     </form>
-    <br>
-    <table  class='table table-hover'>
-        <tr class="thead-dark">
-            <th>maquinaria</th>
-            <th>Unidades en proyecto</th>
-            <th>Unidades In Stock</th>
-            <th>desde</th>
-            <th>hasta</th>
-            <th>dias en project</th>
-            <th>Costo diario (unitario)</th>
-            <th>costo en project</th>
-            <th>Acción</th>
-        </tr>
+</div>
+    
+<div class="text-white md:flex md:justify-center w-full md:w-auto mt-4 px-4 overflow-x-auto">
+    <table>
+        <thead>
+            <th class="border-2 border-white border-dashed p-2"> Maquinaria</th>
+            <th class="border-2 border-white border-dashed p-2"> Unidades en proyecto</th>
+            <th class="border-2 border-white border-dashed p-2"> Unidades In Stock</th>
+            <th class="border-2 border-white border-dashed p-2"> Desde</th>
+            <th class="border-2 border-white border-dashed p-2"> Hasta</th>
+            <th class="border-2 border-white border-dashed p-2"> Días en Proyecto</th>
+            <th class="border-2 border-white border-dashed p-2"> Costo diario (unitario)</th>
+            <th class="border-2 border-white border-dashed p-2"> Costo en Proyecto</th>
+            <th class="border-2 border-white border-dashed p-2"> Acción</th>
+        </thead>
         <%
             int id;
             id = (Integer) session.getAttribute("id_attr");
@@ -256,24 +302,25 @@
                 String name = equ.getEqu(i.getEquipment_id()).getName() + " " + equ.getEqu(i.getEquipment_id()).getModel();
         %>
         <tr>
-            <td><%= name%></td>
-            <td><%= i.getEquipment_quantity()%></td> 
-            <td><%= equ.getEqu(i.getEquipment_id()).getInventory()-i.getEquipment_quantity() %></td>
-            <td><%= i.getIn_pro_from()%></td>
-            <td><%= i.getIn_pro_to()%></td>
-            <td><%= i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())%></td>
-            <td>$<%= df.format(i.getCost())%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= name%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= i.getEquipment_quantity()%></td> 
+            <td class="border-2 border-white border-dashed p-2"><%= equ.getEqu(i.getEquipment_id()).getInventory()-i.getEquipment_quantity() %></td>
+            <td class="border-2 border-white border-dashed p-2"><%= i.getIn_pro_from()%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= i.getIn_pro_to()%></td>
+            <td class="border-2 border-white border-dashed p-2"><%= i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())%></td>
+            <td class="border-2 border-white border-dashed p-2">$<%= df.format(i.getCost())%></td>
             <%
                 //here we need to calculate total cost per truck daysInUse
                 totalM = (i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())) * (i.getCost() * i.getEquipment_quantity());
                 totalFM = totalFM + totalM;
 
             %>
-            <td>$<%= df.format(totalM)%></td>
-            <td>
+            <td class="border-2 border-white border-dashed p-2">$<%= df.format(totalM)%></td>
+            <td class="border-2 border-white border-dashed p-2">
                 <a><button onclick="myLoad(<%= i.getId()%>,<%= i.getEquipment_id()%>,<%= i.getProject_id()%>, 
                    '<%= i.getIn_pro_from()%>', '<%= i.getIn_pro_to()%>', <%= i.getEquipment_quantity()%>, 
-          <%= i.getCost()%>, <%= equ.getEqu(i.getEquipment_id()).getInventory()-i.getEquipment_quantity() %>)">Select</button></a></td>
+          <%= i.getCost()%>, <%= equ.getEqu(i.getEquipment_id()).getInventory()-i.getEquipment_quantity() %>)"
+          class="font-bold text-blue-500 hover:underline">Seleccionar</button></a></td>
             </td>
             <%
                 }
@@ -281,15 +328,13 @@
 
         </tr>
         <tr>
-            <th colspan="8">Total</th>
-            <th>$<%= df.format(totalFM)%></th>
+            <th colspan="7" class="border-2 border-white border-dashed p-2 text-right">Total</th>
+            <th class="border-2 border-white border-dashed p-2">$<%= df.format(totalFM)%></th>
 
         </tr>
     </table>
-    <br>
-    <p>go back to <a href="index.jsp">index</a></p>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <br>
+
 </body>
 </html>

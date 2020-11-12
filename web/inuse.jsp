@@ -190,7 +190,9 @@
 
         <div class="text-white flex justify-center w-full md:w-auto mt-4">
             <form id="frmMain" action="inUseController" method="POST">
-                    <input type="hidden" name="txtId" id="txtId" value="0"/>
+                <div id="question"></div>    
+                <input type="hidden" name="txtId" id="txtId" value="0"/>
+
 
                     <label>Equipo: </label><br>
                     <select name="slctEqId" id="slctEqId" class="text-black font-bold text-lg p-2 rounded">
