@@ -2,10 +2,10 @@
 -- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2020 a las 03:17:24
--- Versión del servidor: 10.4.11-MariaDB
--- Versión de PHP: 7.4.2
+-- Host: 127.0.0.1
+-- Generation Time: Nov 12, 2020 at 06:04 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `dautedb`
+-- Database: `dautedb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `client`
+-- Table structure for table `client`
 --
 
 CREATE TABLE `client` (
@@ -40,7 +40,7 @@ CREATE TABLE `client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `client`
+-- Dumping data for table `client`
 --
 
 INSERT INTO `client` (`id`, `name`, `email`, `phone_number`, `NIT`, `company_name`, `company_address`, `user_id`) VALUES
@@ -52,7 +52,7 @@ INSERT INTO `client` (`id`, `name`, `email`, `phone_number`, `NIT`, `company_nam
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `department`
+-- Table structure for table `department`
 --
 
 CREATE TABLE `department` (
@@ -61,7 +61,7 @@ CREATE TABLE `department` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `department`
+-- Dumping data for table `department`
 --
 
 INSERT INTO `department` (`id`, `name`) VALUES
@@ -75,7 +75,7 @@ INSERT INTO `department` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `employees`
+-- Table structure for table `employees`
 --
 
 CREATE TABLE `employees` (
@@ -94,24 +94,24 @@ CREATE TABLE `employees` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `employees`
+-- Dumping data for table `employees`
 --
 
 INSERT INTO `employees` (`id`, `first_name`, `last_name`, `dob`, `address`, `phone_number`, `DUI`, `NIT`, `salary`, `position_id`, `user_id`, `image`) VALUES
-(1, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2257-7777', '01254758-9', '0611-121212-121-1', 666.66, 6, 1, 'nopic.png'),
-(2, 'Melissa', 'Bonilla', '2002-12-10', 'no no no', '2257-7777', '11111111-5', '1548-595959', 700, 8, 5, 'nopic.png'),
-(5, 'Luis', 'Bonilla', '2002-12-03', 'col luis bonilla', '2255-9966', '25414785-9', '2154-326598-987-4', 700, 2, 3, 'nopic.png'),
-(7, 'Ismael', 'Castillo', '2000-12-02', 'isma place', '8754-8754', '69584758-9', '3625-144758-698-9', 700, 7, 4, 'nopic.png'),
-(8, 'iris', 'carpio', '2002-12-24', 'iris', '98764', '987987987', '987987', 987, 7, 6, 'nopic.png'),
-(10, 'Giovanni', 'Tzec', '2002-12-31', 'col itca', '6666-6666', '987654-654321', '6546798-654', 700, 2, 7, 'nopic.png'),
-(15, 'luis', 'merino', '2002-12-18', 'asamblea legislativa', '2154-8754', '01478523-9', '0616-458985-987-4', 500, 2, -1, 'nopic.png'),
-(17, 'pedro', 'aznar', '2002-12-03', 'baires', '3265-9865', '01258746-5', '0612-458798-985-4', 600, 2, -1, 'nopic.png'),
-(18, 'Kennia', 'Kennia', '2002-12-26', '1sadsadasdas', '1231', '142254494', '41254521', 2000, 6, 5, 'nopic.png');
+(1, 'Mauricio', 'Quintanilla', '2002-12-07', 'no address', '2257-7777', '01254758-9', '0611-121212-121-1', 16.66, 6, 1, 'nopic.png'),
+(2, 'Melissa', 'Bonilla', '2002-12-10', 'no no no', '2257-7777', '11111111-5', '1548-595959', 17.15, 8, 5, 'nopic.png'),
+(5, 'Luis', 'Bonilla', '2002-12-03', 'col luis bonilla', '2255-9966', '25414785-9', '2154-326598-987-4', 17.21, 2, 3, 'nopic.png'),
+(7, 'Ismael', 'Castillo', '2000-12-02', 'isma place', '8754-8754', '69584758-9', '3625-144758-698-9', 19.65, 7, 4, 'nopic.png'),
+(8, 'iris', 'carpio', '2002-12-24', 'iris', '98764', '987987987', '987987', 19.96, 7, 6, 'nopic.png'),
+(10, 'Giovanni', 'Tzec', '2002-12-31', 'col itca', '6666-6666', '987654-654321', '6546798-654', 18.65, 2, 7, 'nopic.png'),
+(15, 'luis', 'merino', '2002-12-18', 'asamblea legislativa', '2154-8754', '01478523-9', '0616-458985-987-4', 15.32, 2, -1, 'nopic.png'),
+(17, 'pedro', 'aznar', '2002-12-03', 'baires', '3265-9865', '01258746-5', '0612-458798-985-4', 19.36, 2, -1, 'nopic.png'),
+(18, 'Kennia', 'Kennia', '2002-12-26', '1sadsadasdas', '1231', '142254494', '41254521', 20, 6, 5, 'nopic.png');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `equipment`
+-- Table structure for table `equipment`
 --
 
 CREATE TABLE `equipment` (
@@ -127,7 +127,7 @@ CREATE TABLE `equipment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `equipment`
+-- Dumping data for table `equipment`
 --
 
 INSERT INTO `equipment` (`id`, `name`, `model`, `description`, `brand`, `inventory`, `type`, `rental_price`, `image`) VALUES
@@ -140,7 +140,7 @@ INSERT INTO `equipment` (`id`, `name`, `model`, `description`, `brand`, `invento
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `in_use`
+-- Table structure for table `in_use`
 --
 
 CREATE TABLE `in_use` (
@@ -156,7 +156,7 @@ CREATE TABLE `in_use` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `in_use`
+-- Dumping data for table `in_use`
 --
 
 INSERT INTO `in_use` (`id`, `equipment_id`, `project_id`, `in_pro_from`, `in_pro_to`, `num_days`, `equipment_quantity`, `cost`, `total_cost`) VALUES
@@ -175,7 +175,7 @@ INSERT INTO `in_use` (`id`, `equipment_id`, `project_id`, `in_pro_from`, `in_pro
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `logs`
+-- Table structure for table `logs`
 --
 
 CREATE TABLE `logs` (
@@ -188,7 +188,7 @@ CREATE TABLE `logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `logs`
+-- Dumping data for table `logs`
 --
 
 INSERT INTO `logs` (`id`, `user_id`, `action_id`, `on_field`, `date`, `description`) VALUES
@@ -222,7 +222,7 @@ INSERT INTO `logs` (`id`, `user_id`, `action_id`, `on_field`, `date`, `descripti
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `position`
+-- Table structure for table `position`
 --
 
 CREATE TABLE `position` (
@@ -232,7 +232,7 @@ CREATE TABLE `position` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `position`
+-- Dumping data for table `position`
 --
 
 INSERT INTO `position` (`id`, `name`, `department_id`) VALUES
@@ -246,7 +246,7 @@ INSERT INTO `position` (`id`, `name`, `department_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `project`
+-- Table structure for table `project`
 --
 
 CREATE TABLE `project` (
@@ -263,7 +263,7 @@ CREATE TABLE `project` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `project`
+-- Dumping data for table `project`
 --
 
 INSERT INTO `project` (`id`, `name`, `description`, `started_date`, `finish_date`, `address`, `lat`, `lng`, `client_id`, `status`) VALUES
@@ -276,7 +276,7 @@ INSERT INTO `project` (`id`, `name`, `description`, `started_date`, `finish_date
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `role`
+-- Table structure for table `role`
 --
 
 CREATE TABLE `role` (
@@ -285,7 +285,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `role`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
@@ -298,7 +298,7 @@ INSERT INTO `role` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -310,7 +310,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `user_name`, `email`, `password`, `role_id`) VALUES
@@ -329,7 +329,7 @@ INSERT INTO `users` (`id`, `user_name`, `email`, `password`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `working_on_project`
+-- Table structure for table `working_on_project`
 --
 
 CREATE TABLE `working_on_project` (
@@ -344,25 +344,25 @@ CREATE TABLE `working_on_project` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `working_on_project`
+-- Dumping data for table `working_on_project`
 --
 
 INSERT INTO `working_on_project` (`id`, `project_id`, `employee_id`, `in_pro_from`, `in_pro_to`, `num_days`, `cost`, `total_cost`) VALUES
-(18, 1, 1, '2020-11-03', '2020-11-12', 10, 800, 266.667),
-(19, 1, 5, '2020-11-02', '2020-11-27', 26, 900, 780),
-(20, 3, 2, '2020-12-16', '2021-01-13', 29, 900, 870),
-(21, 3, 8, '2020-12-16', '2021-01-07', 23, 1000, 766.667),
-(22, 4, 7, '2020-11-10', '2020-11-30', 21, 999.99, 699.993),
-(23, 4, 10, '2020-11-10', '2020-11-18', 9, 900, 270),
-(24, 5, 15, '2020-12-03', '2021-01-27', 56, 800, 1493.33),
-(25, 6, 17, '2020-11-02', '2020-11-08', 7, 875.95, 204.39);
+(18, 1, 1, '2020-11-03', '2020-11-12', 10, 19.32, 193.2),
+(19, 1, 5, '2020-11-02', '2020-11-27', 26, 18.65, 484.9),
+(20, 3, 2, '2020-12-16', '2021-01-13', 29, 22.32, 647.28),
+(21, 3, 8, '2020-12-16', '2021-01-07', 23, 21.32, 490.36),
+(22, 4, 7, '2020-11-10', '2020-11-30', 21, 23.36, 490.56),
+(23, 4, 10, '2020-11-10', '2020-11-18', 9, 21.36, 192.24),
+(24, 5, 15, '2020-12-03', '2021-01-27', 56, 19.36, 1084.16),
+(25, 6, 17, '2020-11-02', '2020-11-08', 7, 21.78, 152.46);
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `client`
+-- Indexes for table `client`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
@@ -370,13 +370,13 @@ ALTER TABLE `client`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indices de la tabla `department`
+-- Indexes for table `department`
 --
 ALTER TABLE `department`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `employees`
+-- Indexes for table `employees`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`),
@@ -386,13 +386,13 @@ ALTER TABLE `employees`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indices de la tabla `equipment`
+-- Indexes for table `equipment`
 --
 ALTER TABLE `equipment`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `in_use`
+-- Indexes for table `in_use`
 --
 ALTER TABLE `in_use`
   ADD PRIMARY KEY (`id`),
@@ -400,41 +400,41 @@ ALTER TABLE `in_use`
   ADD KEY `equipment_id` (`equipment_id`);
 
 --
--- Indices de la tabla `logs`
+-- Indexes for table `logs`
 --
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indices de la tabla `position`
+-- Indexes for table `position`
 --
 ALTER TABLE `position`
   ADD PRIMARY KEY (`id`),
   ADD KEY `department_id` (`department_id`);
 
 --
--- Indices de la tabla `project`
+-- Indexes for table `project`
 --
 ALTER TABLE `project`
   ADD PRIMARY KEY (`id`),
   ADD KEY `client_id` (`client_id`);
 
 --
--- Indices de la tabla `role`
+-- Indexes for table `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD KEY `role_id` (`role_id`);
 
 --
--- Indices de la tabla `working_on_project`
+-- Indexes for table `working_on_project`
 --
 ALTER TABLE `working_on_project`
   ADD PRIMARY KEY (`id`),
@@ -442,125 +442,125 @@ ALTER TABLE `working_on_project`
   ADD KEY `employee_id` (`employee_id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `client`
+-- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `department`
+-- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT de la tabla `employees`
+-- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT de la tabla `equipment`
+-- AUTO_INCREMENT for table `equipment`
 --
 ALTER TABLE `equipment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT de la tabla `in_use`
+-- AUTO_INCREMENT for table `in_use`
 --
 ALTER TABLE `in_use`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT de la tabla `logs`
+-- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT de la tabla `position`
+-- AUTO_INCREMENT for table `position`
 --
 ALTER TABLE `position`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `project`
+-- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `role`
+-- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT de la tabla `working_on_project`
+-- AUTO_INCREMENT for table `working_on_project`
 --
 ALTER TABLE `working_on_project`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `client`
+-- Constraints for table `client`
 --
 ALTER TABLE `client`
   ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `employees`
+-- Constraints for table `employees`
 --
 ALTER TABLE `employees`
   ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`position_id`) REFERENCES `position` (`id`),
   ADD CONSTRAINT `employees_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `in_use`
+-- Constraints for table `in_use`
 --
 ALTER TABLE `in_use`
   ADD CONSTRAINT `in_use_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`),
   ADD CONSTRAINT `in_use_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`);
 
 --
--- Filtros para la tabla `logs`
+-- Constraints for table `logs`
 --
 ALTER TABLE `logs`
   ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Filtros para la tabla `position`
+-- Constraints for table `position`
 --
 ALTER TABLE `position`
   ADD CONSTRAINT `position_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`);
 
 --
--- Filtros para la tabla `project`
+-- Constraints for table `project`
 --
 ALTER TABLE `project`
   ADD CONSTRAINT `project_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`);
 
 --
--- Filtros para la tabla `users`
+-- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
 --
--- Filtros para la tabla `working_on_project`
+-- Constraints for table `working_on_project`
 --
 ALTER TABLE `working_on_project`
   ADD CONSTRAINT `working_on_project_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`),
@@ -570,4 +570,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
