@@ -1,4 +1,3 @@
-
 package com.model;
 
 import com.conexion.Conexion;
@@ -174,6 +173,5 @@ public class Finanzas extends Conexion{
             this.desconectar();
         }
         return fnz;
-    }
-    
+    }    
 }
