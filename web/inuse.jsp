@@ -100,7 +100,6 @@
                     <th>en pro desde</th>
                     <th>en pro hasta</th>
                     <th>Assigned</th>
-                    <th>In Stock</th>
                     <th>Rental Price</th>
                     <th>action</th>
                 </tr>
@@ -115,7 +114,6 @@
                     <td><%= i.getIn_pro_from()%></td>
                     <td><%= i.getIn_pro_to()%></td>
                     <td><%= i.getEquipment_quantity()%> units</td>
-                    <td><%= equ.getEqu(i.getEquipment_id()).getStock()%> units</td>
                     <td><%= i.getCost()%></td>
                     <td><a href="javascript:myLoad('<%= i.getId()%>','<%= i.getEquipment_id()%>',
                            '<%= i.getProject_id()%>','<%= i.getIn_pro_from()%>','<%= i.getIn_pro_to()%>',
