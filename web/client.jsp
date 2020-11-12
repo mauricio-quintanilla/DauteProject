@@ -116,7 +116,7 @@
                 Swal.fire(
                         'Cliente',
                         '<%= request.getSession().getAttribute("msj")%>',
-                        'success'
+                        '<%= request.getSession().getAttribute("type")%>'
                         );
 
             </script>
@@ -197,11 +197,13 @@
                             <label>Nombre: </label><br>
                             <input type="text" name="txtName" id="txtName" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                             <label>Correo: </label><br>
-                            <input type="email" name="txtEmail" id="txtEmail" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <input type="email" name="txtEmail" placeholder="someone@example.com" id="txtEmail" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                             <label>Número de Teléfono: </label><br>
-                            <input type="text" name="txtPhone" id="txtPhone" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <input type="text" name="txtPhone" placeholder="0000-0000" pattern="[0-9]{4}-[0-9]{4}"
+                                   id="txtPhone" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                             <label>NIT: </label><br>
-                            <input type="text" name="txtNit" id="txtNit" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <input type="text" name="txtNit" placeholder="0000-000000-000-0"
+                                   pattern="[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1}" id="txtNit" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         </div>
                         <div class="w-full md:w-1/2 md:pl-4">
                             <label>Compañía: </label><br>

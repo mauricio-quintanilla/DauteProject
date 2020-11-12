@@ -120,7 +120,8 @@ public class Client extends Conexion{
             pre.executeUpdate();
             return "Client successfuly created";
         } catch (Exception e) {
-            return "error "+e.getMessage();
+            String err=e.getMessage();
+            return "Error dato unico repetido";
         }
         finally{
             this.desconectar();
@@ -142,7 +143,7 @@ public class Client extends Conexion{
             pre.executeUpdate();
             return "Client successfuly updated";
         } catch (Exception e) {
-            return "error "+e.getMessage();
+            return "error";
         }
         finally{
             this.desconectar();

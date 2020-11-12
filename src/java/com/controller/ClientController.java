@@ -40,6 +40,13 @@ public class ClientController extends HttpServlet {
             }else{
                 msj=cli.deleteClient(cli);
             }
+            
+            if("Error dato unico repetido".equals(msj)){
+                request.getSession().setAttribute("type","error");
+            }else{
+                request.getSession().setAttribute("type","success");
+            }
+            
             response.sendRedirect("client.jsp");
             request.getSession().setAttribute("msj",msj);
             request.getSession().setAttribute("conta",1);
