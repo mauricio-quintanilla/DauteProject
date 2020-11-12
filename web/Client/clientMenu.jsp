@@ -10,19 +10,19 @@
 <%@page import="javax.swing.JOptionPane"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession();
+
+    if ((Integer) session.getAttribute("rol") != 4) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
 <!DOCTYPE html>
 <html>
-    <%
-        HttpSession sesion = request.getSession();
-
-        if ((Integer) session.getAttribute("rol") != 4) {
-            response.sendRedirect("loginController?nosession=y");
-        }
-    %>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard - Client</title>
+        <title>Clientes Dashboard - CONSTRU SV</title>
         <!-- Icon -->
         <link rel="icon" href="../imgs/logos/Logo.png" type="image/png">
         <!-- Tailwind -->
@@ -33,10 +33,7 @@
         <script type="text/javascript" src="../jquery.js"></script>
         <!-- SweetAlert2 -->
         <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
-        <%
-            Project prj = new Project();
-            Client cli = new Client();
-        %>
+        
         <script>
             $(document).ready(function () {
 
@@ -64,7 +61,11 @@
             });
         </script>
     </head>
-    <body class="bg-white">
+    <%
+        Project prj = new Project();
+        Client cli = new Client();
+    %>
+    <body class="bg-black">
         <header>
             <%
                 if (request.getSession().getAttribute("bandera2").equals(1)) {
@@ -95,7 +96,7 @@
                     <img src='../imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
                 </div>
                 <div class="flex items-center">
-                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> <%= request.getSession().getAttribute("Id")%> | <%= session.getAttribute("rolName")%></label>
+                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
                 </div>
             </div>
             <div class="flex justify-end w-4/12 py-2">
@@ -106,57 +107,46 @@
         </div>
 
 
-        <br>
-        <table border="1" border="black"class=''>
-            <tr>
-                <th>Project id</th>
-                <th>Project name</th>
-                <th>Project description</th>
-                <th>Starts</th>
-                <th>Ends</th>
-                <th>address</th>
 
-                <th>Company</th>
-                <th>Status</th>
-                <th>Action</th>
+        <div class="text-white flex justify-center mt-4">
+            <h1 class="text-white text-4xl font-bold text-center">Proyectos</h1>
+        </div>
+        <div class="text-white w-full md:flex md:justify-center md:w-auto mt-4 px-4 overflow-x-auto">
+        <table>
+            <thead>
+                <th class="border-2 border-white border-dashed p-2 text-lg">ID</th>
+                <th class="border-2 border-white border-dashed p-2 text-lg">Nombre</th>
+                <th class="border-2 border-white border-dashed p-2 text-lg">Descripción</th>
+                <th class="border-2 border-white border-dashed p-2 text-lg">Fecha de Inicio</th>
+                <th class="border-2 border-white border-dashed p-2 text-lg">Fecha de Finalización</th>
+                <th class="border-2 border-white border-dashed p-2 text-lg">Dirección</th>
 
-            </tr>
+                <th class="border-2 border-white border-dashed p-2 text-lg">Compañía</th>
+                <th class="border-2 border-white border-dashed p-2 text-lg">Estado</th>
+            </thead>
             <%
                 List<Project> lst2 = prj.showPrjByCli((Integer) session.getAttribute("Id"));
                 for (Project p : lst2) {
             %>
             <tr>
-                <td><%= p.getId()%></td>
-                <td><%= p.getName()%></td>
-                <td><%= p.getDescription()%></td>
-                <td><%= p.getStarted_date()%></td>
-                <td><%= p.getFinish_date()%></td>
-                <td><%= p.getAddress()%></td>
+                <td class="border-2 border-white border-dashed p-1 font-bold text-center"><%= p.getId()%></td>
+                <td class="border-2 border-white border-dashed p-1"><%= p.getName()%></td>
+                <td class="border-2 border-white border-dashed p-1"><%= p.getDescription()%></td>
+                <td class="border-2 border-white border-dashed p-1"><%= p.getStarted_date()%></td>
+                <td class="border-2 border-white border-dashed p-1"><%= p.getFinish_date()%></td>
+                <td class="border-2 border-white border-dashed p-1"><%= p.getAddress()%></td>
 
-                <td><%= cli.getClient((Integer) session.getAttribute("usrId")).getCompany_name()%></td>
-                <td><%= p.getStatus()%></td>
-                <td>
-                    <a data-scroll href="#map" ><button  class="btn btn-outline-success" onclick="myLoad('<%= p.getId()%>', '<%= p.getName()%>', '<%= p.getDescription()%>',
-                                            '<%= p.getStarted_date()%>', '<%= p.getFinish_date()%>', '<%= p.getAddress()%>',
-                                            '<%= p.getLat()%>', '<%= p.getLng()%>', '<%= p.getClient_id()%>', '<%= p.getStatus()%>');
-                                    ruta()">
-                            *Select*
-                        </button></a>
-                </td>
+                <td class="border-2 border-white border-dashed p-1"><%= cli.getClient((Integer) session.getAttribute("usrId")).getCompany_name()%></td>
+                <td class="border-2 border-white border-dashed p-1"><%= p.getStatus()%></td>
             </tr>
             <%
                 }
             %>
         </table>
+        </div>
+        <div class="flex justify-center mt-8">
+            <a href="clientDetalles.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">Detalles de Proyectos →</a>
+        </div>
         <br>
-        <p>go back to <a href="clientDetalles.jsp">Ver el recurso humano y maquinaria asignada -></a></p>
-
-
-
-
-
-
-
-
     </body>
 </html>
