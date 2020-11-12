@@ -49,6 +49,7 @@ public class InUseController extends HttpServlet {
             }
             response.sendRedirect("inuse.jsp");
             request.getSession().setAttribute("msj",msj);
+            request.getSession().setAttribute("conta",1);
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());
             response.sendRedirect("error.jsp");

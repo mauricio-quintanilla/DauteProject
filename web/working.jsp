@@ -13,35 +13,30 @@
 <%@page import="com.model.Working"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <%
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-        %>
-        <label>Role: <%= session.getAttribute("rolName")%></label>
-        <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-        <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-        <a href="loginController?logout=y">Log out</a>
-        <%
-            Working wop = new Working();
-            Project prj = new Project();
-            Employees emp = new Employees();
-            Position pos = new Position();
-            String aa = "";
-            String bb = "";
-            ZoneId zonedId = ZoneId.of( "America/El_Salvador" );
-            LocalDate today = LocalDate.now( zonedId );
-        %>
-        <title>Project staff</title>
+        <title>Recurso Humano - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
+        <!-- SweetAlert -->
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
+
         <script>
             function myLoad(id, project, employee, from, to, cost, minD, maxD, sal) {
                 $("#txtId").val(id);
@@ -55,6 +50,10 @@
                 $("#datTo").attr('min',minD);
                 $("#numCost").val(cost);
                 $("#numCost").attr('min', sal);
+
+                $('#btnUpdate').attr('disabled',false);
+                $('#btnDelete').attr('disabled',false);
+                $('#btnCreate').attr('disabled',true); 
             }
             function checkDates() {
                 var dateS = document.getElementById('datFrom').value;
@@ -68,16 +67,157 @@
             function setDates() {
                 
             }
+            function clean(){
+                $('#btnCreate').attr('disabled',false);
+                $('#btnUpdate').attr('disabled',true);
+                $('#btnDelete').attr('disabled',true);
+            }
         </script>
     </head>
-    <body>
-        <h1>working in project CRUD</h1>
-        <div class="container">
+    <%
+            Working wop = new Working();
+            Project prj = new Project();
+            Employees emp = new Employees();
+            Position pos = new Position();
+            String aa = "";
+            String bb = "";
+            ZoneId zonedId = ZoneId.of( "America/El_Salvador" );
+            LocalDate today = LocalDate.now( zonedId );
+        %>
+    <body class="bg-black">
+        <header>
+            <script>
+                $(document).ready(function () {
+
+                    //update question
+                    $('#btnUpdate').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea Modficar el registro?",
+                            text: "La modificación será irreversible",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, Modificar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnUpdate'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+
+                    });
+
+                    $('#btnDelete').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea eliminar registro?",
+                            text: "No se prodrá recuperar el registro",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, eliminar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnDelete'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+                    });
+                });
+
+            </script>
+            <%
+                if (request.getSession().getAttribute("msj") != null
+                        && request.getSession().getAttribute("conta").equals(1)) {
+            %>
+            <script type="text/javascript">
+
+                Swal.fire(
+                        'Recurso Humano',
+                        '<%= request.getSession().getAttribute("msj")%>',
+                        'success'
+                        );
+
+            </script>
+            <%
+                    request.getSession().setAttribute("conta", 2);
+                }
+            %>
+        </header>
+
+        <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
+            <div class="flex items-center justify-center w-ful flex-wrap">
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
+                    </div>
+                </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Usuarios:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                    
+                    </div>
+                </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Empresa:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center mt-4">
+                <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
+            </div>
+        </div> 
+        <!--  -->
+
+
+        <div class="flex bg-gray w-full px-4 md:px-16">
+            <div class="flex w-8/12 py-2">
+                <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                    <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                    <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+                </div>
+                <div class="flex items-center">
+                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+                </div>
+            </div>
+            <div class="flex justify-end w-4/12 py-2">
+                <div class="flex items-center justify-center">
+                    <button class="text-white p-1 border-2 boder-white rounded-lg hover:bg-white hover:text-gray-800 focus:outline-none" onclick="menu()" id="menu">Menú</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------------- -->
+
+        <div class="text-white flex justify-center mt-4">
+            <h1 class="text-white text-4xl font-bold text-center">Gestión Recurso Humano en Proyectos</h1>
+        </div>
+        <div class="flex justify-center">
+            <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+        </div>
+
+        
+        <div class="text-white flex justify-center w-full md:w-auto mt-4">
             <form id="frmMain" action="workingController" method="POST">
-                <div class='col-6'>
-                    <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
-                    <label>Employee</label>
-                    <select name="slctEmpId" id="slctEmpId" class='form-control'>
+                <div id="question"></div>
+                    <input type="hidden" name="txtId" id="txtId" value="0"/><br>
+                    <label>Empleado:</label><br>
+                    <select name="slctEmpId" id="slctEmpId" class="text-black font-bold text-lg p-2 rounded">
                         <%
                             List<Employees> lst = emp.showEmp();
                             //List<Employees> lst = emp.showEmpAvaila(); 
@@ -94,9 +234,9 @@
                         <%
                             }
                         %>
-                    </select>
-                    <label>Adding to project</label>
-                    <select name="slctProId" id="slctProId" class='form-control'>
+                    </select><br>
+                    <label>Añadir a Proyecto: </label><br>
+                    <select name="slctProId" id="slctProId" class="text-black font-bold text-lg p-2 rounded">
                         <%
                             List<Project> lst2 = prj.showPrj();
                             for (Project p : lst2) {
@@ -105,33 +245,37 @@
                         <%
                             }
                         %>
-                    </select>
-                    <label>en projecto desde</label>
-                    <input type="date" name="datFrom" id="datFrom" class='form-control' min='' max='' required/>
-                    <label>en projecto hasta</label>
-                    <input type="date" name="datTo" id="datTo" class='form-control' min='' max='' required/>
-                    <label>Cost</label>
-                    <input type="number" name="numCost" id="numCost" min='0.01' step="0.01" class='form-control' required/>
+                    </select><br>
+                    <label>Fecha de Inicio en Proyecto:</label><br>
+                    <input type="date" name="datFrom" id="datFrom" class="text-black font-bold text-lg p-2 rounded" min='' max='' required/><br>
+                    <label>Fecha de Finalización en Proyecto: </label><br>
+                    <input type="date" name="datTo" id="datTo" class="text-black font-bold text-lg p-2 rounded" min='' max='' required/><br>
+                    <label>Costo: </label><br>
+                    <input type="number" name="numCost" id="numCost" min='0.01' step="0.01" class="text-black font-bold text-lg p-2 rounded" required/>
                     
-                </div>
-                <br>
-                <input type="button" onclick="checkDates()" class="btn btn-outline-info"/>
-                <input type="reset" name="btnNew" value="Add/Clear" class="btn btn-outline-info"/>
-                <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-                <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-                <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
-            </form>
+                    <div class="mt-8">
+                        <input type="button" onclick="checkDates()" />
 
-            <table border="1" class=''>
-                <tr>
-                    <th>record id</th>
-                    <th>employee</th>
-                    <th>working on</th>
-                    <th>on project from</th>
-                    <th>on project to</th>
-                    <th>cost</th>
-                    <th>action</th>
-                </tr>
+                        <input type="reset" name="btnNew" value="Limpiar" onclick="clean();" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="submit" name="btnCreate" id="btnCreate" disabled="disabled" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" id="btnUpdate" value="Actualizar" disabled="disabled" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" id="btnDelete" value="Eliminar" disabled="disabled"  class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                    </div>
+                
+            </form>
+        </div>
+
+        <div class="text-white md:flex md:justify-center w-full md:w-auto mt-4 px-4 overflow-x-auto">
+            <table>
+                <thead>
+                    <th class="border-2 border-white border-dashed p-2">ID</th>
+                    <th class="border-2 border-white border-dashed p-2">Empleado</th>
+                    <th class="border-2 border-white border-dashed p-2">Trabajando En:</th>
+                    <th class="border-2 border-white border-dashed p-2">En Proyecto desde</th>
+                    <th class="border-2 border-white border-dashed p-2">En Proyecto hasta</th>
+                    <th class="border-2 border-white border-dashed p-2">Costo</th>
+                    <th class="border-2 border-white border-dashed p-2">Seleccionar</th>
+                </thead>
                 <%
                     List<Working> lst3 = wop.showWorking();
                     for (Working w : lst3) {
@@ -140,29 +284,30 @@
                                 +"("+pos.getPos((emp.getEmp(w.getEmployee_id()).getPosition_id())).getName()+")";
                 %>
                 <tr>
-                    <td><%= w.getId()%></td>//Id_del detalle
-                    <td><%= name%></td>//nombre del Empleado
-                    <td>
-                        <%= prj.getProyect(w.getProject_id()).getName()%> //proyecto en el que está el empleaod 
+                    <td class="border-2 border-white border-dashed p-2"><%= w.getId()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= name%></td>
+                    <td class="border-2 border-white border-dashed p-2">
+                        <%= prj.getProyect(w.getProject_id()).getName()%> 
                         <%= prj.getProyect(w.getProject_id()).getDescription()%>
                     </td>
-                    <td><%= w.getIn_pro_from()%></td>//Fecha de inicio
-                    <td><%= w.getIn_pro_to()%></td>//Fecha de finalización
-                    <td>$<%= w.getCost()%></td>//Costo
-                    <td><a href="javascript:myLoad('<%= w.getId()%>','<%= w.getProject_id()%>',
+                    <td class="border-2 border-white border-dashed p-2"><%= w.getIn_pro_from()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><%= w.getIn_pro_to()%></td>
+                    <td class="border-2 border-white border-dashed p-2">$<%= w.getCost()%></td>
+                    <td class="border-2 border-white border-dashed p-2"><a href="javascript:myLoad('<%= w.getId()%>','<%= w.getProject_id()%>',
                            '<%= w.getEmployee_id()%>','<%= w.getIn_pro_from()%>','<%= w.getIn_pro_to()%>',
                            <%= w.getCost()%>,'<%= prj.getProyect(w.getProject_id()).getStarted_date()%>',
                            '<%= prj.getProyect(w.getProject_id()).getFinish_date()%>',
-                           <%= emp.getEmp(w.getEmployee_id()).getSalary()%>)">Select</a></td>
+                           <%= emp.getEmp(w.getEmployee_id()).getSalary()%>)"
+                           class="font-bold text-blue-500 hover:underline">Seleccionar</a></td>
                 </tr>
                 <%
                     }
                 %>
             </table>
-            <br>
-            <p>go back to <a href="index.jsp">index</a></p>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+            <br>
+        
+    <!-- Navbar -->
+    <script src="js/navbar.js"></script>
     </body>
 </html>
