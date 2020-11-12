@@ -113,7 +113,6 @@
                     <h1 class="font-bold text-2xl text-center">Usuarios:</h1>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
-                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="role.jsp">Gestionar Roles</a></div>
                 
                 </div>
             </div>
@@ -124,6 +123,7 @@
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
                 </div>
             </div>

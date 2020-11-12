@@ -31,8 +31,8 @@
         <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
 
-        <!-- SWEET ALERT -->
-        <script type="text/javascript" src="sweetalert2.all.min.js"></script>
+        <!-- SweetAlert -->
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
         
         
         <script>
@@ -45,6 +45,16 @@
                 $("#txtComName").val(comName);
                 $("#txtComAdd").val(comAdd);
                 $("#slctUser").val(userId);
+
+                $('#btnUpdate').attr('disabled',false);
+                $('#btnDelete').attr('disabled',false);
+                $('#btnCreate').attr('disabled',true); 
+            }
+            
+            function clean(){
+                $('#btnCreate').attr('disabled',false);
+                $('#btnUpdate').attr('disabled',true);
+                $('#btnDelete').attr('disabled',true);
             }
         </script>
     </head>
@@ -53,6 +63,70 @@
     Users usr = new Users();
 %>
     <body class="bg-black">
+        <header>
+            <script>
+                $(document).ready(function () {
+
+                    //update question
+                    $('#btnUpdate').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea Modficar el registro?",
+                            text: "La modificación será irreversible",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, Modificar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnUpdate'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+
+                    });
+
+                    $('#btnDelete').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea eliminar registro?",
+                            text: "No se prodrá recuperar el registro",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, eliminar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnDelete'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+                    });
+                });
+
+            </script>
+            <%
+                if (request.getSession().getAttribute("msj") != null
+                        && request.getSession().getAttribute("conta").equals(1)) {
+            %>
+            <script type="text/javascript">
+
+                Swal.fire(
+                        'Cliente',
+                        '<%= request.getSession().getAttribute("msj")%>',
+                        'success'
+                        );
+
+            </script>
+            <%
+                    request.getSession().setAttribute("conta", 2);
+                }
+            %>
+        </header>
+
+
         <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
             <div class="flex items-center justify-center w-ful flex-wrap">
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
@@ -69,8 +143,6 @@
                         <h1 class="font-bold text-lg text-center">Usuarios:</h1>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
-                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="role.jsp">Gestionar Roles</a></div>
-                    
                     </div>
                 </div>
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
@@ -79,6 +151,7 @@
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
                     </div>
                 </div>
@@ -117,6 +190,7 @@
         
         <div class="text-white flex justify-center w-full md:w-auto mt-4">
             <form id="frmMain" action="clientController" method="POST">
+                <div id="question"></div>
                     <input type="hidden" name="txtId" id="txtId" class='text-black font-bold text-lg p-2 rounded w-full' value="0"/>
                     <div class="flex flex-wrap w-full">
                         <div class="w-full md:w-1/2">
@@ -151,10 +225,10 @@
                 
                 <div class="mt-8">
                     <div class="md:flex md:justify-center w-full p-2">
-                        <input type="reset" name="btnNew" value="Add/Clear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="reset" name="btnNew" value="Limpiar" onclick="clean();" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="submit" name="btnCreate" id="btnCreate" disabled="disabled" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" id="btnUpdate" value="Actualizar" disabled="disabled" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" id="btnDelete" value="Eliminar" disabled="disabled"  class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                     </div>
                 </div>
             </form>

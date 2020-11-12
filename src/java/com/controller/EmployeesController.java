@@ -85,6 +85,7 @@ public class EmployeesController extends HttpServlet {
             }
             response.sendRedirect("employees.jsp");
             request.getSession().setAttribute("msj", msj);
+            request.getSession().setAttribute("conta",1);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString());
             request.getSession().setAttribute("error", e.toString());

@@ -64,7 +64,7 @@ public class Position extends Conexion{
             pre.setString(2, pos.getName());
             pre.setInt(3, pos.getDepartment_id());
             pre.executeUpdate();
-            return "Position successfuly created";
+            return "Posición creada correctamente";
         } catch (Exception e) {
             return "error "+e.getMessage();
         }
@@ -81,7 +81,7 @@ public class Position extends Conexion{
             pre.setInt(2, pos.getDepartment_id());
             pre.setInt(3, pos.getId());
             pre.executeUpdate();
-            return "Position successfuly updated";
+            return "Posición Actualizada Correctamente";
         } catch (Exception e) {
             return "error "+e.getMessage();
         }
@@ -96,7 +96,7 @@ public class Position extends Conexion{
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1, pos.getId());
             pre.executeUpdate();
-            return "Position successfuly deleted";
+            return "Posición Eliminada Correctamente";
         } catch (Exception e) {
             return "error "+e.getMessage();
         }
