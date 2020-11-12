@@ -20,7 +20,7 @@
     HttpSession sesion = request.getSession();
     String rol;
     if (sesion.getAttribute("rolName") == null) {
-        response.sendRedirect("loginController?nosession=y");
+        response.sendRedirect("../loginController?nosession=y");
     }
     Project prj = new Project();
     Employees emp = new Employees();
@@ -37,16 +37,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Detalle de Proyectos - CONSTRU SV</title>
         <!-- Icon -->
-        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <link rel="icon" href="../imgs/logos/Logo.png" type="image/png">
         <!-- Tailwind -->
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
         <!-- CSS -->
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="../css/style.css">
         <!-- JQuery -->
-        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="../jquery.js"></script>
 
         <!-- SweetAlert -->
-        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
+        <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
 
         <script>
             $(document).ready(function () {
@@ -65,7 +65,7 @@
                         cancelButtonText: "Calcelar"
                     }).then((result) => {
                         if (result.value) {
-                            $('#log').append("<a id='home-link' href='loginController?logout=y'></a>");
+                            $('#log').append("<a id='home-link' href='../loginController?logout=y'></a>");
                             document.getElementById("home-link").click();
 
                         }
@@ -82,35 +82,16 @@
             <div class="flex items-center justify-center w-ful flex-wrap">
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
                     <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
-                        <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                        <h1 class="font-bold text-lg text-center">Gestionar:</h1>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
-                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
-                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
-                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
-                    </div>
-                </div>
-                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
-                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
-                        <h1 class="font-bold text-lg text-center">Usuarios:</h1>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
-                    
-                    </div>
-                </div>
-                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
-                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
-                        <h1 class="font-bold text-lg text-center">Empresa:</h1>
-                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
-                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
-                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
-                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
-                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
                     </div>
                 </div>
             </div>
             <div class="flex items-center justify-center mt-4">
                 <!-- <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br> -->
-                <button id="btnLogout" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</button>
+                <button id="btnLogout" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</button><br>
             </div>
         </div> 
         <!--  -->
@@ -120,7 +101,7 @@
             <div class="flex w-8/12 py-2">
                 <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
                     <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
-                    <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+                    <img src='../imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
                 </div>
                 <div class="flex items-center">
                     <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
@@ -132,9 +113,9 @@
                 </div>
             </div>
         </div>
-
+    
         <div style="visibility: hidden;" id="log"></div>
-
+    
         <!-- ---------------------------------------------------------------------- -->
 
         <div class="text-white flex justify-center mt-4">
@@ -158,7 +139,7 @@
             <div class="w-full md:w-1/2 p-4">
                 <div class="border border-white rounded text-white">
                 <a href="#">
-                    <img class="object-cover w-full h-64 object-left-bottom rounded-t" src="imgs/personal.jpg" focusable="false" role="img"></img>
+                    <img class="object-cover w-full h-64 object-left-bottom rounded-t" src="../imgs/personal.jpg" focusable="false" role="img"></img>
                 </a>
                 <div class="text-white flex justify-center mt-2">
                     <h3 class="text-2xl font-bold text-center">PERSONAL TRABAJANDO EN PROYECTO</h3>
@@ -228,7 +209,7 @@
                     <div class="w-full md:w-1/2 p-4">
                     <div class="border border-white rounded text-white">
                     <a href="#">
-                        <img class="object-cover w-full h-64 object-center rounded-t" src="imgs/maquinas.jpg" focusable="false" role="img"></img>
+                        <img class="object-cover w-full h-64 object-center rounded-t" src="../imgs/maquinas.jpg" focusable="false" role="img"></img>
                     </a>
                     <div class="text-white flex justify-center mt-2">
                         <h3 class="text-2xl font-bold text-center">MAQUINARIA TRABAJANDO EN PROYECTO</h3>
@@ -293,6 +274,6 @@
                     </div>
 
     <!-- Navbar -->
-    <script src="js/navbar.js"></script>
+    <script src="../js/navbar.js"></script>
 </body>
 </html>

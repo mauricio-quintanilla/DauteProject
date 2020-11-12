@@ -237,6 +237,32 @@ public class Users extends Conexion {
         return listaUsr;
     }
     
+     public List<Users> showClientUsersTable(){
+        List<Users>listaUsr=new ArrayList();
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql="SELECT * FROM users where role_id = 4";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            res=pre.executeQuery();
+            while(res.next()){
+                Users usr = new Users();
+                usr.setId(res.getInt("id"));
+                usr.setUser_name(res.getString("user_name"));
+                usr.setEmail(res.getString("email"));
+                usr.setPassword(res.getString("password"));
+                usr.setRole_id(res.getInt("role_id"));
+                listaUsr.add(usr);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return listaUsr;
+    }
+    
     public Users getUsers(int id){
         Users usr = new Users();
         ResultSet res=null;
