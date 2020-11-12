@@ -52,7 +52,7 @@ public class ClientController extends HttpServlet {
                 cli.trkLogD(usrId, pc);
             }
             
-            if("Error dato unico repetido".equals(msj)){
+            if(msj.contains("error")){
                 request.getSession().setAttribute("type","error");
             }else{
                 request.getSession().setAttribute("type","success");
