@@ -36,14 +36,14 @@
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TITLE]]></text>
+					<text><![CDATA[Constru SV]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="7702682e-0ce5-4b24-9195-234a94fcb237"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Add a description here]]></text>
+					<text><![CDATA[Reporte de proyectos activos]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -61,7 +61,7 @@
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[name]]></text>
+				<text><![CDATA[Proyecto]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="138" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="92277a20-bb53-4e8c-b08c-33c103be5211"/>
@@ -75,14 +75,14 @@
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[started_date]]></text>
+				<text><![CDATA[Fecha de inicio]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="414" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="2e70b12f-c51d-41fc-9f14-c30d02558b57"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[finish_date]]></text>
+				<text><![CDATA[Fecha de Finalización]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
