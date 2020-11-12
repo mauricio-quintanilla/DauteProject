@@ -236,7 +236,7 @@
             </thead>
             <tbody>
             <%
-                List<Users> lst2 = usr.showUsers();
+                List<Users> lst2 = usr.showUsersInTable();
                 for (Users u : lst2) {
             %>
             <tr>
