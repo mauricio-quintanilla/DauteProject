@@ -9,28 +9,29 @@
 <%@page import="com.model.Project"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+%>
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
-        <%
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-        %>
-    <label>Role: <%= session.getAttribute("rolName")%></label>
-    <label> Logged as: <%= session.getAttribute("usrOnSess")%></label>
-    <img src="imgs/<%= session.getAttribute("profPic")%>" height="40px" width="40px">
-    <a href="loginController?logout=y">Log out</a>
-    <%
-        Project prj = new Project();
-        Client cli = new Client();
-    %>
+        <title>Proyectos - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
+        <script type="text/javascript" src="jquery.js"></script>
+        <!-- SweetAlert -->
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
 
     <style>
         /* Tamaño del div del mapa. */
@@ -50,8 +51,6 @@
 
 
     </style>
-    <title>Project</title>
-    <script type="text/javascript" src="jquery.js"></script>
     <script>
         function myLoad(id, name, desc, start, finish, address, lat, lng, client, status) {
             $("#txtId").val(id);
@@ -72,6 +71,10 @@
             document.getElementById("edit-mark").disabled = false;
             document.getElementById("add-mark").disabled = true;
             document.getElementById("maquinaria").disabled = false;
+
+            $('#btnUpdate').attr('disabled',false);
+            $('#btnDelete').attr('disabled',false);
+            $('#btnCreate').attr('disabled',true); 
         }
 
         function reset() {
@@ -87,12 +90,21 @@
             $("#txtStatus").val("");
             document.getElementById("edit-mark").disabled = true;
             document.getElementById("maquinaria").disabled = true;
+
+            $('#btnCreate').attr('disabled',false);
+            $('#btnUpdate').attr('disabled',true);
+            $('#btnDelete').attr('disabled',true);
+        }
+
+        function clean(){
+            $('#btnCreate').attr('disabled',false);
+            $('#btnUpdate').attr('disabled',true);
+            $('#btnDelete').attr('disabled',true);
         }
         
         function disa(){
             document.getElementById("edit-mark").disabled = true;
         }
-
 
 
     </script>
@@ -104,28 +116,148 @@
         });
     </script>
 </head>
-<body>
-<center>
-    <h1>Gestionar Proyectos</h1>
-</center>
+<%
+    Project prj = new Project();
+    Client cli = new Client();
+%>
+<body class="bg-black">
+    <header>
+        <script>
+            $(document).ready(function () {
 
-<div id="map"></div>
+                //update question
+                $('#btnUpdate').click(function () {
+                    swal.fire({
+                        type: "question",
+                        title: "¿Desea Modficar el registro?",
+                        text: "La modificación será irreversible",
+                        showCancelButton: true,
+                        cancelButtonColor: "red",
+                        ShowConfirmButton: true,
+                        confirmButtonColor: '#5cb85c',
+                        confirmButtonText: "Sí, Modificar"
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#question').append("<input type='hidden' name='btnUpdate'>");
+                            $('#frmMain').submit();
+                        }
+                    });
 
-<br>
-<div class="contaner">
-    <div class="row">
-        <div class="col-md-1"></div>
-        <br>
-        <div class="col-md-1">
-            <input type="button" value="Add a Mark" id="add-mark" onclick="var param = 0; agregarPunto(param);" class="btn btn-success">
+                });
+
+                $('#btnDelete').click(function () {
+                    swal.fire({
+                        type: "question",
+                        title: "¿Desea eliminar registro?",
+                        text: "No se prodrá recuperar el registro",
+                        showCancelButton: true,
+                        cancelButtonColor: "red",
+                        ShowConfirmButton: true,
+                        confirmButtonColor: '#5cb85c',
+                        confirmButtonText: "Sí, eliminar"
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#question').append("<input type='hidden' name='btnDelete'>");
+                            $('#frmMain').submit();
+                        }
+                    });
+                });
+            });
+
+        </script>
+        <%
+            if (request.getSession().getAttribute("msj") != null
+                    && request.getSession().getAttribute("conta").equals(1)) {
+        %>
+        <script type="text/javascript">
+
+            Swal.fire(
+                    'Proyecto',
+                    '<%= request.getSession().getAttribute("msj")%>',
+                    'success'
+                    );
+
+        </script>
+        <%
+                request.getSession().setAttribute("conta", 2);
+            }
+        %>
+    </header>
+
+    <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
+        <div class="flex items-center justify-center w-ful flex-wrap">
+            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
+                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                    <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
+                </div>
+            </div>
+            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
+                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                    <h1 class="font-bold text-lg text-center">Usuarios:</h1>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                
+                </div>
+            </div>
+            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
+                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                    <h1 class="font-bold text-lg text-center">Empresa:</h1>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-1">
-            <input type="button" value="Edit Mark" id="edit-mark" disabled="disabled" onclick="disa();initMap();var param = 0; agregarPunto(param);" class="btn btn-warning">
+        <div class="flex items-center justify-center mt-4">
+            <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
         </div>
-        <div class="col-md-5"></div>
-        <div class="col-md-1">
+    </div> 
+    <!--  -->
+
+
+    <div class="flex bg-gray w-full px-4 md:px-16">
+        <div class="flex w-8/12 py-2">
+            <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+            </div>
+            <div class="flex items-center">
+                <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+            </div>
+        </div>
+        <div class="flex justify-end w-4/12 py-2">
+            <div class="flex items-center justify-center">
+                <button class="text-white p-1 border-2 boder-white rounded-lg hover:bg-white hover:text-gray-800 focus:outline-none" onclick="menu()" id="menu">Menú</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------------------------------------------------------------------- -->
+<div class="text-white flex justify-center mt-4">
+    <h1 class="text-white text-4xl font-bold text-center">Gestión de Proyectos</h1>
+</div>
+<div class="flex justify-center">
+    <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+</div>
+
+
+    <div id="map"></div>
+
+<div class="text-white flex justify-center w-full md:w-auto mt-4">
+    <div>
+        <div class="md:flex md:justify-center w-full p-2">
+            <input type="button" value="Add a Mark" id="add-mark" onclick="var param = 0; agregarPunto(param);" class="text-black bg-white font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400">
+
+            <input type="button" value="Edit Mark" id="edit-mark" disabled="disabled" onclick="disa();initMap();var param = 0; agregarPunto(param);" class="text-black bg-white font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400">
+        
             <form method="POST" action="projectController">
-                <input type="submit" value="Recurso Humano y Maquinaria ->" id="maquinaria" disabled="disabled" name="btnMaquinaria" class="btn btn-outline-info">
+                <input type="submit" value="Recurso Humano y Maquinaria →" id="maquinaria" disabled="disabled" name="btnMaquinaria" class="text-black bg-white font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400">
                 <input type="hidden" name="nameHidden" id="nameHidden">
                 <input type="hidden" name="idHidden"  id="idHidden">
                 <input type="hidden" name="statusHidden"  id="statusHidden">
@@ -133,127 +265,122 @@
                 <input type="hidden" name="dfHidden"  id="dfHidden">
             </form>
         </div>
-                </div>
-
-                </div>
+                
                 <br>
-                <div class="container">
                     <form id="frmMain" action="projectController" method="POST">
-                        <input type="hidden" name="txtId" id="txtId" class='form-control' value="0"/>
+                        <div id="question"></div>
 
-
+                        <input type="hidden" name="txtId" id="txtId" class="text-black font-bold text-lg p-2 rounded" value="0"/>
                         <input type="hidden" id="latLng">      
                         <input type="hidden" id="oculto">
                         <input type="hidden" required placeholder="Latitud" name="my_lat"  id="my_lat">
                         <input type="hidden" required placeholder="Longitud" name="my_lng" id="my_lng" >
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Project name</label>
-                                <input type="text" name="txtName" id="txtName" class='form-control' required/>
+                        
+                        <div class="flex flex-wrap w-full">
+                            <div class="w-full md:w-1/2">
+                                <label class="font-bold text-lg">Nombre de Proyecto: </label><br>
+                                <input type="text" name="txtName" id="txtName" class="text-black font-bold text-lg p-2 rounded" required/><br>
+                            
+                                <label class="font-bold text-lg">Descripción: </label><br>
+                                <textarea class="text-black font-bold text-lg p-2 rounded" name="txtDesc" id="txtDesc" required rows="3"></textarea><br>
+        
+                                <label class="font-bold text-lg">Fecha de Inicio: </label><br>
+                                <input type="date" name="dapStart" id="dapStart" class="text-black font-bold text-lg p-2 rounded" min='2020-11-01' max='2021-12-31' required/><br>
+                                
+                                <label class="font-bold text-lg">Fecha de Finalización: </label><br>
+                                <input type="date" name="dapFinish" id="dapFinish" class="text-black font-bold text-lg p-2 rounded" min='2020-11-01' max='2021-12-31' required/><br>
                             </div>
-                            <div class="col-md-6">
-                                <label>Project description</label>
-                                <textarea class="form-control" name="txtDesc" id="txtDesc" placeholder="Description" required rows="3"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 col-ms-12">
-                                <label>Project starts on</label>
-                                <input type="date" name="dapStart" id="dapStart" class='form-control' min='2020-11-01' max='2021-12-31' required/>
-                            </div>
-                            <div class="col-md-6 col-ms-12">
-                                <label>Project ends on</label>
-                                <input type="date" name="dapFinish" id="dapFinish" class='form-control' min='2020-11-01' max='2021-12-31' required/>
-                            </div>
-                        </div>
-                        <div class="row" id="ismael">
-                            <div class="col-md-6 col-ms-12">
-                                <label>Address</label>
-                                <textarea class="form-control" name="txtAddress" id="txtAddress" placeholder="Address" required rows="3"></textarea>
-                            </div>
-                            <div class="col-md-6 col-ms-12">
-                                <label>Company's project</label>
-                                <select name="slctClient" id="slctClient" class='form-control'>
-                                    <%
-                                        List<Client> lst = cli.showClient();
-                                        for (Client c : lst) {
-                                    %>
-                                    <option value="<%= c.getId()%>"><%= c.getCompany_name()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                            </div>    
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 col-ms-12">
-                                <label>Project State</label>
-                                <input type="text" name="txtStatus" id="txtStatus" class='form-control' readonly/>
+                            <div class="w-full md:w-1/2 md:pl-4">
+                                <div id="ismael">
+                                    
+                                    <label class="font-bold text-lg">Dirección: </label><br>
+                                    <textarea class="text-black font-bold text-lg p-2 rounded" name="txtAddress" id="txtAddress" required rows="3"></textarea><br>
+                                
+                                    <label class="font-bold text-lg">Compañía: </label><br>
+                                    <select name="slctClient" id="slctClient" class="text-black font-bold text-lg p-2 rounded">
+                                        <%
+                                            List<Client> lst = cli.showClient();
+                                            for (Client c : lst) {
+                                        %>
+                                        <option value="<%= c.getId()%>"><%= c.getCompany_name()%></option>
+                                        <%
+                                            }
+                                        %>
+                                    </select><br>
+                                        
+                                </div>
+        
+                                <label class="font-bold text-lg">Estado de Proyecto: </label><br>
+                                <input type="text" name="txtStatus" id="txtStatus" class="text-black font-bold text-lg p-2 rounded" readonly/><br>
+                                    
                             </div>
                         </div>
 
+                        <div class="mt-8">
+                            <div class="md:flex md:justify-center w-full p-2">
+                            <button class="text-black bg-white font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"  onclick="disa();initMap();var param = 0; agregarPunto(param);reset();clean();" type="reset"  >Nuevo</button>
+                            <input type="submit" name="btnCreate" id="btnCreate" disabled="disabled" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                            <input type="submit" name="btnUpdate" id="btnUpdate" disabled="disabled" value="Actualizar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                            <input type="submit" name="btnDelete" id="btnDelete" disabled="disabled" value="Eliminar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        </div>
+                    </div>
+                </form>
+                </div>
+        </div>
+            <div class="text-white w-full md:w-auto mt-4 p-4">
+                    <table>
+                        <thead>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">ID</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Nombre</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Project description</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Starts</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Ends</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">address</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Lat</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Lng</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Company</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Status</th>
+                            <th class="border-2 border-white border-dashed p-2 text-lg">Action</th>
 
-                        <br>
-
-
-                        <input type="submit" name="btnCreate" id="btnCreate" value="Create" class="btn btn-outline-success"/>
-                        <input type="submit" name="btnUpdate" id="btnUpdate" value="Update" class="btn btn-outline-warning"/>
-                        <input type="submit" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-outline-danger"/>
-                    </form>
-                    <button class="btn btn-outline-info"  onclick="disa();initMap();var param = 0; agregarPunto(param);reset()"  >New</button>
-                    <br>
-                    <table class='table table-hover table-dark'>
-                        <tr>
-                            <th>Project id</th>
-                            <th>Project name</th>
-                            <th>Project description</th>
-                            <th>Starts</th>
-                            <th>Ends</th>
-                            <th>address</th>
-                            <th>Lat</th>
-                            <th>Lng</th>
-                            <th>Company</th>
-                            <th>Status</th>
-                            <th>Action</th>
-
-                        </tr>
+                        </thead>
+                        <tbody>
                         <%
                             List<Project> lst2 = prj.showPrj();
                             for (Project p : lst2) {
                         %>
                         <tr>
-                            <td><%= p.getId()%></td>
-                            <td><%= p.getName()%></td>
-                            <td><%= p.getDescription()%></td>
-                            <td><%= p.getStarted_date()%></td>
-                            <td><%= p.getFinish_date()%></td>
-                            <td><%= p.getAddress()%></td>
-                            <td><%= p.getLat()%></td>
-                            <td><%= p.getLng()%></td>
-                            <td><%= cli.getClient(p.getClient_id()).getCompany_name()%></td>
-                            <td><%= p.getStatus()%></td>
-                            <td>
-                                <a data-scroll href="#map" ><button  class="btn btn-outline-success" onclick="myLoad('<%= p.getId()%>', '<%= p.getName()%>', '<%= p.getDescription()%>',
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getId()%></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getName()%></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getDescription()%></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getStarted_date()%></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getFinish_date()%></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getAddress()%></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getLat()%></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getLng()%></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= cli.getClient(p.getClient_id()).getCompany_name() %></td>
+                            <td class="border-2 border-white border-dashed p-1"><%= p.getStatus()%></td>
+                            <td class="border-2 border-white border-dashed p-1">
+                                <a data-scroll href="#map" >
+                                    <button  class="font-bold text-blue-500 hover:underline" onclick="myLoad('<%= p.getId()%>', '<%= p.getName()%>', '<%= p.getDescription()%>',
                                         '<%= p.getStarted_date()%>', '<%= p.getFinish_date()%>', '<%= p.getAddress()%>',
                                         '<%= p.getLat()%>', '<%= p.getLng()%>', '<%= p.getClient_id()%>','<%= p.getStatus()%>');ruta()">
-                                        *Select*
+                                        Seleccionar
                                     </button></a>
                             </td>
                         </tr>
                         <%
                             }
                         %>
+                    </tbody>
                     </table>
-                    <br>
-                    <p>go back to <a href="index.jsp">index</a></p>
                 </div>
+
                 <!--Archivo local Javascript Toda la programación en este archivo-->
                 <script type="text/javascript" src="js/googleMaps.js"></script>
                 <!--Archivo de GoogleMaps-->
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbUDtVGNnPGBMF4Acpf0CbJYmLspmq-Ps&callback=initMap" async defer></script>
 
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-                </body>
-                </html>
+                <!-- Navbar -->
+                <script src="js/navbar.js"></script>
+            </body>
+    </html>

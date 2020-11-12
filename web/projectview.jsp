@@ -16,232 +16,320 @@
 <%@page import="java.util.List"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession();
+    String rol;
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
+
+    Project prj = new Project();
+    Employees emp = new Employees();
+    Equipment equ = new Equipment();
+    Working wrk = new Working();
+    Position pos = new Position();
+    InUse inu = new InUse();
+    DecimalFormat df = new DecimalFormat("##.##");
+%>
 <!doctype html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>ProjectVIew</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <style>
-            .tr{
-                color:red;
-            }
-        </style>
+        <title>Detalle de Proyectos - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
+        <script type="text/javascript" src="jquery.js"></script>
+
+        <!-- SweetAlert -->
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
 
     </head>
-    <body>
-        <%
-            HttpSession sesion = request.getSession();
-            String rol;
-            if (sesion.getAttribute("rolName") == null) {
-                response.sendRedirect("loginController?nosession=y");
-            }
-            Project prj = new Project();
-            Employees emp = new Employees();
-            Equipment equ = new Equipment();
-            Working wrk = new Working();
-            Position pos = new Position();
-            InUse inu = new InUse();
-            DecimalFormat df = new DecimalFormat("##.##");
-        %>
+    <body class="bg-black">
         <header>
-            <div class="collapse bg-dark" id="navbarHeader">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-8 col-md-7 py-4">
-                            <h4 class="text-white">Vista para cliente o admin</h4>
-                            <p class="text-white">Detalles de costos de proyecto</p>
-                        </div>
-                        <div class="col-sm-4 offset-md-1 py-4">
-                            <h4 class="text-white">CRUDS</h4>
-                            <ul class="list-unstyled">
-                                <li><a href="working.jsp" class="text-white">empleados en proyecto</a></li>
-                                <li><a href="inuse.jsp" class="text-white">Maquinaria en proyecto</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="navbar navbar-dark bg-dark shadow-lg">
-                <div class="container d-flex justify-content-between">
-                    <a href="index.jsp" class="navbar-brand d-flex align-items-center">
-                        <img class="bd-placeholder-img rounded border border-dark" src="imgs/logos/Logo.png" width="40" height="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="mr-2" viewBox="0 0 24 24" focusable="false" role="img"></img>
+            <script>
+                $(document).ready(function () {
 
+                    //update question
+                    $('#btnUpdate').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea Modficar el registro?",
+                            text: "La modificación será irreversible",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, Modificar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnUpdate'>");
+                                $('#frmMain').submit();
+                            }
+                        });
 
-                        <strong>&nbsp;<%= session.getAttribute("usrOnSess")%> || <%= session.getAttribute("rolName")%></strong>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                        <label>menu</label>
-                    </button>
-                </div>
-            </div>
+                    });
+
+                    $('#btnDelete').click(function () {
+                        swal.fire({
+                            type: "question",
+                            title: "¿Desea eliminar registro?",
+                            text: "No se prodrá recuperar el registro",
+                            showCancelButton: true,
+                            cancelButtonColor: "red",
+                            ShowConfirmButton: true,
+                            confirmButtonColor: '#5cb85c',
+                            confirmButtonText: "Sí, eliminar"
+                        }).then((result) => {
+                            if (result.value) {
+                                $('#question').append("<input type='hidden' name='btnDelete'>");
+                                $('#frmMain').submit();
+                            }
+                        });
+                    });
+                });
+
+            </script>
+            <%
+                if (request.getSession().getAttribute("msj") != null
+                        && request.getSession().getAttribute("conta").equals(1)) {
+            %>
+            <script type="text/javascript">
+
+                Swal.fire(
+                        'Cliente',
+                        '<%= request.getSession().getAttribute("msj")%>',
+                        'success'
+                        );
+
+            </script>
+            <%
+                    request.getSession().setAttribute("conta", 2);
+                }
+            %>
         </header>
 
-        <main role="main">
 
-            <section class="jumbotron text-center">
-                <div class="container">
-                    <h1>Detalles de proyecto</h1>
-                    <p class="lead text-muted">Personal, maquinaria, costos y duracion</p>
-                    <center>
-                        <form action="" method="post">
-                            <div class="col-5">
-                                <label>Projectos Activos</label>
-                                <select name="slctProId" id="slctProId" class='form-control'>
-                                    <%
-                                        List<Project> lst2 = prj.showPrj();
-                                        for (Project p : lst2) {
-                                    %>
-                                    <option value="<%= p.getId()%>"><b><%= p.getName()%></b> <%= p.getDescription()%></option>
-                                        <%
-                                            }
-                                        %>
-                                </select>  
-                            </div>
-                            <button type="submit" class="btn btn-outline-danger" formaction="projectview.jsp?v=y" >ver detalles de projecto</button>
-                        </form>
-                    </center>
+        <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
+            <div class="flex items-center justify-center w-ful flex-wrap">
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
+                    </div>
                 </div>
-            </section>
-
-            <div class="album py-5 bg-light">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <div class="card mb-6 shadow-lg">
-                                <a href="#">
-                                    <img class="bd-placeholder-img rounded border border-dark" width="100%" height="225" src="https://www.fminet.com/wp-content/uploads/2018/02/zurich-web.jpg" focusable="false" role="img"></img>
-                                </a>
-                                <div class="card-body rounded border border-dark">
-                                    <h3><p class="text-center">PERSONAL</p></h3>
-                                    <p class="card-text">Personal en este proyecto</p>
-                                    <table border="1" class=''>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Cargo</th>
-                                            <th>desde</th>
-                                            <th>hasta</th>
-                                            <th>dias en project</th>
-                                            <th>sal mensual en proj</th>
-                                            <th>costo en project</th>
-                                        </tr>
-                                        <%
-                                            int idHere = 1;
-                                            if ((request.getParameter("v")) != null) {
-                                                idHere = Integer.parseInt(request.getParameter("slctProId"));
-                                            }
-                                            List<Working> lst1 = wrk.showWorkingByPro(idHere);
-                                            double total = 0;
-                                            double totalF = 0;
-                                            for (Working w : lst1) {
-                                                String name = emp.getEmp(w.getEmployee_id()).getFirst_name()
-                                                        + " " + emp.getEmp(w.getEmployee_id()).getLast_name();//une el nombre completo
-                                        %>
-                                        <tr>
-                                            <td><%= name%></td>
-                                            <td><%= pos.getPos((emp.getEmp(w.getEmployee_id()).getPosition_id())).getName()%></td>
-                                            <td><%= w.getIn_pro_from()%></td>
-                                            <td><%= w.getIn_pro_to()%></td>
-                                            <td><%= w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())%></td>
-                                            <td>$<%= df.format(w.getCost())%></td>
-                                            <%
-                                                total = (w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())) * (w.getCost() / 30);
-                                                totalF = totalF + total;
-
-
-                                            %>
-                                            <td>$<%= df.format(total)%></td>
-                                            <%
-                                                }
-                                            %>
-
-                                        </tr>
-                                        <tr>
-                                            <th colspan="6">Total</th>
-                                            <th>$<%= df.format(totalF)%></th>
-                                        </tr>
-                                    </table>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p><a class="btn btn-sm btn-outline-secondary" href="working.jsp" role="button">go to CRUD &raquo;</a></p>
-                                        <small class="text-muted">CRUD</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card mb-6 shadow-lg justify-content-center">
-                                <a href="inuse.jsp">
-                                    <img class="bd-placeholder-img rounded border border-dark" width="100%" height="225" src="https://imcotecmaquinaria.cl/wp-content/uploads/2018/09/Que-maquinaria-pesada-es-mejor.jpg" focusable="false" role="img"></img>
-                                </a>
-                                <div class="card-body rounded border border-dark">
-                                    <h3><p class="text-center">MAQUINARIA</p></h3>
-                                    <p class="card-text">equipo y maquinaria activa en project</p>
-                                    <table border="1" class=''>
-                                        <tr>
-                                            <th>maquinaria</th>
-                                            <th>Uni en proy</th>
-                                            <th>desde</th>
-                                            <th>hasta</th>
-                                            <th>dias en project</th>
-                                            <th>Costo diario (unitario)</th>
-                                            <th>costo en project</th>
-                                        </tr>
-                                        <%
-                                            idHere = 1;
-                                            if ((request.getParameter("v")) != null) {
-                                                idHere = Integer.parseInt(request.getParameter("slctProId"));
-                                            }
-
-                                            List<InUse> lst3 = inu.showInUsebyPro(idHere);
-                                            double totalM = 0.0;
-                                            double totalFM = 0.0;
-                                            for (InUse i : lst3) {
-                                                String name = equ.getEqu(i.getEquipment_id()).getName() + " " + equ.getEqu(i.getEquipment_id()).getModel();
-                                        %>
-                                        <tr>
-                                            <td><%= name%></td>
-                                            <td><%= i.getEquipment_quantity()%></td>
-                                            <td><%= i.getIn_pro_from()%></td>
-                                            <td><%= i.getIn_pro_to()%></td>
-                                            <td><%= wrk.daysIn(i.getIn_pro_from(), i.getIn_pro_to())%></td>
-                                            <td><%= df.format(i.getCost())%></td>
-                                            <%
-                                                //here we need to calculate total cost per truck daysInUse
-                                                totalM = (i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())) * (i.getCost() * i.getEquipment_quantity());
-                                                totalFM = totalFM + totalM;
-
-                                            %>
-                                            <td><%= df.format(totalM)%></td>
-                                            <%
-                                                }
-                                            %>
-
-                                        </tr>
-                                        <tr>
-                                            <th colspan="6">Total</th>
-                                            <th><%= df.format(totalFM)%></th>
-                                        </tr>
-                                    </table>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p><a class="btn btn-sm btn-outline-secondary" href="inuse.jsp" role="button">go to CRUD&raquo;</a></p>
-                                        <small class="text-muted">CRUD</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Usuarios:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                    </div>
+                </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Empresa:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
                     </div>
                 </div>
             </div>
-        </main>
+            <div class="flex items-center justify-center mt-4">
+                <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
+            </div>
+        </div> 
+        <!--  -->
 
-        <hr class="featurette-divider">
-        <footer class="container text-center">
-            <p>&copy; Quintanilla Bernabe || daute project 2020 <a class="tr" href="index.jsp">Index</a></p>
-        </footer>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+        <div class="flex bg-gray w-full px-4 md:px-16">
+            <div class="flex w-8/12 py-2">
+                <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                    <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                    <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+                </div>
+                <div class="flex items-center">
+                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+                </div>
+            </div>
+            <div class="flex justify-end w-4/12 py-2">
+                <div class="flex items-center justify-center">
+                    <button class="text-white p-1 border-2 boder-white rounded-lg hover:bg-white hover:text-gray-800 focus:outline-none" onclick="menu()" id="menu">Menú</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------------- -->
+        <div class="text-white flex justify-center mt-4">
+            <h1 class="text-white text-4xl font-bold text-center">Detalles de Proyecto</h1>
+        </div>
+        <div class="text-white flex justify-center mt-2">
+            <p class="text-white text-xl text-center">Detalles de Personal, Maquinaria y Costos de un Proyecto</p>
+        </div>
+        <div class="flex justify-center">
+            <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+        </div>
+        <div class="text-white flex justify-center w-full md:w-auto mt-4">
+            <form action="" method="post">
+                    <label class="font-bold text-lg text-center">Projectos Activos: </label><br>
+                    <select name="slctProId" id="slctProId" class='text-black font-bold text-lg p-2 rounded w-full'>
+                        <%
+                            List<Project> lst2 = prj.showPrj();
+                            for (Project p : lst2) {
+                        %>
+                        <option value="<%= p.getId()%>"><b><%= p.getName()%></b> <%= p.getDescription()%></option>
+                            <%
+                                }
+                            %>
+                    </select>
+                    <div class="mt-4">
+                        <div class="flex justify-center w-full p-2">
+                            <button type="submit" class="text-xl text-black bg-white font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400" formaction="projectview.jsp?v=y" >Detalles</button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+        <div class="flex flex-wrap w-full px-4">
+            <div class="w-full md:w-1/2 p-4">
+                <div class="border border-white rounded text-white">
+                <a href="#">
+                    <img class="object-cover w-full h-64 object-left-bottom rounded-t" src="imgs/personal.jpg" focusable="false" role="img"></img>
+                </a>
+                <div class="text-white flex justify-center mt-2">
+                    <h3 class="text-2xl font-bold text-center">PERSONAL TRABAJANDO EN PROYECTO</h3>
+                </div>
+                <div class="w-full mt-2 overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <th class="border border-white p-1">Nombre</th>
+                            <th class="border border-white p-1">Cargo</th>
+                            <th class="border border-white p-1">Desde</th>
+                            <th class="border border-white p-1">Hasta</th>
+                            <th class="border border-white p-1">Días</th>
+                            <th class="border border-white p-1">Salario Mensual en Proyecto</th>
+                            <th class="border border-white p-1">Costo</th>
+                        </thead>
+                        <%
+                            int idHere = 1;
+                            if ((request.getParameter("v")) != null) {
+                                idHere = Integer.parseInt(request.getParameter("slctProId"));
+                            }
+                            List<Working> lst1 = wrk.showWorkingByPro(idHere);
+                            double total = 0;
+                            double totalF = 0;
+                            for (Working w : lst1) {
+                                String name = emp.getEmp(w.getEmployee_id()).getFirst_name()
+                                        + " " + emp.getEmp(w.getEmployee_id()).getLast_name();//une el nombre completo
+                        %>
+                        <tr>
+                            <td class="border border-white p-1"><%= name%></td>
+                            <td class="border border-white p-1"><%= pos.getPos((emp.getEmp(w.getEmployee_id()).getPosition_id())).getName()%></td>
+                            <td class="border border-white p-1"><%= w.getIn_pro_from()%></td>
+                            <td class="border border-white p-1"><%= w.getIn_pro_to()%></td>
+                            <td class="border border-white p-1"><%= w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())%></td>
+                            <td class="border border-white p-1">$<%= df.format(w.getCost())%></td>
+                            <%
+                                total = (w.daysIn(w.getIn_pro_from(), w.getIn_pro_to())) * (w.getCost() / 30);
+                                totalF = totalF + total;
+
+
+                            %>
+                            <td class="border border-white p-1">$<%= df.format(total)%></td>
+                            <%
+                                }
+                            %>
+
+                        </tr>
+                        <tr>
+                            <th colspan="6" class="border border-white p-1 text-right">Total</th>
+                            <th class="border border-white p-1">$<%= df.format(totalF)%></th>
+                        </tr>
+                    </table>
+                </div>
+                    <div class="my-4">
+                        <div class="flex justify-center w-full p-2">
+                            <a class="text-black bg-white font-bold text-lg p-1 rounded boder-white border mr-2 cursor-pointer hover:bg-black hover:text-white" href="working.jsp" role="button">IR a CRUD →</a>
+                        </div>
+                    </div>
+            </div>
+            </div>
+            <div class="w-full md:w-1/2 p-4">
+                <div class="border border-white rounded text-white">
+                <a href="#">
+                    <img class="object-cover w-full h-64 object-center rounded-t" src="imgs/maquinas.jpg" focusable="false" role="img"></img>
+                </a>
+                <div class="text-white flex justify-center mt-2">
+                    <h3 class="text-2xl font-bold text-center">MAQUINARIA TRABAJANDO EN PROYECTO</h3>
+                </div>
+                <div class="w-full mt-2 overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <th class="border border-white p-1">Maquinaria</th>
+                            <th class="border border-white p-1">Unidades</th>
+                            <th class="border border-white p-1">Desde</th>
+                            <th class="border border-white p-1">Hasta</th>
+                            <th class="border border-white p-1">Días</th>
+                            <th class="border border-white p-1">Costo Diario(Unitario)</th>
+                            <th class="border border-white p-1">Costo</th>
+                        </thead>
+                        <%
+                            idHere = 1;
+                            if ((request.getParameter("v")) != null) {
+                                idHere = Integer.parseInt(request.getParameter("slctProId"));
+                            }
+
+                            List<InUse> lst3 = inu.showInUsebyPro(idHere);
+                            double totalM = 0.0;
+                            double totalFM = 0.0;
+                            for (InUse i : lst3) {
+                                String name = equ.getEqu(i.getEquipment_id()).getName() + " " + equ.getEqu(i.getEquipment_id()).getModel();
+                        %>
+                        <tr>
+                            <td class="border border-white p-1"><%= name%></td>
+                            <td class="border border-white p-1"><%= i.getEquipment_quantity()%></td>
+                            <td class="border border-white p-1"><%= i.getIn_pro_from()%></td>
+                            <td class="border border-white p-1"><%= i.getIn_pro_to()%></td>
+                            <td class="border border-white p-1"><%= wrk.daysIn(i.getIn_pro_from(), i.getIn_pro_to())%></td>
+                            <td class="border border-white p-1">$<%= df.format(i.getCost())%></td>
+                            <%
+                                //here we need to calculate total cost per truck daysInUse
+                                totalM = (i.daysInUse(i.getIn_pro_from(), i.getIn_pro_to())) * (i.getCost() * i.getEquipment_quantity());
+                                totalFM = totalFM + totalM;
+
+                            %>
+                            <td class="border border-white p-1">$<%= df.format(totalM)%></td>
+                            <%
+                                }
+                            %>
+                        </tr>
+                        <tr>
+                            <th colspan="6" class="border border-white p-1 text-right">Total</th>
+                            <th class="border border-white p-1">$<%= df.format(totalFM) %></th>
+                        </tr>
+                    </table>
+                </div>
+                    <div class="my-4">
+                        <div class="flex justify-center w-full p-2">
+                            <a class="text-black bg-white font-bold text-lg p-1 rounded boder-white border mr-2 cursor-pointer hover:bg-black hover:text-white" href="inuse.jsp" role="button">IR a CRUD →</a>
+                        </div>
+                    </div>
+            </div>
+            </div>
+        </div>
+
+            
+
+            <!-- Navbar -->
+    <script src="js/navbar.js"></script>
+        
     </body>
 </html>
