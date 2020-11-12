@@ -22,7 +22,11 @@
             String fin = request.getParameter("datTo");
             Conexion con = new Conexion();
             con.conectar();
-            File reporte = new File(application.getRealPath("/reportes/repProFechas.jasper"));
+            File reporte = null;
+            if(request.getParameter("fin")!=null)
+                reporte = new File(application.getRealPath("/reportes/repProFinal.jasper"));
+            else if(request.getParameter("active")!=null)
+                reporte = new File(application.getRealPath("/reportes/repProFechas.jasper"));
             Map parametros = new HashMap();
             parametros.put("dFrom", sta);
             parametros.put("dTo", fin);
