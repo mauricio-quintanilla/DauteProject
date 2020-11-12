@@ -24,10 +24,10 @@ public class PositionController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
+        int usrId=0;
         Position pos = new Position();
         Position pc = new Position();
         String msj="";
-        int usrId=0;
         try {
             int idInp=Integer.parseInt(request.getParameter("txtPosId"));
             pos.setId(idInp);

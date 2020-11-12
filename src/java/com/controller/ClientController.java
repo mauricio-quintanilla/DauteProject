@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /*
 * Nombre del servlet: ClientController
@@ -21,10 +22,14 @@ public class ClientController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        int usrId=0;
         Client cli = new Client();
+        Client pc = new Client();
         String msj="";
         try {
-            cli.setId(Integer.parseInt(request.getParameter("txtId")));
+            int idInp=Integer.parseInt(request.getParameter("txtId"));
+            cli.setId(idInp);
             cli.setName(request.getParameter("txtName"));
             cli.setEmail(request.getParameter("txtEmail"));
             cli.setPhone_number(request.getParameter("txtPhone"));
@@ -32,13 +37,19 @@ public class ClientController extends HttpServlet {
             cli.setCompany_name(request.getParameter("txtComName"));
             cli.setCompany_address(request.getParameter("txtComAdd"));
             cli.setUser_id(Integer.parseInt(request.getParameter("slctUser")));
+            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if(request.getParameter("btnCreate")!=null){
                 msj=cli.createClient(cli);
+                cli.trkLogC(usrId, cli);
             }
             else if(request.getParameter("btnUpdate")!=null){
+                pc = cli.getClient(idInp);
                 msj=cli.updateClient(cli);
+                cli.trkLogU(usrId, cli, pc);
             }else{
+                pc = cli.getClient(idInp);
                 msj=cli.deleteClient(cli);
+                cli.trkLogD(usrId, pc);
             }
             response.sendRedirect("client.jsp");
             request.getSession().setAttribute("msj",msj);

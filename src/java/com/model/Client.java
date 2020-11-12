@@ -4,7 +4,9 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -246,5 +248,74 @@ public class Client extends Conexion{
             this.desconectar();
         }
         return cli;
+    }
+    public void trkLogC(int usrId, Client di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Client");
+        lgs.setAction_id("created");
+        lgs.setDescription("client name: " + di.getName() + " Correo " + di.getEmail()+
+                " phone #: " + di.getPhone_number() + 
+                " Nit: "+ di.getNit()+
+                " Comapny name: " +di.getCompany_name()+
+                " Comapny address: " +di.getCompany_address());
+        lgs.createLogs(lgs);
+    }
+    public void trkLogU(int usrId, Client di, Client dc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Client"); 
+        lgs.setAction_id("updated");
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("name from: " + dc.getName() + " to " + di.getName());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("email from: " + dc.getEmail() + " to " + di.getEmail());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("phone # from: " + dc.getPhone_number() + " to " + di.getPhone_number());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("NIT from: " + dc.getNit()+ " to " + di.getNit());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("Company name from: " + dc.getCompany_name() + " to " + di.getCompany_name());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("Company address from: " + dc.getCompany_name() + " to " + di.getCompany_address());
+            lgs.createLogs(lgs);
+        }
+    }
+    public void trkLogD(int usrId, Client di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Client");
+        lgs.setAction_id("deleted");
+        lgs.setDescription("client name: " + di.getName() + " Correo " + di.getEmail()+
+                " phone #: " + di.getPhone_number() + 
+                " Nit: "+ di.getNit()+
+                " Comapny name: " +di.getCompany_name()+
+                " Comapny address: " +di.getCompany_address());
+        lgs.createLogs(lgs);
     }
 }
