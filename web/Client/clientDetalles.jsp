@@ -1,7 +1,7 @@
 <%-- 
-    Document   : projectview
-    Created on : Nov 5, 2020, 11:41:16 PM
-    Author     : demon, ismael
+    Document   : clientDetalles
+    Created on : 11-nov-2020, 17:47:32
+    Author     : Ismael
 --%>
 
 <%@page import="com.model.Equipment"%>
@@ -50,7 +50,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-md-7 py-4">
-                            <h4 class="text-white">Vista para cliente o admin</h4>
+                            <h4 class="text-white">Vista para cliente</h4>
                             <p class="text-white">Detalles de costos de proyecto</p>
                         </div>
                         <div class="col-sm-4 offset-md-1 py-4">
@@ -91,7 +91,7 @@
                                 <label>Projectos Activos</label>
                                 <select name="slctProId" id="slctProId" class='form-control'>
                                     <%
-                                        List<Project> lst2 = prj.showPrj();
+                                        List<Project> lst2 = prj.showPrjByCli((Integer) session.getAttribute("Id"));
                                         for (Project p : lst2) {
                                     %>
                                     <option value="<%= p.getId()%>"><b><%= p.getName()%></b> <%= p.getDescription()%></option>
@@ -100,7 +100,7 @@
                                         %>
                                 </select>  
                             </div>
-                            <button type="submit" class="btn btn-outline-danger" formaction="projectview.jsp?v=y" >ver detalles de projecto</button>
+                            <button type="submit" class="btn btn-outline-danger" formaction="clientDetalles.jsp?v=y" >ver detalles de projecto</button>
                         </form>
                     </center>
                 </div>
@@ -138,7 +138,7 @@
                                             for (Working w : lst1) {
                                                 String name = emp.getEmp(w.getEmployee_id()).getFirst_name()
                                                         + " " + emp.getEmp(w.getEmployee_id()).getLast_name();//une el nombre completo
-                                        %>
+%>
                                         <tr>
                                             <td><%= name%></td>
                                             <td><%= pos.getPos((emp.getEmp(w.getEmployee_id()).getPosition_id())).getName()%></td>

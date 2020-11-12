@@ -196,7 +196,7 @@ public class Client extends Conexion{
         ResultSet res=null;
         try {
             this.conectar();
-            String sql="select * from client where id=?";
+            String sql="select * from client where user_id=?";
             PreparedStatement pre=this.getCon().prepareStatement(sql);
             pre.setInt(1,id);
             res=pre.executeQuery();

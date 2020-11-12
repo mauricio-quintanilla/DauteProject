@@ -1,6 +1,7 @@
 
 package com.controller;
 
+import com.model.Client;
 import com.model.Employees;
 import com.model.Role;
 import com.model.Users;
@@ -33,21 +34,44 @@ public class LoginController extends HttpServlet {
             if(request.getParameter("btnLogIn")!=null){
                 Users usr = new Users();
                 Role rol = new Role();
+                Client cli = new Client();
                 Employees emp = new Employees();
                 String usrImp= request.getParameter("txtUser");
                 String passw= request.getParameter("pwdPwd");
                 usr=usr.validateUser(usrImp, passw);
                 level=usr.getRole_id();
+                String profPic;
+                String usrOnSess;
                 if(level>0){
-                    String usrOnSess =emp.getEmpSes(usr.getId()).getFirst_name()+" "+emp.getEmpSes(usr.getId()).getLast_name();
+                    
+                    if(level!=4){
+                        usrOnSess =emp.getEmpSes(usr.getId()).getFirst_name()+" "+emp.getEmpSes(usr.getId()).getLast_name();         
+                        profPic = emp.getEmpSes(usr.getId()).getImage();
+                        session.setAttribute("profPic",profPic);
+                        session.setAttribute("Id",emp.getEmp(usr.getId()).getId());
+                    }else{
+                        usrOnSess = cli.getClient(usr.getId()).getName();
+                        session.setAttribute("Id",cli.getClient(usr.getId()).getId());//I del Cliente
+                        
+                    }
                     String rolName = rol.getRole(usr.getRole_id()).getName();
-                    String profPic = emp.getEmpSes(usr.getId()).getImage();
-                    session.setAttribute("usrOnSess",usrOnSess);
-                    session.setAttribute("usrId",usr.getId());
+                    session.setAttribute("usrId",usr.getId());//id del user
                     session.setAttribute("rolName",rolName);
-                    session.setAttribute("profPic",profPic);
+                    session.setAttribute("rol",level);
+                    session.setAttribute("usrOnSess",usrOnSess);//name del user
                     session.setAttribute("bandera2",1);
-                    response.sendRedirect("index.jsp");
+                    
+                    if(level==1){
+                        response.sendRedirect("index.jsp");
+                    }else if(level==2){
+                        response.sendRedirect("index.jsp");
+                    }else if(level==3){
+                        response.sendRedirect("project.jsp");
+                    }else if(level==4){
+                        response.sendRedirect("Client/clientMenu.jsp");
+                    }
+                        
+                    
                 }
                 else{
                     //aqui una alerta de invalid user or password
