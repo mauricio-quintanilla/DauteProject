@@ -33,7 +33,24 @@
         <script type="text/javascript" src="../jquery.js"></script>
         <!-- SweetAlert2 -->
         <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
-        
+        <style>
+            /* Tamaño del div del mapa. */
+            #map {
+                height: 50%;
+                width: 80%;
+                margin-left: 10%;
+                margin-right: 10%;
+                margin-top: 2%;
+            }
+
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+
+        </style>
         <script>
             $(document).ready(function () {
 
@@ -59,6 +76,11 @@
 
                 });
             });
+
+            function myLoad(lat, lng) {
+                $("#my_lat").val(lat);
+                $("#my_lng").val(lng);
+            }
         </script>
     </head>
     <%
@@ -87,7 +109,13 @@
             %>
 
         </header>
+        <input type="hidden" required placeholder="Latitud" name="my_lat"  id="my_lat">
+        <input type="hidden" required placeholder="Longitud" name="my_lng" id="my_lng" >
         <div style="visibility: hidden;" id="log"></div>
+
+
+
+
 
         <div class="flex bg-gray w-full px-4 md:px-16">
             <div class="flex w-8/12 py-2">
@@ -106,14 +134,14 @@
             </div>
         </div>
 
-
+        <div id="map"></div>
 
         <div class="text-white flex justify-center mt-4">
             <h1 class="text-white text-4xl font-bold text-center">Proyectos</h1>
         </div>
         <div class="text-white w-full md:flex md:justify-center md:w-auto mt-4 px-4 overflow-x-auto">
-        <table>
-            <thead>
+            <table>
+                <thead>
                 <th class="border-2 border-white border-dashed p-2 text-lg">ID</th>
                 <th class="border-2 border-white border-dashed p-2 text-lg">Nombre</th>
                 <th class="border-2 border-white border-dashed p-2 text-lg">Descripción</th>
@@ -123,30 +151,41 @@
 
                 <th class="border-2 border-white border-dashed p-2 text-lg">Compañía</th>
                 <th class="border-2 border-white border-dashed p-2 text-lg">Estado</th>
-            </thead>
-            <%
-                List<Project> lst2 = prj.showPrjByCli((Integer) session.getAttribute("Id"));
-                for (Project p : lst2) {
-            %>
-            <tr>
-                <td class="border-2 border-white border-dashed p-1 font-bold text-center"><%= p.getId()%></td>
-                <td class="border-2 border-white border-dashed p-1"><%= p.getName()%></td>
-                <td class="border-2 border-white border-dashed p-1"><%= p.getDescription()%></td>
-                <td class="border-2 border-white border-dashed p-1"><%= p.getStarted_date()%></td>
-                <td class="border-2 border-white border-dashed p-1"><%= p.getFinish_date()%></td>
-                <td class="border-2 border-white border-dashed p-1"><%= p.getAddress()%></td>
+                <th class="border-2 border-white border-dashed p-2 text-lg">Ubicación</th>
+                </thead>
+                <%
+                    List<Project> lst2 = prj.showPrjByCli((Integer) session.getAttribute("Id"));
+                    for (Project p : lst2) {
+                %>
+                <tr>
+                    <td class="border-2 border-white border-dashed p-1 font-bold text-center"><%= p.getId()%></td>
+                    <td class="border-2 border-white border-dashed p-1"><%= p.getName()%></td>
+                    <td class="border-2 border-white border-dashed p-1"><%= p.getDescription()%></td>
+                    <td class="border-2 border-white border-dashed p-1"><%= p.getStarted_date()%></td>
+                    <td class="border-2 border-white border-dashed p-1"><%= p.getFinish_date()%></td>
+                    <td class="border-2 border-white border-dashed p-1"><%= p.getAddress()%></td>
 
-                <td class="border-2 border-white border-dashed p-1"><%= cli.getClient((Integer) session.getAttribute("usrId")).getCompany_name()%></td>
-                <td class="border-2 border-white border-dashed p-1"><%= p.getStatus()%></td>
-            </tr>
-            <%
-                }
-            %>
-        </table>
+                    <td class="border-2 border-white border-dashed p-1"><%= cli.getClient((Integer) session.getAttribute("usrId")).getCompany_name()%></td>
+                    <td class="border-2 border-white border-dashed p-1"><%= p.getStatus()%></td>
+                    <td class="border-2 border-white border-dashed p-1">
+                        <button  class="font-bold text-blue-500 hover:underline" onclick="myLoad('<%= p.getLat()%>', '<%= p.getLng()%>');ruta()">
+                            Seleccionar
+                        </button>
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
         </div>
         <div class="flex justify-center mt-8">
             <a href="clientDetalles.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">Detalles de Proyectos →</a>
         </div>
         <br>
+
+        <!--Archivo local Javascript Toda la programación en este archivo-->
+        <script type="text/javascript" src="../js/googleMaps.js"></script>
+        <!--Archivo de GoogleMaps-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbUDtVGNnPGBMF4Acpf0CbJYmLspmq-Ps&callback=initMap" async defer></script>
     </body>
 </html>

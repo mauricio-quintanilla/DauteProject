@@ -26,7 +26,7 @@ public class Conexion {
             return true;
         } catch (SQLException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Conx error: "+e.getMessage());
-            return false;           
+            return false;
         }
     }
     public boolean desconectar(){
