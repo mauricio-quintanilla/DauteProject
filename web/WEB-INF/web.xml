@@ -89,6 +89,26 @@
         <servlet-name>InUseDetController</servlet-name>
         <servlet-class>com.controller.InUseDetController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjectControllerE</servlet-name>
+        <servlet-class>com.controller.ProjectControllerE</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>workingDetalleControllerE</servlet-name>
+        <servlet-class>com.controller.workingDetalleControllerE</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InUseDetControllerE</servlet-name>
+        <servlet-class>com.controller.InUseDetControllerE</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ClientControllerE</servlet-name>
+        <servlet-class>com.controller.ClientControllerE</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserControllerE</servlet-name>
+        <servlet-class>com.controller.UserControllerE</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PositionController</servlet-name>
         <url-pattern>/positionController</url-pattern>
@@ -176,6 +196,26 @@
     <servlet-mapping>
         <servlet-name>InUseDetController</servlet-name>
         <url-pattern>/inUseDetController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjectControllerE</servlet-name>
+        <url-pattern>/projectControllerE</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>workingDetalleControllerE</servlet-name>
+        <url-pattern>/workingDetalleControllerE</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InUseDetControllerE</servlet-name>
+        <url-pattern>/inUseDetControllerE</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ClientControllerE</servlet-name>
+        <url-pattern>/clientControllerE</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserControllerE</servlet-name>
+        <url-pattern>/userControllerE</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
