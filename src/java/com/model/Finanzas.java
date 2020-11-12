@@ -1,4 +1,3 @@
-
 package com.model;
 
 import com.conexion.Conexion;
@@ -120,7 +119,7 @@ public class Finanzas extends Conexion{
                 listaFnz.add(fnz);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error in show prj"+e.getMessage());
+            JOptionPane.showMessageDialog(null, "error in showFnzCost"+e.getMessage());
         }
         finally{
             this.desconectar();
@@ -174,5 +173,5 @@ public class Finanzas extends Conexion{
             this.desconectar();
         }
         return fnz;
-    }
+    }    
 }

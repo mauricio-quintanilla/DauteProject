@@ -36,14 +36,14 @@
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[TITLE]]></text>
+					<text><![CDATA[Constru SV]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="b31889e3-158f-4f60-8305-dc240f2eccbb"/>
+					<reportElement x="336" y="43" width="239" height="20" forecolor="#FFFFFF" uuid="b31889e3-158f-4f60-8305-dc240f2eccbb"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Add a description here]]></text>
+					<text><![CDATA[Reporte de Proyectos finalizados]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -61,28 +61,28 @@
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[name]]></text>
+				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="138" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="c285ef67-a06e-4631-affd-04c16df7ab09"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[description]]></text>
+				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="276" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="3a76e016-454d-49cb-b730-af8eb21387d2"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[started_date]]></text>
+				<text><![CDATA[Fecha de Inicio]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="414" y="0" width="138" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="881b4341-8a98-4706-b3fa-64cd3e127103"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[finish_date]]></text>
+				<text><![CDATA[Fecha De finalización]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
