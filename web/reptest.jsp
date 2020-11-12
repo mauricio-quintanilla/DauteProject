@@ -4,6 +4,7 @@
     Author     : demon
 --%>
 
+<%@page import="com.model.Finanzas"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -84,7 +85,9 @@
         </script>
         <%
             Project prj = new Project();
+            Finanzas fnz = new Finanzas();
             List<Project> lst2 = prj.showPrj();
+            List<Finanzas> lstF = fnz.showFnzCost();
         %>
     </head>
 
@@ -118,17 +121,18 @@
                     <br>
                 <div class="form-row justify-content-center">
                     <div class="col-8">
-                        <input formaction="rep11.jsp" type="submit" class='btn btn-outline-success' value="ver projectos activos en rango de fechas"/>
-                        <input formaction="rep22.jsp" type="submit" class='btn btn-outline-warning' value="ver projectos finalizados en rango de fechas"/>
+                        <input formaction="rep11.jsp?active=y" type="submit" class='btn btn-outline-success' value="ver projectos activos en rango de fechas"/>
+                        <input formaction="rep11.jsp?fin=y" type="submit" class='btn btn-outline-warning' value="ver projectos finalizados en rango de fechas"/>
                     </div>
                 </div>
                 </form>
             </div>
+            
             <div class="container tc">
                 <figure class="highcharts-figure">
                     <div id="container"></div>
                     <p class="highcharts-description">
-                        Luis we can type any other description here
+                        <hr color="black">
                     </p>
                 </figure>
                 <script>
@@ -181,6 +185,144 @@
                             }]
                     });
                 </script>   
+            </div>
+            <div class="container tc">
+                <figure class="highcharts-figure">
+                    <div id="container2"></div>
+                    <p class="highcharts-description">
+                       <hr color="black">
+                    </p>
+                </figure>
+                <script>
+                    Highcharts.chart('container2', {
+                        chart: {
+                          type: 'column'
+                        },
+                        title: {
+                          text: 'Inversion, Costos y Ganancias en Proyectos'
+                        },
+                        subtitle: {
+                          text: 'Reporte de departamento de finanza Constru SV'
+                        },
+                        xAxis: {
+                          categories: [
+                            <%
+                                for (Finanzas f : lstF) {
+                            %>
+                                '<%= f.getName()%>',
+                            <%
+                                }
+                            %>
+                          ],
+                          crosshair: true
+                        },
+                        yAxis: {
+                          min: 0.01,
+                          title: {
+                            text: 'moneda (USD)'
+                          }
+                        },
+                        tooltip: {
+                          headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>\\${point.y:.1f}</b></td></tr>',
+                          footerFormat: '</table>',
+                          shared: true,
+                          useHTML: true
+                        },
+                        plotOptions: {
+                          column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                          }
+                        },
+                        series: [{
+                          name: 'Ganancias',
+                          data: [
+                                    <%
+                                        for (Finanzas f : lstF) {
+                                    %>
+                                        <%= f.getProfit()%>,
+                                    <%
+                                        }
+                                    %>
+                                ]
+                        }, {
+                          name: 'Costo(RH) ConstruSV',
+                          data: [
+                                    <%
+                                        for (Finanzas f : lstF) {
+                                    %>
+                                    <%= f.getInv_per()%>,
+                                    <%
+                                        }
+                                    %>
+                                ]
+
+                        }, {
+                          name: 'Costo(Maq) ConstruSV',
+                          data: [
+                                    <%
+                                        for (Finanzas f : lstF) {
+                                    %>
+                                    <%= f.getInv_maq()%>,
+                                    <%
+                                        }
+                                    %>
+                                ]
+
+                        },{
+                          name: 'Costo Ttl ConstruSV',
+                          data: [
+                                    <%
+                                        for (Finanzas f : lstF) {
+                                    %>
+                                    <%= f.getInv_maq() + f.getInv_per() %>,
+                                    <%
+                                        }
+                                    %>
+                                ]
+
+                        },{
+                          name: 'Costo(RH) Cliente',
+                          data: [
+                                    <%
+                                        for (Finanzas f : lstF) {
+                                    %>
+                                    <%= f.getCosto_per()%>,
+                                    <%
+                                        }
+                                    %>
+                                ]
+
+                        }, {
+                          name: 'Costo(Maq) Cliente',
+                          data: [
+                                    <%
+                                        for (Finanzas f : lstF) {
+                                    %>
+                                    <%= f.getCosto_maq()%>,
+                                    <%
+                                        }
+                                    %>
+                                ]
+
+                        }, {
+                          name: 'Costo Ttl Cliente',
+                          data: [
+                                    <%
+                                        for (Finanzas f : lstF) {
+                                    %>
+                                    <%= f.getCosto_per() + f.getCosto_maq()%>,
+                                    <%
+                                        }
+                                    %>
+                                ]
+
+                        }]
+                      });
+                </script>   
+                
             </div>
             <div class="container tc">
                 <blockquote>
