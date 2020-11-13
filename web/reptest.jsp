@@ -462,7 +462,7 @@
 
     <div class="hidden" id="boleta">
         <div class="text-white flex justify-center w-full md:w-auto mt-4">
-        <form action="repBoleta.jsp" method="GET">
+            <form method="POST" id="frmRep1" target="_blank" action="rep11.jsp">
             <label for="" class="text-2xl font-bold">Generar Boleta de Pago de Empleado:</label><br>
             <select name="selectB" id="selectB" class="text-black font-bold text-lg p-2 rounded w-full">
                 <%

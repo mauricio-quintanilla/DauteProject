@@ -18,18 +18,30 @@
     </head>
     <body>
         <%
-            String sta = request.getParameter("datFrom");
-            String fin = request.getParameter("datTo");
+            String sta;
+            String fin;
+            int idEmp ;
             Conexion con = new Conexion();
             con.conectar();
             File reporte = null;
-            if(request.getParameter("fin")!=null)
-                reporte = new File(application.getRealPath("/reportes/repProFinal.jasper"));
-            else if(request.getParameter("active")!=null)
-                reporte = new File(application.getRealPath("/reportes/repProFechas.jasper"));
             Map parametros = new HashMap();
-            parametros.put("dFrom", sta);
-            parametros.put("dTo", fin);
+            if(request.getParameter("fin")!=null){
+                reporte = new File(application.getRealPath("/reportes/repProFinal.jasper"));
+                sta = request.getParameter("datFrom");
+                fin = request.getParameter("datTo");
+                parametros.put("dFrom", sta);
+                parametros.put("dTo", fin);
+            }else if(request.getParameter("active")!=null){
+                reporte = new File(application.getRealPath("/reportes/repProFechas.jasper"));
+                sta = request.getParameter("datFrom");
+                fin = request.getParameter("datTo");
+                parametros.put("dFrom", sta);
+                parametros.put("dTo", fin);
+            }else{
+                idEmp = Integer.parseInt(request.getParameter("selectB"));
+                reporte = new File(application.getRealPath("/reportes/repoBoletas.jasper"));
+                parametros.put("id", idEmp);
+            }
             byte[] bytes = JasperRunManager.runReportToPdf(reporte.getPath(), parametros ,con.getCon());
             response.setContentType("application/pdf");
             response.setContentLength(bytes.length);
