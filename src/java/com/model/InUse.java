@@ -399,7 +399,7 @@ public class InUse extends Conexion{
         lgs.setDate(date);
         lgs.setOn_field("Eq in use");
         lgs.setAction_id("deleted");
-        lgs.setDescription("-eq id: " + di.getEquipment_id()+ " -project id " + di.getProject_id()+
+        lgs.setDescription("-eq in use id: " + di.getId()+ "-eq id: " + di.getEquipment_id()+ " -project id " + di.getProject_id()+
                 " -from: " + di.getIn_pro_from()+ 
                 " -to: "+ di.getIn_pro_to()+
                 " -eq quantity: " +di.getEquipment_quantity()+

@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /*
 * Nombre del servlet: WorkingDetalleController
@@ -22,31 +23,40 @@ public class workingDetalleController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
+        HttpSession session = request.getSession();
+        int usrId=0;
         Working wop = new Working();
+        Working pc = new Working();
         Employees emp = new Employees();
         String msj = "";
         double total = 0;
         String type = "success";
         String available = "";
         try {
-            wop.setId(Integer.parseInt(request.getParameter("txtId")));
+            int idInp=Integer.parseInt(request.getParameter("txtId"));
+            wop.setId(idInp);
             wop.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
             wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId")));
             wop.setIn_pro_from(request.getParameter("datFrom"));
             wop.setIn_pro_to(request.getParameter("datTo"));
             wop.setNum_days((int)(wop.daysIn(request.getParameter("datFrom"), request.getParameter("datTo"))));
             wop.setCost(Double.parseDouble(request.getParameter("numCost")));
+            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             total = (wop.daysIn(request.getParameter("datFrom"), request.getParameter("datTo"))) * (Double.parseDouble(request.getParameter("numCost")) / 30);
             wop.setTotal_cost(total);
             if (request.getParameter("btnCreate") != null) {
-                    wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId")));
-                    msj = wop.createWorking(wop);
+                wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId")));
+                msj = wop.createWorking(wop);
+                wop.trkLogC(usrId, wop);
             } else if (request.getParameter("btnUpdate") != null) {
-                    wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId2")));
-                    msj = wop.updateWorking(wop);
+                wop.setEmployee_id(Integer.parseInt(request.getParameter("slctEmpId2")));
+                pc = pc.getWorking(idInp);
+                msj=wop.updateWorking(wop);
+                wop.trkLogU(usrId, wop, pc);
             } else {
-                msj = wop.deleteWorking(wop);
+                pc = pc.getWorking(idInp);
+                msj=wop.deleteWorking(wop);
+                wop.trkLogU(usrId, wop, pc);
             }
             request.getSession().setAttribute("msj", msj);
             request.getSession().setAttribute("type", type);

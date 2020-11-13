@@ -29,9 +29,10 @@ public class ProjectController extends HttpServlet {
         String msj = "";
         String status = "";
         try {
-            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if (request.getParameter("btnMaquinaria") == null) {
-                
+                usrId=Integer.parseInt(session.getAttribute("usrId").toString());
+                int idInp=Integer.parseInt(request.getParameter("txtId"));
+                prj.setId(idInp);
                 prj.setName(request.getParameter("txtName"));
                 prj.setDescription(request.getParameter("txtDesc"));
                 prj.setStarted_date(request.getParameter("dapStart"));
@@ -40,24 +41,24 @@ public class ProjectController extends HttpServlet {
                 prj.setLat(request.getParameter("my_lat"));
                 prj.setLng(request.getParameter("my_lng"));
                 prj.setClient_id(Integer.parseInt(request.getParameter("slctClient")));
-            }
-            if (request.getParameter("btnCreate") != null) {
-                prj.setStatus("no-iniciado");
-                msj = prj.createPrj(prj);
-                prj.trkLogC(usrId, prj);
-            } else if (request.getParameter("btnUpdate") != null) {
-                int idInp=Integer.parseInt(request.getParameter("txtId"));
-                prj.setId(idInp);
-                prj.setStatus(prj.setProStatus(prj.getId()));
-                pc = pc.getProyect(idInp);
-                msj = prj.updatePrj(prj);
-                prj.trkLogU(usrId, prj, pc);
-            } else {
-                int idInp=Integer.parseInt(request.getParameter("txtId"));
-                prj.setId(idInp);
-                pc = pc.getProyect(idInp);
-                msj = prj.deletePrj(prj);
-                prj.trkLogD(usrId, pc);
+                if (request.getParameter("btnCreate") != null) {
+                    prj.setStatus("no-iniciado");
+                    msj = prj.createPrj(prj);
+                    prj.trkLogC(usrId, prj);
+                } else if (request.getParameter("btnUpdate") != null) {
+
+                    prj.setId(idInp);
+                    prj.setStatus(prj.setProStatus(prj.getId()));
+                    pc = pc.getProyect(idInp);
+                    msj = prj.updatePrj(prj);
+                    prj.trkLogU(usrId, prj, pc);
+                } else {
+
+                    prj.setId(idInp);
+                    pc = pc.getProyect(idInp);
+                    msj = prj.deletePrj(prj);
+                    prj.trkLogD(usrId, pc);
+                }
             }
             
             if (msj.contains("error")) {

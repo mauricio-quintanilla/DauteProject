@@ -3,9 +3,11 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -182,6 +184,7 @@ public class Working extends Conexion {
                 wop.setEmployee_id(res.getInt("employee_id"));
                 wop.setIn_pro_from(res.getString("in_pro_from"));
                 wop.setIn_pro_to(res.getString("in_pro_to"));
+                wop.setNum_days(res.getInt("num_days"));
                 wop.setCost(res.getDouble("cost"));
                 listaWop.add(wop);
             }
@@ -209,6 +212,7 @@ public class Working extends Conexion {
                 wop.setEmployee_id(res.getInt("employee_id"));
                 wop.setIn_pro_from(res.getString("in_pro_from"));
                 wop.setIn_pro_to(res.getString("in_pro_to"));
+                wop.setNum_days(res.getInt("num_days"));
                 wop.setCost(res.getDouble("cost"));
                 listaWop.add(wop);
             }
@@ -219,6 +223,32 @@ public class Working extends Conexion {
         }
         return listaWop;
     }
+    public Working getWorking(int id){
+        Working wop = new Working();
+        ResultSet res=null;
+        try {
+            this.conectar();
+            String sql="SELECT * FROM working_on_project WHERE id=?";
+            PreparedStatement pre=this.getCon().prepareStatement(sql);
+            pre.setInt(1,id);
+            res=pre.executeQuery();
+            while (res.next()) {
+                wop.setId(res.getInt("id"));
+                wop.setProject_id(res.getInt("project_id"));
+                wop.setEmployee_id(res.getInt("employee_id"));
+                wop.setIn_pro_from(res.getString("in_pro_from"));
+                wop.setIn_pro_to(res.getString("in_pro_to"));
+                wop.setNum_days(res.getInt("num_days"));
+                wop.setCost(res.getDouble("cost"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error "+e.getMessage());
+        }
+        finally{
+            this.desconectar();
+        }
+        return wop;
+    }
 
     public double daysIn(String dateStarts, String dateEnds) {
         LocalDate dateBefore = LocalDate.parse(dateStarts);
@@ -226,5 +256,73 @@ public class Working extends Conexion {
         double nod = (ChronoUnit.DAYS.between(dateBefore, dateAfter))+1;
         return nod;
     }
-    
+    public void trkLogC(int usrId, Working di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Working in proj");
+        lgs.setAction_id("created");
+        lgs.setDescription(" -project id: " + di.getProject_id()+ " -employee id: " + di.getEmployee_id()+ 
+                " -from: " + di.getIn_pro_from()+ 
+                " -to: "+ di.getIn_pro_to()+
+                " -num of days: " +di.getNum_days()+
+                " -Cost: " +di.getCost());
+        lgs.createLogs(lgs);
+    }
+    public void trkLogU(int usrId, Working di, Working dc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Working in proj"); 
+        lgs.setAction_id("updated");
+        if (di.getProject_id()!= (dc.getProject_id())) {
+            lgs.setDescription("project id from: " + dc.getProject_id()+ " to " + di.getProject_id());
+            lgs.createLogs(lgs);
+        }
+        if (di.getEmployee_id()!= (dc.getEmployee_id())) {
+            lgs.setDescription("employee id from: " + dc.getEmployee_id()+ " to " + di.getEmployee_id());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getIn_pro_from().equals(dc.getIn_pro_from())) {
+            lgs.setDescription("in_project_from from: " + dc.getIn_pro_from()+ " to " + di.getIn_pro_from());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getIn_pro_to().equals(dc.getIn_pro_to())) {
+            lgs.setDescription("in_project_to from: " + dc.getIn_pro_to()+ " to " + di.getIn_pro_to());
+            lgs.createLogs(lgs);
+        }
+        if (di.getNum_days()!= (dc.getNum_days())) {
+            lgs.setDescription("num of days from: " + dc.getNum_days()+ " to " + di.getNum_days());
+            lgs.createLogs(lgs);
+        }
+        if (di.getCost()!= (dc.getCost())) {
+            lgs.setDescription("Cost from: $" + dc.getCost()+ " to $" + di.getCost());
+            lgs.createLogs(lgs);
+        }
+    }
+    public void trkLogD(int usrId, Working di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Working in proj");
+        lgs.setAction_id("deleted");
+        lgs.setDescription(" -project id: " + di.getProject_id()+ " -employee id: " + di.getEmployee_id()+ 
+                " -from: " + di.getIn_pro_from()+ 
+                " -to: "+ di.getIn_pro_to()+
+                " -num of days: " +di.getNum_days()+
+                " -Cost: " +di.getCost());
+        lgs.createLogs(lgs);
+    }  
 }
