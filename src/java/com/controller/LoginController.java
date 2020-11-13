@@ -1,4 +1,3 @@
-
 package com.controller;
 
 import com.model.Client;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 /*
 * Nombre del servlet: LoginController
@@ -29,71 +29,57 @@ public class LoginController extends HttpServlet {
         HttpSession session = request.getSession();
         String vali = "";
         try {
-            int level=0;
-            
-            if(request.getParameter("btnLogIn")!=null){
+            int level = 0;
+            if (request.getParameter("btnLogIn") != null) {
                 Users usr = new Users();
                 Role rol = new Role();
                 Client cli = new Client();
                 Employees emp = new Employees();
-                String usrImp= request.getParameter("txtUser");
-                String passw= request.getParameter("pwdPwd");
-                usr=usr.validateUser(usrImp, passw);
-                level=usr.getRole_id();
+                String usrImp = request.getParameter("txtUser");
+                String passw = request.getParameter("pwdPwd");
+                usr = usr.validateUser(usrImp, passw);
+                level = usr.getRole_id();
                 String profPic;
                 String usrOnSess;
-                if(level>0){
-                    
-                    if(level!=4){
-                        usrOnSess =emp.getEmpSes(usr.getId()).getFirst_name()+" "+emp.getEmpSes(usr.getId()).getLast_name();         
+                if (level > 0) {
+                    if (level != 4) {
+                        usrOnSess = emp.getEmpSes(usr.getId()).getFirst_name() + " " + emp.getEmpSes(usr.getId()).getLast_name();
                         profPic = emp.getEmpSes(usr.getId()).getImage();
-                        session.setAttribute("profPic",profPic);
-                        session.setAttribute("Id",emp.getEmp(usr.getId()).getId());
-                    }else{
+                        session.setAttribute("profPic", profPic);
+                        session.setAttribute("Id", emp.getEmp(usr.getId()).getId());
+                    } else {
                         usrOnSess = cli.getClient(usr.getId()).getName();
-                        session.setAttribute("Id",cli.getClient(usr.getId()).getId());//I del Cliente
-                        
+                        session.setAttribute("Id", cli.getClient(usr.getId()).getId());//I del Cliente         
                     }
                     String rolName = rol.getRole(usr.getRole_id()).getName();
-                    session.setAttribute("usrId",usr.getId());//id del user
-                    session.setAttribute("rolName",rolName);
-                    session.setAttribute("rol",level);
-                    session.setAttribute("usrOnSess",usrOnSess);//name del user
-                    session.setAttribute("bandera2",1);
-                    
-                    if(level==1){
+                    session.setAttribute("usrId", usr.getId());//id del user
+                    session.setAttribute("rolName", rolName);
+                    session.setAttribute("rol", level);
+                    session.setAttribute("usrOnSess", usrOnSess);//name del user
+                    session.setAttribute("bandera2", 1);
+                    if (level == 1) {
                         response.sendRedirect("index.jsp");
-                    }else if(level==2){
+                    } else if (level == 2) {
                         response.sendRedirect("Management/index.jsp");
-                    }else if(level==3){
+                    } else if (level == 3) {
                         response.sendRedirect("Employee/index.jsp");
-                    }else if(level==4){
+                    } else if (level == 4) {
                         response.sendRedirect("Client/clientMenu.jsp");
                     }
-                        
-                    
-                }
-                else{
+                } else {
                     //aqui una alerta de invalid user or password
                     //JOptionPane.showMessageDialog(null, "invalid user or pwd" + level);
-                     vali = "Usuario o contraseña invalido";
-                    session.setAttribute("vl",vali);
-                    session.setAttribute("bandera",1);//valida que no aparezca el mensaje más de una vez al recargar la pagina
+                    vali = "Usuario o contraseña invalido";
+                    session.setAttribute("vl", vali);
+                    session.setAttribute("bandera", 1);//valida que no aparezca el mensaje más de una vez al recargar la pagina
                     response.sendRedirect("login.jsp");
                 }
-            }
-            if(request.getParameter("logout")!=null){
+            } else if (request.getParameter("logout") != null) {
                 session.invalidate();
-                
-                response.sendRedirect("login.jsp?logout");
-            }
-            if(request.getParameter("nosession")!=null){
-                
-                vali = "Necesita iniciar sesion para entrar al Constru SV";
-                session.setAttribute("vl",vali);//---Mensaje
-                session.setAttribute("bandera",1);
+                response.sendRedirect("login.jsp?logout=y");
+            }else if (request.getParameter("nosession") != null) {
                 session.invalidate();
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login.jsp?unauthorized=y");
             }
         } catch (Exception e) {
             request.getSession().setAttribute("Error", e.toString());

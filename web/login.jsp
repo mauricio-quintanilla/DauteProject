@@ -3,6 +3,7 @@
     Created on : Oct 27, 2020, 12:51:54 PM
     Author     : demon
 --%>
+<%@page import="javax.swing.JOptionPane"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -30,6 +31,35 @@
     <body class="bg-white">
         <header>
             <%
+                if(request.getParameter("logout")!=null){
+            %>
+                <script type="text/javascript">
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Sesion finalizada',
+                        text: '',
+                        footer: ''
+                    })
+
+                </script>
+            <%
+                }
+                if(request.getParameter("unauthorized")!=null){
+            %>
+                <script type="text/javascript">
+
+
+                    Swal.fire({
+                        type: 'error',
+                        title: 'No has iniciado session',
+                        text: 'Ingresa tus credencial',
+                        footer: '<a href></a>'
+                    })
+
+                </script>
+            <%
+                }
+
                 if (request.getSession().getAttribute("vl") != null && request.getSession().getAttribute("bandera").equals(1)) {
             %>
             <script type="text/javascript">

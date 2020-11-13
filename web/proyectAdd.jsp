@@ -157,7 +157,7 @@
         <div class="flex flex-wrap w-full px-4">
             <div class="w-full md:w-1/2 p-4">
                 <div class="border border-white rounded text-white">
-                <a href="#">
+                <a href="workingDetalle.jsp">
                     <img class="object-cover w-full h-64 object-left-bottom rounded-t" src="imgs/personal.jpg" focusable="false" role="img"></img>
                 </a>
                 <div class="text-white flex justify-center mt-2">
@@ -227,7 +227,7 @@
 
                     <div class="w-full md:w-1/2 p-4">
                     <div class="border border-white rounded text-white">
-                    <a href="#">
+                    <a href="inUseDetalle.jsp">
                         <img class="object-cover w-full h-64 object-center rounded-t" src="imgs/maquinas.jpg" focusable="false" role="img"></img>
                     </a>
                     <div class="text-white flex justify-center mt-2">
