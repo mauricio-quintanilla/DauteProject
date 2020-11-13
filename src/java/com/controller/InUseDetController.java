@@ -59,11 +59,20 @@ public class InUseDetController extends HttpServlet {
                 msj=inu.deleteInUse(inu);
                 inu.trkLogU(usrId, inu, pc);
             }
-
+            
+            HttpSession sesion = request.getSession();
+            int rol = (Integer) sesion.getAttribute("rol");
+            
             request.getSession().setAttribute("conta", 1);
             request.getSession().setAttribute("msj", msj);
             request.getSession().setAttribute("type", type);
-            response.sendRedirect("inUseDetalle.jsp");
+            
+            if (rol == 3) {
+                response.sendRedirect("Employee/inUseDetalle.jsp");
+            }else{
+                response.sendRedirect("inUseDetalle.jsp");
+            }
+            
         } catch (Exception e) {
             request.getSession().setAttribute("error", e.toString());
             response.sendRedirect("error.jsp");

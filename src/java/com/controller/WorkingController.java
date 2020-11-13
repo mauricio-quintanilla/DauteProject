@@ -55,9 +55,20 @@ public class WorkingController extends HttpServlet {
                 msj=wop.deleteWorking(wop);
                 wop.trkLogU(usrId, wop, pc);
             }
-            response.sendRedirect("working.jsp");
+            HttpSession sesion = request.getSession();
+            int rol = (Integer) sesion.getAttribute("rol");
+            
+            if (rol == 3) {
+                response.sendRedirect("Employee/working.jsp");
+            }else{
+                response.sendRedirect("working.jsp");
+            }
+            
             request.getSession().setAttribute("msj",msj);
             request.getSession().setAttribute("conta",1);
+            
+
+            
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());
         }

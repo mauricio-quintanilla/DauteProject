@@ -210,7 +210,7 @@
         </div>
 
 <div class="text-white flex justify-center w-full md:w-auto mt-4">
-    <form id="frmMain" action="../workingDetalleControllerE" method="POST">
+    <form id="frmMain" action="../workingDetalleController" method="POST">
         <div id="question"></div>
         <input type="hidden" name="txtId" id="txtId" value="0"/>
         <input type="hidden" name="slctProId" id="slctProId" value="<%= (Integer) session.getAttribute("id_attr")%>">

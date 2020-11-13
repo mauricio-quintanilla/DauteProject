@@ -223,7 +223,7 @@
     </div>
 
 <div class="text-white flex justify-center w-full md:w-auto mt-4">
-    <form id="frmMain" action="../inUseDetControllerE" method="POST">
+    <form id="frmMain" action="../inUseDetController" method="POST">
         <div id="question"></div>
         <input type="hidden" name="slctProId" id="slctProId" value="<%= (Integer) session.getAttribute("id_attr")%>" class='form-control'>
         <input type="hidden" name="vliStock" id="vliStock">
