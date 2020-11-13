@@ -12,9 +12,9 @@
 <%
     HttpSession sesion = request.getSession();
     int rol=(Integer)sesion.getAttribute("rol");
-    /*if (( rol!=1) || (rol!= 2) || (rol!=4)) {
+    if (( rol!=1) || (rol!= 2) || (rol!=3)) {
         response.sendRedirect("loginController?nosession=y");
-    }*/
+    }
     
     if(rol==3) {
         response.sendRedirect("Employee/client.jsp");
