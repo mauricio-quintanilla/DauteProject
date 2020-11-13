@@ -4,6 +4,7 @@
     Author     : demon
 --%>
 
+<%@page import="com.model.Employees"%>
 <%@page import="com.model.Finanzas"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -121,6 +122,7 @@
 <%
     Project prj = new Project();
     Finanzas fnz = new Finanzas();
+    Employees emp = new Employees();
     List<Project> lst2 = prj.showPrj();
     List<Finanzas> lstF = fnz.showFnzCost();
 %>
@@ -142,7 +144,7 @@
                         <h1 class="font-bold text-lg text-center">Usuarios:</h1>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
-                    
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="logs.jsp">Logs Usuarios</a></div>
                     </div>
                 </div>
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
@@ -205,6 +207,7 @@
                     <option value="2">Ganancias y Costos en Proyectos</option>
                     <option value="3">Proyectos Activos en un rango de Fechas</option>
                     <option value="4">Proyectos Finalizados en una rango de Fechas</option>
+                    <option value="5">Boletas de Pago</option>
                 </select>
             </div>
         </div>
@@ -449,6 +452,31 @@
             </div> 
         </div>
     </div>
+
+    <div class="hidden" id="boleta">
+        <div class="text-white flex justify-center w-full md:w-auto mt-4">
+        <form action="repBoleta.jsp" method="GET">
+            <label for="" class="text-2xl font-bold">Generar Boleta de Pago de Empleado:</label><br>
+            <select name="selectB" id="selectB" class="text-black font-bold text-lg p-2 rounded w-full">
+                <%
+                    List<Employees> lst = emp.showEmp();
+                    for (Employees e: lst) {
+                %>
+                <option value="<%= e.getId()%>"><%= e.getFirst_name()+" "+e.getLast_name() %></option>
+                <%
+                    }
+                %>
+
+            </select>
+            <div class="mt-4">
+                <div class="md:flex md:justify-center w-full p-2">
+                    <input type="submit" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400" value="Generar"/>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div> 
+    
                 
             
 
@@ -461,12 +489,14 @@
             if (sel.value==1){
                 $('#form').addClass('hidden');
                 $('#ganancias').addClass('hidden');
+                $('#boleta').addClass('hidden');
                 $('#historial').removeClass('hidden');
     
             }
             if (sel.value==2){
                 $('#historial').addClass('hidden');
                 $('#form').addClass('hidden');
+                $('#boleta').addClass('hidden');
                 $('#ganancias').removeClass('hidden');
     
             }
@@ -474,6 +504,7 @@
                 $('#ganancias').addClass('hidden');
                 $('#historial').addClass('hidden');
                 $('#finalizados').addClass('hidden');
+                $('#boleta').addClass('hidden');
                 $('#activos').removeClass('hidden');
                 $('#form').removeClass('hidden');
             }
@@ -481,8 +512,15 @@
                 $('#ganancias').addClass('hidden');
                 $('#historial').addClass('hidden');
                 $('#activos').addClass('hidden');
+                $('#boleta').addClass('hidden');
                 $('#finalizados').removeClass('hidden');
                 $('#form').removeClass('hidden');
+            }
+            if (sel.value==5){
+                $('#historial').addClass('hidden');
+                $('#form').addClass('hidden');
+                $('#ganancias').addClass('hidden');
+                $('#boleta').removeClass('hidden');
             }
             
         }
