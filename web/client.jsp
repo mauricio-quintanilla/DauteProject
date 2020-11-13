@@ -9,17 +9,7 @@
 <%@page import="com.model.Client"%>
 <%@page session="true"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    HttpSession sesion = request.getSession();
-    int rol=(Integer)sesion.getAttribute("rol");
-    if (( rol==4)) {
-        response.sendRedirect("loginController?nosession=y");
-    }
-    
-    /*if(rol==3) {
-        response.sendRedirect("Employee/client.jsp");
-    }*/
-%>
+
 <!doctype html>
 <html lang="es">
     <head>
@@ -63,6 +53,15 @@
         </script>
     </head>
 <%
+    HttpSession sesion = request.getSession();
+    if (sesion.getAttribute("rolName") == null) 
+        response.sendRedirect("loginController?nosession=y");
+    else{
+        int rol=(Integer)sesion.getAttribute("rol");
+        if(rol==4) {
+            response.sendRedirect("loginController?nosession=y");
+        }
+    }
     Client cli = new Client();
     Users usr = new Users();
 %>
@@ -147,6 +146,7 @@
                         <h1 class="font-bold text-lg text-center">Usuarios:</h1>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="logs.jsp">Logs Usuarios</a></div>
                     </div>
                 </div>
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">

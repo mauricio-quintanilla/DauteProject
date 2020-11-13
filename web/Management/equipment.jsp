@@ -29,8 +29,7 @@
         <link rel="stylesheet" href="../css/style.css">
         <!-- JQuery -->
         <script type="text/javascript" src="../jquery.js"></script>
-
-        <!-- SweetAlert -->
+        <!-- SWEET ALERT -->
         <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
         
         <script>
@@ -64,8 +63,6 @@
         <header>
             <script>
                 $(document).ready(function () {
-
-                    //update question
                     $('#btnUpdate').click(function () {
                         swal.fire({
                             type: "question",
@@ -78,13 +75,12 @@
                             confirmButtonText: "Sí, Modificar"
                         }).then((result) => {
                             if (result.value) {
-                                $('#question').append("<input type='hidden' name='btnUpdate'>");
+                                $('#frmMain').attr('action', '../equipmentController?btnUpdate=y');
                                 $('#frmMain').submit();
                             }
                         });
 
                     });
-
                     $('#btnDelete').click(function () {
                         swal.fire({
                             type: "question",
@@ -97,7 +93,7 @@
                             confirmButtonText: "Sí, eliminar"
                         }).then((result) => {
                             if (result.value) {
-                                $('#question').append("<input type='hidden' name='btnDelete'>");
+                                $('#frmMain').attr('action', '../equipmentController?btnDelete=y');
                                 $('#frmMain').submit();
                             }
                         });
@@ -123,8 +119,7 @@
                     });
                 });
 
-                
-                });
+            });
 
             </script>
             <%//&& 
@@ -133,7 +128,7 @@
             <script type="text/javascript">
 
                 Swal.fire(
-                        'Department',
+                        'Equipo',
                         '<%= request.getSession().getAttribute("msj")%>',
                         'success'
                         );
@@ -144,7 +139,6 @@
                 }
             %>
         </header>
-        
         <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
             <div class="flex items-center justify-center w-ful flex-wrap">
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
@@ -167,8 +161,9 @@
             </div>
         </div> 
         <!--  -->
-    
-    
+
+
+
         <div class="flex bg-gray w-full px-4 md:px-16">
             <div class="flex w-8/12 py-2">
                 <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
@@ -185,9 +180,9 @@
                 </div>
             </div>
         </div>
-    
+
         <div style="visibility: hidden;" id="log"></div>
-    
+
         <!-- ---------------------------------------------------------------------- -->
         <div class="text-white flex justify-center mt-4">
             <h1 class="text-white text-4xl font-bold text-center">Gestión Inventario Equipo</h1>
@@ -238,8 +233,8 @@
                     <div class="md:flex md:justify-center w-full p-2">
                         <input type="reset" onclick="clean()" name="btnNew" value="Limpiar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                         <input disabled formaction="../equipmentController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input disabled formaction="../equipmentController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input disabled formaction="../equipmentController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input disabled type="button" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input disabled type="button" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                     </div>    
                 </div>
             </form>

@@ -93,7 +93,9 @@
         </div>
 
         <!-- ---------------------------------------------------------------------- -->
-
+        <div class="flex justify-center mt-4">
+            <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+        </div>
       
         <div class="text-white flex md:justify-center w-full md:w-auto h-full overflow-y-auto overflow-x-auto mt-4 p-8">
 
