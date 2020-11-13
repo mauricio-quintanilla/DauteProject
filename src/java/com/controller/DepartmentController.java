@@ -51,9 +51,6 @@ public class DepartmentController extends HttpServlet {
                 msj=dpt.deleteDept(dpt);
                 dpt.trkLogD(usrId, dc);
             }
-            
-           
-            
             request.getSession().setAttribute("msj",msj);
             request.getSession().setAttribute("conta",1);
             response.sendRedirect("department.jsp");

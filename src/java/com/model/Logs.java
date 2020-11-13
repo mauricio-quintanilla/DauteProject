@@ -96,9 +96,11 @@ public class Logs extends Conexion {
             pre.setString(5, lgs.getDate());
             pre.setString(6, lgs.getDescription());
             pre.executeUpdate();
+            
             return "Record successfuly generated";
         } catch (Exception e) {
             return "error " + e.getMessage();
+            
         } finally {
             this.desconectar();
         }

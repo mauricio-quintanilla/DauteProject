@@ -327,8 +327,8 @@
                             <div class="md:flex md:justify-center w-full p-2">
                             <button class="text-black bg-white font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"  onclick="disa();initMap();var param = 0; agregarPunto(param);reset();clean();" type="reset"  >Nuevo</button>
                             <input type="submit" name="btnCreate" id="btnCreate" disabled="disabled" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                            <input type="submit" name="btnUpdate" id="btnUpdate" disabled="disabled" value="Actualizar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                            <input type="submit" name="btnDelete" id="btnDelete" disabled="disabled" value="Eliminar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                            <input type="button" name="btnUpdate" id="btnUpdate" disabled="disabled" value="Actualizar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                            <!--<input type="button" name="btnDelete" id="btnDelete" disabled="disabled" value="Eliminar" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>-->
                         </div>
                     </div>
                 </form>
