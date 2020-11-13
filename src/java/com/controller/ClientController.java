@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 /*
 * Nombre del servlet: ClientController
@@ -43,11 +44,11 @@ public class ClientController extends HttpServlet {
                 cli.trkLogC(usrId, cli);
             }
             else if(request.getParameter("btnUpdate")!=null){
-                pc = cli.getClient(idInp);
+                pc = pc.getClientPjct(idInp);
                 msj=cli.updateClient(cli);
                 cli.trkLogU(usrId, cli, pc);
             }else{
-                pc = cli.getClient(idInp);
+                pc = pc.getClientPjct(idInp);
                 msj=cli.deleteClient(cli);
                 cli.trkLogD(usrId, pc);
             }

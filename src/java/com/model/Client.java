@@ -194,7 +194,7 @@ public class Client extends Conexion{
         }
         return listaCli;
     }
-    
+    //getClient original
     public Client getClient(int id){
         Client cli = new Client();
         ResultSet res=null;
@@ -281,24 +281,24 @@ public class Client extends Conexion{
             lgs.setDescription("name from: " + dc.getName() + " to " + di.getName());
             lgs.createLogs(lgs);
         }
-        if (!di.getName().equals(dc.getName())) {
+        if (!di.getEmail().equals(dc.getEmail())) {
             lgs.setDescription("email from: " + dc.getEmail() + " to " + di.getEmail());
             lgs.createLogs(lgs);
         }
-        if (!di.getName().equals(dc.getName())) {
+        if (!di.getPhone_number().equals(dc.getPhone_number())) {
             lgs.setDescription("phone # from: " + dc.getPhone_number() + " to " + di.getPhone_number());
             lgs.createLogs(lgs);
         }
-        if (!di.getName().equals(dc.getName())) {
+        if (!di.getNit().equals(dc.getNit())) {
             lgs.setDescription("NIT from: " + dc.getNit()+ " to " + di.getNit());
             lgs.createLogs(lgs);
         }
-        if (!di.getName().equals(dc.getName())) {
+        if (!di.getCompany_name().equals(dc.getCompany_name())) {
             lgs.setDescription("Company name from: " + dc.getCompany_name() + " to " + di.getCompany_name());
             lgs.createLogs(lgs);
         }
-        if (!di.getName().equals(dc.getName())) {
-            lgs.setDescription("Company address from: " + dc.getCompany_name() + " to " + di.getCompany_address());
+        if (!di.getCompany_address().equals(dc.getCompany_address())) {
+            lgs.setDescription("Company address from: " + dc.getCompany_address()+ " to " + di.getCompany_address());
             lgs.createLogs(lgs);
         }
     }
@@ -318,5 +318,25 @@ public class Client extends Conexion{
                 " Comapny name: " +di.getCompany_name()+
                 " Comapny address: " +di.getCompany_address());
         lgs.createLogs(lgs);
+    }
+    public Client getCli(int id) {
+        Client cli = new Client();
+        ResultSet res = null;
+        try {
+            this.conectar();
+            String sql = "select * from client where id=?";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            pre.setInt(1, id);
+            res = pre.executeQuery();
+            while (res.next()) {
+                cli.setId(res.getInt("id"));
+                cli.setName(res.getString("name"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
+        } finally {
+            this.desconectar();
+        }
+        return cli;
     }
 }
