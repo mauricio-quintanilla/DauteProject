@@ -23,9 +23,8 @@
         <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
         <!-- Tailwind -->
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-        <!-- CSS -->
+
         <link rel="stylesheet" href="css/style.css">
-        <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
         <!-- SweetAlert2 -->
         <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
