@@ -24,7 +24,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Departamentos - CONSTRU SV</title>
         <!-- Icon -->
-        <link rel="icon" href="../imgs/logos/Logo.png" type="image/png">
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
         <!-- Tailwind -->
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
         <!-- CSS -->
@@ -32,7 +32,7 @@
         <!-- JQuery -->
         <script type="text/javascript" src="../jquery.js"></script>
 
-        <!-- SweetAlert -->
+        <!-- SWEET ALERT -->
         <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
 
 
@@ -86,7 +86,7 @@
                         confirmButtonText: "Sí, Modificar"
                     }).then((result) => {
                         if (result.value) {
-                            $('#question').append("<input type='hidden' name='btnUpdate'>");
+                            $('#frmMain').attr('action', 'employeesController?btnUpdate=y');
                             $('#frmMain').submit();
                         }
                     });
@@ -105,32 +105,11 @@
                         confirmButtonText: "Sí, eliminar"
                     }).then((result) => {
                         if (result.value) {
-                            $('#question').append("<input type='hidden' name='btnDelete'>");
+                            $('#frmMain').attr('action', 'employeesController?btnDelete=y');
                             $('#frmMain').submit();
                         }
                     });
                 });
-
-                $('#btnLogout').click(function () {
-                    swal.fire({
-                        type: "warning",
-                        title: "¿En realidad desea cerrar sesión?",
-                      
-                        showCancelButton: true,
-                        cancelButtonColor: "red",
-                        ShowConfirmButton: true,
-                        confirmButtonColor: '#5cb85c',
-                        confirmButtonText: "Cerrar Sesión",
-                        cancelButtonText: "Calcelar"
-                    }).then((result) => {
-                        if (result.value) {
-                            $('#log').append("<a id='home-link' href='../loginController?logout=y'></a>");
-                            document.getElementById("home-link").click();
-
-                        }
-                    });
-                });
-
             });
 
         </script>
@@ -143,7 +122,7 @@
             Swal.fire(
                     'Empleados',
                     '<%= request.getSession().getAttribute("msj")%>',
-                    'success'
+                    '<%= request.getSession().getAttribute("type")%>'
                     );
 
         </script>
@@ -157,24 +136,37 @@
         <div class="flex items-center justify-center w-ful flex-wrap">
             <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
                 <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
-                    <h1 class="font-bold text-lg text-center">Gestionar:</h1>
+                    <h1 class="font-bold text-lg text-center">Proyectos:</h1>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
+                </div>
+            </div>
+            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
+                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                    <h1 class="font-bold text-lg text-center">Usuarios:</h1>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                
+                </div>
+            </div>
+            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
+                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                    <h1 class="font-bold text-lg text-center">Empresa:</h1>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
-                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
-                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
                 </div>
             </div>
         </div>
         <div class="flex items-center justify-center mt-4">
-            <!-- <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br> -->
-            <button id="btnLogout" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</button><br>
+            <a href="../loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
         </div>
-    </div> 
-    <!--  -->
+    </div>
+
 
 
     <div class="flex bg-gray w-full px-4 md:px-16">
@@ -194,8 +186,6 @@
         </div>
     </div>
 
-    <div style="visibility: hidden;" id="log"></div>
-
     <!-- ---------------------------------------------------------------------- -->
     <div class="text-white flex justify-center mt-4">
         <h1 class="text-white text-4xl font-bold text-center">Gestión Empleados</h1>
@@ -204,7 +194,7 @@
         <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
     </div>
     <div class="text-white flex justify-center w-full md:w-auto mt-4">
-            <form id="frmMain" action="employeesController" method="POST" enctype="multipart/form-data">
+            <form id="frmMain" method="POST" enctype="multipart/form-data">
                 <div id="question"></div>
                 <input type="hidden" name="txtId" id="txtId" value="0"/>
 
@@ -219,15 +209,18 @@
                         <label>Ubicación: </label><br>
                         <textarea class="text-black font-bold text-lg p-2 rounded w-full" name="txtAddress" id="txtAddress" placeholder="Address" required rows="3"></textarea><br>
                         <label>Teléfono: </label><br>
-                        <input type="text" name="txtPhone" id="txtPhone" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <input type="text" name="txtPhone" id="txtPhone" pattern="[0-9]{4}-[0-9]{4}" placeholder="0000-0000"
+                               class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         <label>DUI: </label><br>
-                        <input type="text" name="txtDui" id="txtDui" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <input type="text" name="txtDui" id="txtDui" pattern="[0-9]{8}-[0-9]{1}" placeholder="00000000-0"
+                               class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                     </div>
                     <div class="w-full md:w-1/2 md:pl-4">
                         <label>NIT: </label><br>
-                        <input type="text" name="txtNit" id="txtNit" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <input type="text" name="txtNit" id="txtNit" pattern="[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1}" placeholder="0000-000000-000-0"
+                               class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         <label>Salario: </label><br>
-                        <input type="number" name="numSalary" id="numSalary" min='0.01' step="0.01" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <input type="number" name="numSalary" id="numSalary" min='300' step="1" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         <label>Posición: </label><br>
                         <select name="slctPos" id="slctPos" class='text-black font-bold text-lg p-2 rounded w-full'>
                             <%
@@ -262,10 +255,10 @@
 
                 <div class="mt-8">
                     <div class="md:flex md:justify-center w-full p-2">
-                        <input type="reset" name="btnNew" value="Limpiar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="employeesController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="employeesController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="employeesController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="reset" name="btnNew" value="Limpiar" onclick="clean();" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input formaction="employeesController?btnCreate=y" disabled="disabled"  type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" name="btnUpdate" id="btnUpdate" disabled="disabled"  value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" name="btnDelete" id="btnDelete" disabled="disabled"  value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                     </div>
                 </div>
             </form>

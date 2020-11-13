@@ -47,6 +47,12 @@ public class PositionController extends HttpServlet {
                 msj=pos.deletePos(pos);
                 pos.trkLogD(usrId, pc);
             }
+            
+            if (msj.contains("error")) {
+                request.getSession().setAttribute("type", "error");
+            } else {
+                request.getSession().setAttribute("type", "success");
+            }
             response.sendRedirect("position.jsp");
             request.getSession().setAttribute("msj",msj);
             request.getSession().setAttribute("conta",1);
