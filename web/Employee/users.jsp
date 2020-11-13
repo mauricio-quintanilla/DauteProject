@@ -14,8 +14,8 @@
     HttpSession sesion = request.getSession();
     String rol;
     if (sesion.getAttribute("rolName") == null) {
-        response.sendRedirect("loginController?nosession=y");
-    }
+        response.sendRedirect("../loginController?nosession=y");
+    }else{
 %>
 
 <!doctype html>
@@ -249,6 +249,7 @@
             </tr>
             <%
                 }
+            }
             %>
             </tbody>
         </table>

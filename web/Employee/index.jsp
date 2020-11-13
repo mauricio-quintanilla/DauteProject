@@ -13,7 +13,7 @@
         String rol;
         if (sesion.getAttribute("rolName") == null) {
             response.sendRedirect("../loginController?nosession=y");
-        }
+        }else{
     %>
     <head>
         <meta charset="UTF-8">
@@ -106,7 +106,9 @@
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
                 </div>
             </div>
-            
+            <%
+            }
+            %>
         </div>
 
     </body>

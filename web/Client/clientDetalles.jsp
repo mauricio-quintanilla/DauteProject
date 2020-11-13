@@ -19,10 +19,9 @@
 
 <%
 HttpSession sesion = request.getSession();
-String rol;
 if (sesion.getAttribute("rolName") == null) {
-    response.sendRedirect("loginController?nosession=y");
-}
+    response.sendRedirect("../loginController?nosession=y");
+}else{
 Project prj = new Project();
 Employees emp = new Employees();
 Equipment equ = new Equipment();
@@ -253,6 +252,9 @@ DecimalFormat df = new DecimalFormat("##.##");
             </div>
         <div class="text-white flex justify-center w-full my-4">
             <h1 class="text-white text-2xl font-bold text-center">Costo de Proyecto: $<%= df.format(totalFM+totalF) %></h1>
+            <%
+                }
+            %>
         </div>
     </body>
 </html>
