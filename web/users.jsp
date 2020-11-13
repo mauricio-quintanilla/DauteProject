@@ -114,7 +114,7 @@
             Swal.fire(
                     'Usuarios',
                     '<%= request.getSession().getAttribute("msj")%>',
-                    'success'
+                    '<%= request.getSession().getAttribute("type")%>'
                     );
 
         </script>

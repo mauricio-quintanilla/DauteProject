@@ -105,7 +105,7 @@ public class Users extends Conexion {
             pre.executeUpdate();
             return "User successfuly created";
         } catch (Exception e) {
-            return "error "+e.getMessage();
+            return "error dato único repetido";
         }
         finally{
             this.desconectar();
@@ -137,7 +137,7 @@ public class Users extends Conexion {
             pre.executeUpdate();
             return "User successfuly updated";
         } catch (Exception e) {
-            return "error "+e.getMessage();
+            return "error dato único repetido ";
         }
         finally{
             this.desconectar();

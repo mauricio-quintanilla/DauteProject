@@ -49,6 +49,11 @@ public class UsersController extends HttpServlet {
             }else{
                 msj=usr.deleteUser(usr);
             }
+            if (msj.contains("error")) {
+                request.getSession().setAttribute("type", "error");
+            } else {
+                request.getSession().setAttribute("type", "success");
+            }
             
             if (rol == 3) {
                 response.sendRedirect("Employee/users.jsp");
