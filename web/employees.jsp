@@ -122,7 +122,7 @@
             Swal.fire(
                     'Empleados',
                     '<%= request.getSession().getAttribute("msj")%>',
-                    'success'
+                    '<%= request.getSession().getAttribute("type")%>'
                     );
 
         </script>
@@ -209,15 +209,18 @@
                         <label>Ubicación: </label><br>
                         <textarea class="text-black font-bold text-lg p-2 rounded w-full" name="txtAddress" id="txtAddress" placeholder="Address" required rows="3"></textarea><br>
                         <label>Teléfono: </label><br>
-                        <input type="text" name="txtPhone" id="txtPhone" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <input type="text" name="txtPhone" id="txtPhone" pattern="[0-9]{4}-[0-9]{4}" placeholder="0000-0000"
+                               class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         <label>DUI: </label><br>
-                        <input type="text" name="txtDui" id="txtDui" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <input type="text" name="txtDui" id="txtDui" pattern="[0-9]{8}-[0-9]{1}" placeholder="00000000-0"
+                               class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                     </div>
                     <div class="w-full md:w-1/2 md:pl-4">
                         <label>NIT: </label><br>
-                        <input type="text" name="txtNit" id="txtNit" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <input type="text" name="txtNit" id="txtNit" pattern="[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1}" placeholder="0000-000000-000-0"
+                               class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         <label>Salario: </label><br>
-                        <input type="number" name="numSalary" id="numSalary" min='0.01' step="0.01" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <input type="number" name="numSalary" id="numSalary" min='300' step="1" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         <label>Posición: </label><br>
                         <select name="slctPos" id="slctPos" class='text-black font-bold text-lg p-2 rounded w-full'>
                             <%
@@ -252,10 +255,10 @@
 
                 <div class="mt-8">
                     <div class="md:flex md:justify-center w-full p-2">
-                        <input type="reset" name="btnNew" value="Limpiar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="employeesController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input type="button" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input type="button" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="reset" name="btnNew" value="Limpiar" onclick="clean();" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input formaction="employeesController?btnCreate=y" disabled="disabled"  type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" name="btnUpdate" id="btnUpdate" disabled="disabled"  value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" name="btnDelete" id="btnDelete" disabled="disabled"  value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                     </div>
                 </div>
             </form>

@@ -170,7 +170,7 @@ public class Employees extends Conexion {
             pre.executeUpdate();
             return "Employee successfuly created";
         } catch (Exception e) {
-            return "error " + e.getMessage();
+            return "error dato único repetido";
         } finally {
             this.desconectar();
         }
@@ -196,7 +196,7 @@ public class Employees extends Conexion {
             pre.executeUpdate();
             return "Employee successfuly updated";
         } catch (Exception e) {
-            return "error " + e.getMessage();
+            return "error dato único repetido";
         } finally {
             this.desconectar();
         }
