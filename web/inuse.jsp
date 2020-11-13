@@ -53,7 +53,18 @@
                 $('#btnUpdate').attr('disabled',true);
                 $('#btnDelete').attr('disabled',true);
             }
+            function getMini(){
+                var textSelected = document.getElementById("slctEqId");
+                var str = textSelected.options[textSelected.selectedIndex].text;
+                var maxi = str.match(/\(([^)]+)\)/)[1];
+                $("#numCost").attr('min', maxi);
+            }
         </script>
+        <style>
+            .wtx{
+                color: white;
+            }
+        </style>
     </head>
     <%
             InUse inu = new InUse();
@@ -195,12 +206,12 @@
 
 
                     <label>Equipo: </label><br>
-                    <select name="slctEqId" id="slctEqId" class="text-black font-bold text-lg p-2 rounded">
+                    <select name="slctEqId" id="slctEqId" class="text-black font-bold text-lg p-2 rounded" onchange="getMini()">
                         <%
                             List<Equipment> lst = equ.showEqu();
                             for (Equipment e : lst) {
                         %>
-                        <option value="<%= e.getId()%>"><%= e.getName()%> <%= e.getModel()%></option>
+                        <option value="<%= e.getId()%>"><%= e.getName()%> <%= e.getModel()%> *$(<%= e.getRentalPrice()%>)</option>
                         <%
                             }
                         %>
@@ -223,8 +234,8 @@
                     <label>Cantidad de unidades: </label><br>
                     <input type="number" name="numEqQu" id="numEqQu" min="1" step="1" class="text-black font-bold text-lg p-2 rounded" required/><br>
                    
-                    <label>Depreciación: </label><br>
-                    <input type="number" name="numCost" id="numCost" min="5" step="1" class="text-black font-bold text-lg p-2 rounded" required/><br>
+                    <label>Costo de alquiler ($): </label><br>
+                    <input type="number" name="numCost" id="numCost" min="" step="1" class="text-black font-bold text-lg p-2 rounded" required/><br>
                 </div>
                 <br>
                 <div class="mt-8">

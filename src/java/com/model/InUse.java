@@ -4,9 +4,11 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -200,6 +202,7 @@ public class InUse extends Conexion{
                 inu.setProject_id(res.getInt("project_id"));
                 inu.setIn_pro_from(res.getString("in_pro_from"));
                 inu.setIn_pro_to(res.getString("in_pro_to"));
+                inu.setNum_days(res.getInt("num_days"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
                 inu.setCost(res.getDouble("cost"));
                 listaInu.add(inu);
@@ -231,6 +234,7 @@ public class InUse extends Conexion{
                 //en caso que tengas que modificar tu vista agregas estos dos campos a ella
                 inu.setIn_pro_from(res.getString("in_pro_from"));
                 inu.setIn_pro_to(res.getString("in_pro_to"));
+                inu.setNum_days(res.getInt("num_days"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
                 inu.setCost(res.getDouble("cost"));
                 listaInu4Proyect.add(inu);
@@ -260,6 +264,7 @@ public class InUse extends Conexion{
                 inu.setProject_id(res.getInt("project_id"));
                 inu.setIn_pro_from(res.getString("in_pro_from"));
                 inu.setIn_pro_to(res.getString("in_pro_to"));
+                inu.setNum_days(res.getInt("num_days"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
                 inu.setCost(res.getDouble("cost"));
             }
@@ -287,6 +292,7 @@ public class InUse extends Conexion{
                 inu.setProject_id(res.getInt("project_id"));
                 inu.setIn_pro_from(res.getString("in_pro_from"));
                 inu.setIn_pro_to(res.getString("in_pro_to"));
+                inu.setNum_days(res.getInt("num_days"));
                 inu.setEquipment_quantity(res.getInt("equipment_quantity"));
                 inu.setCost(res.getDouble("cost"));
                 listaInu.add(inu);
@@ -327,4 +333,78 @@ public class InUse extends Conexion{
         }
         return inu;
     }
+    public void trkLogC(int usrId, InUse di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Eq in use");
+        lgs.setAction_id("created");
+        lgs.setDescription("-eq id: " + di.getEquipment_id()+ " -project id " + di.getProject_id()+
+                " -from: " + di.getIn_pro_from()+ 
+                " -to: "+ di.getIn_pro_to()+
+                " -eq quantity: " +di.getEquipment_quantity()+
+                " -Cost: " +di.getCost());
+        lgs.createLogs(lgs);
+    }
+    public void trkLogU(int usrId, InUse di, InUse dc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Eq in use"); 
+        lgs.setAction_id("updated");
+        if (di.getEquipment_id()!= (dc.getEquipment_id())) {
+            lgs.setDescription("eq id from: " + dc.getEquipment_id()+ " to " + di.getEquipment_id());
+            lgs.createLogs(lgs);
+        }
+        if (di.getProject_id()!= (dc.getProject_id())) {
+            lgs.setDescription("project id from: " + dc.getProject_id()+ " to " + di.getProject_id());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getIn_pro_from().equals(dc.getIn_pro_from())) {
+            lgs.setDescription("in_project_from from: " + dc.getIn_pro_from()+ " to " + di.getIn_pro_from());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getIn_pro_to().equals(dc.getIn_pro_to())) {
+            lgs.setDescription("in_project_to from: " + dc.getIn_pro_to()+ " to " + di.getIn_pro_to());
+            lgs.createLogs(lgs);
+        }
+        if (di.getNum_days()!= (dc.getNum_days())) {
+            lgs.setDescription("num of days from: " + dc.getNum_days()+ " to " + di.getNum_days());
+            lgs.createLogs(lgs);
+        }
+        if (di.getEquipment_quantity()!= (dc.getEquipment_quantity())) {
+            lgs.setDescription("eq quantity from: " + dc.getEquipment_quantity()+ " to " + di.getEquipment_quantity());
+            lgs.createLogs(lgs);
+        }
+        if (di.getCost()!= (dc.getCost())) {
+            lgs.setDescription("Cost from: $" + dc.getCost()+ " to $" + di.getCost());
+            lgs.createLogs(lgs);
+        }
+    }
+    public void trkLogD(int usrId, InUse di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Eq in use");
+        lgs.setAction_id("deleted");
+        lgs.setDescription("-eq id: " + di.getEquipment_id()+ " -project id " + di.getProject_id()+
+                " -from: " + di.getIn_pro_from()+ 
+                " -to: "+ di.getIn_pro_to()+
+                " -eq quantity: " +di.getEquipment_quantity()+
+                " -Cost: " +di.getCost());
+        lgs.createLogs(lgs);
+    }
+    
 }

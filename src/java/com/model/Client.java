@@ -319,24 +319,5 @@ public class Client extends Conexion{
                 " Comapny address: " +di.getCompany_address());
         lgs.createLogs(lgs);
     }
-    public Client getCli(int id) {
-        Client cli = new Client();
-        ResultSet res = null;
-        try {
-            this.conectar();
-            String sql = "select * from client where id=?";
-            PreparedStatement pre = this.getCon().prepareStatement(sql);
-            pre.setInt(1, id);
-            res = pre.executeQuery();
-            while (res.next()) {
-                cli.setId(res.getInt("id"));
-                cli.setName(res.getString("name"));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
-        } finally {
-            this.desconectar();
-        }
-        return cli;
-    }
+    
 }

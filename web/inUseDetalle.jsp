@@ -61,7 +61,6 @@
         function getMInMax(){
             var textSelected = document.getElementById("slctEqId");
             var str = textSelected.options[textSelected.selectedIndex].text;
-            var patt = /\((\d)\)/;
             var maxi = str.match(/\(([^)]+)\)/)[1];
             $("#numEqQu").attr('max', maxi);
             $("#numEqQu").val(1);
