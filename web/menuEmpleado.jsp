@@ -8,13 +8,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <%
-        HttpSession sesion = request.getSession();
-        String rol;
-        if (sesion.getAttribute("rolName") == null) {
-            response.sendRedirect("loginController?nosession=y");
-        }
-    %>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,7 +52,11 @@
     <body class="bg-black">
         <header>
             <%
-                if (request.getSession().getAttribute("bandera2").equals(1)) {
+                HttpSession sesion = request.getSession();
+                String rol;
+                if (sesion.getAttribute("rolName") == null) {
+                    response.sendRedirect("loginController?nosession=y");
+                }else if (request.getSession().getAttribute("bandera2").equals(1)) {
             %>
             <script type="text/javascript">
 
