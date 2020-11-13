@@ -219,8 +219,8 @@
                         <label>NIT: </label><br>
                         <input type="text" name="txtNit" id="txtNit" pattern="[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1}" placeholder="0000-000000-000-0"
                                class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
-                        <label>Salario: </label><br>
-                        <input type="number" name="numSalary" id="numSalary" min='300' step="1" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                        <label>Salario Diario: </label><br>
+                        <input type="number" name="numSalary" id="numSalary" min='10' step="1" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         <label>Posición: </label><br>
                         <select name="slctPos" id="slctPos" class='text-black font-bold text-lg p-2 rounded w-full'>
                             <%
