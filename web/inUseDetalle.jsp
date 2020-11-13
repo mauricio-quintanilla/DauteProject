@@ -62,6 +62,8 @@
             var textSelected = document.getElementById("slctEqId");
             var str = textSelected.options[textSelected.selectedIndex].text;
             var maxi = str.match(/\(([^)]+)\)/)[1];
+            $text = 'ignore everything except this {{ text1  }}';
+            preg_match('#\{\{(.*?)\}\}#', $text, $match);
             $("#numEqQu").attr('max', maxi);
             $("#numEqQu").val(1);
         }
@@ -274,7 +276,7 @@
                             int stockTrue = inv - quant;
                     %>
                     <option value="<%= e.getId()%>"><%= e.getName()%> <%= e.getModel()%>
-                        En Stock (<%= stockTrue%>)</option>
+                        En Stock (<%= stockTrue%>) *$[<%= e.getRentalPrice()%>]</option>
                     <%
                         }
                     %>

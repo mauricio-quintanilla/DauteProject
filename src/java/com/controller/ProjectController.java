@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /*
 * Nombre del servlet: ProjectController
@@ -20,13 +21,17 @@ public class ProjectController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        int usrId=0;
         PrintWriter out = response.getWriter();
         Project prj = new Project();
+        Project pc = new Project();
         String msj = "";
         String status = "";
         try {
+            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if (request.getParameter("btnMaquinaria") == null) {
-                prj.setId(Integer.parseInt(request.getParameter("txtId")));
+                
                 prj.setName(request.getParameter("txtName"));
                 prj.setDescription(request.getParameter("txtDesc"));
                 prj.setStarted_date(request.getParameter("dapStart"));
@@ -39,11 +44,20 @@ public class ProjectController extends HttpServlet {
             if (request.getParameter("btnCreate") != null) {
                 prj.setStatus("no-iniciado");
                 msj = prj.createPrj(prj);
+                prj.trkLogC(usrId, prj);
             } else if (request.getParameter("btnUpdate") != null) {
+                int idInp=Integer.parseInt(request.getParameter("txtId"));
+                prj.setId(idInp);
                 prj.setStatus(prj.setProStatus(prj.getId()));
+                pc = pc.getProyect(idInp);
                 msj = prj.updatePrj(prj);
+                prj.trkLogU(usrId, prj, pc);
             } else {
+                int idInp=Integer.parseInt(request.getParameter("txtId"));
+                prj.setId(idInp);
+                pc = pc.getProyect(idInp);
                 msj = prj.deletePrj(prj);
+                prj.trkLogD(usrId, pc);
             }
             
             if (msj.contains("error")) {

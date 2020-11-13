@@ -4,10 +4,12 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -348,4 +350,92 @@ public class Project extends Conexion{
      public void updateStockProStatus(Project prj, Equipment eqId){
          
      }
+     
+     public void trkLogC(int usrId, Project di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Project");
+        lgs.setAction_id("created");
+        lgs.setDescription("Project name: " + di.getName()+ " -description: " + di.getDescription()+
+                " -from: " + di.getStarted_date()+ 
+                " -to: "+ di.getFinish_date()+
+                " -address: " +di.getAddress()+
+                " -lat: " +di.getLat()+
+                " -long: " +di.getLng()+
+                " -client: " +di.getClient_id()+
+                " -status: " +di.getStatus());
+        lgs.createLogs(lgs);
+    }
+    public void trkLogU(int usrId, Project di, Project dc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Project"); 
+        lgs.setAction_id("updated");
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("name from: " + dc.getName() + " to " + di.getName());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getDescription().equals(dc.getDescription())) {
+            lgs.setDescription("description from: " + dc.getDescription()+ " to " + di.getDescription());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getStarted_date().equals(dc.getStarted_date())) {
+            lgs.setDescription("started_from from: " + dc.getStarted_date()+ " to " + di.getStarted_date());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getFinish_date().equals(dc.getFinish_date())) {
+            lgs.setDescription("finished from: " + dc.getFinish_date()+ " to " + di.getFinish_date());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getAddress().equals(dc.getAddress())) {
+            lgs.setDescription("address from: " + dc.getAddress()+ " to " + di.getAddress());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getLat().equals(dc.getLat())) {
+            lgs.setDescription("latitud from: " + dc.getLat()+ " to " + di.getLat());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getLng().equals(dc.getLng())) {
+            lgs.setDescription("Longitude from: " + dc.getLng()+ " to " + di.getLng());
+            lgs.createLogs(lgs);
+        }
+        if (!di.getStatus().equals(dc.getStatus())) {
+            lgs.setDescription("status from: " + dc.getStatus()+ " to " + di.getStatus());
+            lgs.createLogs(lgs);
+        }
+        if (di.getClient_id()!=(dc.getClient_id())) {
+            lgs.setDescription("Client id from: " + dc.getClient_id()+ " to " + di.getClient_id());
+            lgs.createLogs(lgs);
+        }
+    }
+    public void trkLogD(int usrId, Project di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Project");
+        lgs.setAction_id("deleted");
+        lgs.setDescription("Project id: " + di.getId()+ "Project name: " + di.getName()+ " -description: " + di.getDescription()+
+                " -from: " + di.getStarted_date()+ 
+                " -to: "+ di.getFinish_date()+
+                " -address: " +di.getAddress()+
+                " -lat: " +di.getLat()+
+                " -long: " +di.getLng()+
+                " -client: " +di.getClient_id()+
+                " -status: " +di.getStatus());
+        lgs.createLogs(lgs);
+    }
 }
