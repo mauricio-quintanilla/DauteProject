@@ -63,8 +63,6 @@
         <header>
             <script>
                 $(document).ready(function () {
-
-                    //update question
                     $('#btnUpdate').click(function () {
                         swal.fire({
                             type: "question",
@@ -77,13 +75,12 @@
                             confirmButtonText: "Sí, Modificar"
                         }).then((result) => {
                             if (result.value) {
-                                $('#question').append("<input type='hidden' name='btnUpdate'>");
+                                $('#frmMain').attr('action', 'equipmentController?btnUpdate=y');
                                 $('#frmMain').submit();
                             }
                         });
 
                     });
-
                     $('#btnDelete').click(function () {
                         swal.fire({
                             type: "question",
@@ -96,7 +93,7 @@
                             confirmButtonText: "Sí, eliminar"
                         }).then((result) => {
                             if (result.value) {
-                                $('#question').append("<input type='hidden' name='btnDelete'>");
+                                $('#frmMain').attr('action', 'equipmentController?btnDelete=y');
                                 $('#frmMain').submit();
                             }
                         });
@@ -110,7 +107,7 @@
             <script type="text/javascript">
 
                 Swal.fire(
-                        'Department',
+                        'Equipo',
                         '<%= request.getSession().getAttribute("msj")%>',
                         'success'
                         );
@@ -225,8 +222,8 @@
                     <div class="md:flex md:justify-center w-full p-2">
                         <input type="reset" onclick="clean()" name="btnNew" value="Limpiar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                         <input disabled formaction="equipmentController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input disabled formaction="equipmentController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input disabled formaction="equipmentController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input disabled type="button" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input disabled type="button" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                     </div>    
                 </div>
             </form>
