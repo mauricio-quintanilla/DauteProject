@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -27,25 +28,32 @@ public class EquipmentController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        int usrId=0;
         Equipment equ = new Equipment();
+        Equipment pc = new Equipment();
         String img = "";
         String msj = "";
+        int idInp = 0;
         try {
             FileItemFactory file = new DiskFileItemFactory();
             ServletFileUpload fileUpload = new ServletFileUpload(file);
             List items = fileUpload.parseRequest(request);
+            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if (request.getParameter("btnDelete") != null) {
                 for (int i = 0; i < items.size(); i++) {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (fileItem.isFormField()) {
                         if (fileItem.getFieldName().equals("txtId")) {
-                            equ.setId(Integer.parseInt(fileItem.getString()));
+                            idInp=Integer.parseInt(fileItem.getString());
+                            equ.setId(idInp);
                         }
                     }
                 }
+                pc = pc.getEqu(idInp);
                 msj = equ.deleteEqu(equ);
+                equ.trkLogD(usrId, equ);
             } else if (request.getParameter("btnCreate") != null) {
                 ArrayList<String> lista = new ArrayList<>();
                 for (int i = 0; i < items.size(); i++) {
@@ -63,7 +71,8 @@ public class EquipmentController extends HttpServlet {
                         lista.add(fileItem.getString());
                     }
                 }
-                equ.setId(Integer.parseInt(lista.get(0)));
+                idInp=Integer.parseInt(lista.get(0));
+                equ.setId(idInp);
                 equ.setName(lista.get(1));
                 equ.setModel(lista.get(2));
                 equ.setDescription(lista.get(3));
@@ -75,13 +84,17 @@ public class EquipmentController extends HttpServlet {
                     if (img != "") {
                         equ.setImage(img);
                     }
+                    pc = pc.getEqu(idInp);
                     msj = equ.createEqu(equ);
+                    equ.trkLogC(usrId, equ);
                 }
                 if (request.getParameter("btnUpdate") != null) {
                     if (img != "") {
                         equ.setImage(lista.get(8));
                     }
+                    pc = pc.getEqu(idInp);
                     msj = equ.updateEqu(equ);
+                    equ.trkLogU(usrId, equ, pc);
                 }
             } else if(request.getParameter("btnUpdate") != null) {
                 ArrayList<String> lista = new ArrayList<>();
@@ -100,7 +113,8 @@ public class EquipmentController extends HttpServlet {
                         lista.add(fileItem.getString());
                     }
                 }
-                equ.setId(Integer.parseInt(lista.get(0)));
+                idInp=Integer.parseInt(lista.get(0));
+                equ.setId(idInp);
                 equ.setName(lista.get(1));
                 equ.setModel(lista.get(2));
                 equ.setDescription(lista.get(3));
@@ -112,13 +126,17 @@ public class EquipmentController extends HttpServlet {
                     if (img != "") {
                         equ.setImage(img);
                     }
+                    pc = pc.getEqu(idInp);
                     msj = equ.createEqu(equ);
+                    equ.trkLogC(usrId, equ);
                 }
                 if (request.getParameter("btnUpdate") != null) {
                     if (img != "") {
                         equ.setImage(lista.get(8));
                     }
+                    pc = pc.getEqu(idInp);
                     msj = equ.updateEqu(equ);
+                    equ.trkLogU(usrId, equ, pc);
                 }
             }
             request.getSession().setAttribute("msj", msj);

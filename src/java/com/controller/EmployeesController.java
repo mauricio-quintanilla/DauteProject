@@ -47,7 +47,6 @@ public class EmployeesController extends HttpServlet {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (fileItem.isFormField()) {
                         if (fileItem.getFieldName().equals("txtId")) {
-                            emp.setId(Integer.parseInt(fileItem.getString()));
                             idInp=Integer.parseInt(fileItem.getString());
                             emp.setId(idInp);
                         }
@@ -94,8 +93,8 @@ public class EmployeesController extends HttpServlet {
                     if(img!="")
                         emp.setImage(lista.get(11));
                     pc = pc.getEmp(idInp);
-                     msj = emp.updateEmp(emp);
-                     emp.trkLogU(usrId, emp, pc);
+                    msj = emp.updateEmp(emp);
+                    emp.trkLogU(usrId, emp, pc);
                 }
             }
             if (msj.contains("error")) {

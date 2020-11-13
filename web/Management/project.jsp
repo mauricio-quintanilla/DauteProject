@@ -268,7 +268,7 @@
 
             <input type="button" value="Edit Mark" id="edit-mark" disabled="disabled" onclick="disa();initMap();var param = 0; agregarPunto(param);" class="text-black bg-white font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400">
         
-            <form method="POST" action="../projectControllerE">
+            <form method="POST" action="../projectController">
                 <input type="submit" value="Recurso Humano y Maquinaria →" id="maquinaria" disabled="disabled" name="btnMaquinaria" class="text-black bg-white font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400">
                 <input type="hidden" name="nameHidden" id="nameHidden">
                 <input type="hidden" name="idHidden"  id="idHidden">

@@ -4,7 +4,9 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -265,5 +267,85 @@ public class Equipment extends Conexion{
         }
         return listaEqu;
     }
-
+    public void trkLogC(int usrId, Equipment di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Equipment");
+        lgs.setAction_id("created");
+        lgs.setDescription(" -name: " + di.getName()+ " -model: " + di.getModel()+ 
+                " -Desciption: " + di.getDescription()+ 
+                " -Brand: "+ di.getBrand()+
+                " -Inventory: " +di.getInventory()+
+                " -Type: " +di.getType()+
+                " -rental price: " +di.getRentalPrice()+
+                " -picture: " +di.getImage());
+        lgs.createLogs(lgs);
+    }
+    public void trkLogU(int usrId, Equipment di, Equipment dc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Equipment");
+        lgs.setAction_id("updated");
+        if (!di.getName().equals(dc.getName())) {
+            lgs.setDescription("Name from: " + dc.getName()+ " to " + di.getName()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getModel().equals(dc.getModel())) {
+            lgs.setDescription("Model from: " + dc.getModel()+ " to " + di.getModel()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getDescription().equals(dc.getDescription())) {
+            lgs.setDescription("Description from: " + dc.getDescription()+ " to " + di.getDescription()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getBrand().equals(dc.getBrand())) {
+            lgs.setDescription("Brand from: " + dc.getBrand()+ " to " + di.getBrand()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (di.getInventory()!= (dc.getInventory())) {
+            lgs.setDescription("Inventory from: " + dc.getInventory()+ " to " + di.getInventory()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (di.getType()!= (dc.getType())) {
+            lgs.setDescription("Type from: " + dc.getType()+ " to " + di.getType()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (di.getRentalPrice()!= (dc.getRentalPrice())) {
+            lgs.setDescription("Rental price: $" + dc.getRentalPrice()+ " to " + di.getRentalPrice()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getImage().equals(dc.getImage())) {
+            lgs.setDescription("Image from: " + dc.getImage()+ " to " + di.getImage()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+    }
+    public void trkLogD(int usrId, Equipment di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Equipment");
+        lgs.setAction_id("deleted");
+        lgs.setDescription(" -name: " + di.getName()+ " -model: " + di.getModel()+ 
+                " -Desciption: " + di.getDescription()+ 
+                " -Brand: "+ di.getBrand()+
+                " -Inventory: " +di.getInventory()+
+                " -Type: " +di.getType()+
+                " -rental price: " +di.getRentalPrice()+
+                " -picture: " +di.getImage());
+        lgs.createLogs(lgs);
+    }
 }

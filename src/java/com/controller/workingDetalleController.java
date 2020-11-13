@@ -61,7 +61,20 @@ public class workingDetalleController extends HttpServlet {
             request.getSession().setAttribute("msj", msj);
             request.getSession().setAttribute("type", type);
             request.getSession().setAttribute("conta", 1);
-            response.sendRedirect("workingDetalle.jsp");
+            
+            HttpSession sesion = request.getSession();	
+            int rol=(Integer)sesion.getAttribute("rol");
+            
+            if(rol == 2){
+                response.sendRedirect("Management/workingDetalle.jsp");
+            }
+            else if(rol == 3) {
+                response.sendRedirect("Employee/workingDetalle.jsp");
+            }
+            else{
+                response.sendRedirect("workingDetalle.jsp");
+            }
+            
         } catch (Exception e) {
             request.getSession().setAttribute("error", e.toString());
             response.sendRedirect("error.jsp");

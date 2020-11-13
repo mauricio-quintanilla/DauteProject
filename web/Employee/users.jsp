@@ -195,7 +195,7 @@
         <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
     </div>
     <div class="text-white flex justify-center w-full md:w-auto mt-4">
-        <form id="frmMain" action="../userControllerE" method="POST">
+        <form id="frmMain" action="../usersController" method="POST">
             <div id="question"></div>
                 <input type="hidden" name="txtUsrId" id="txtUsrId" class='form-control' value="0"/>
 

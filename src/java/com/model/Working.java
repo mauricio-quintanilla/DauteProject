@@ -288,7 +288,7 @@ public class Working extends Conexion {
             lgs.createLogs(lgs);
         }
         if (di.getEmployee_id()!= (dc.getEmployee_id())) {
-            lgs.setDescription("employee id (in id:"+ dc.getId()+  ") from: " + dc.getEmployee_id()+ " to " + di.getEmployee_id()+ "(in id:"+ dc.getId()+")");
+            lgs.setDescription("employee id from: " + dc.getEmployee_id()+ " to " + di.getEmployee_id()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getIn_pro_from().equals(dc.getIn_pro_from())) {

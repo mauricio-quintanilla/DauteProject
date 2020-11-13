@@ -66,6 +66,9 @@ public class ProjectController extends HttpServlet {
                 } else {
                     request.getSession().setAttribute("type", "success");
                 }
+            
+            HttpSession sesion = request.getSession();
+            int rol = (Integer) sesion.getAttribute("rol");
 
             if (request.getParameter("btnMaquinaria") != null) {
                 request.getSession().setAttribute("id_attr", Integer.parseInt(request.getParameter("idHidden")));
@@ -73,11 +76,21 @@ public class ProjectController extends HttpServlet {
                 request.getSession().setAttribute("status_attr", request.getParameter("statusHidden"));
                 request.getSession().setAttribute("dIni", request.getParameter("dsHidden"));
                 request.getSession().setAttribute("dFin", request.getParameter("dfHidden"));
-                response.sendRedirect("proyectAdd.jsp");
+                
+                if (rol == 3) {
+                    response.sendRedirect("Employee/proyectAdd.jsp");
+                }else{
+                    response.sendRedirect("proyectAdd.jsp");
+                }
+                
 
             } else {
+                if (rol == 3) {
+                    response.sendRedirect("Employee/project.jsp");
+                }else{
+                    response.sendRedirect("project.jsp");
+                }
                 
-                response.sendRedirect("project.jsp");
                 request.getSession().setAttribute("msj", msj);
                 request.getSession().setAttribute("conta", 1);
             }
