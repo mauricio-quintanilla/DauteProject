@@ -64,7 +64,7 @@ public class LoginController extends HttpServlet {
                     if(level==1){
                         response.sendRedirect("index.jsp");
                     }else if(level==2){
-                        response.sendRedirect("index.jsp");
+                        response.sendRedirect("Management/index.jsp");
                     }else if(level==3){
                         response.sendRedirect("Employee/index.jsp");
                     }else if(level==4){

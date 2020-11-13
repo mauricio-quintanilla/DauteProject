@@ -17,15 +17,20 @@
 <!DOCTYPE>
 <html lang="es">
     <head>
-        <title>R E P O R T S</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-        <link rel="stylesheet" href="">
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reportes - CONSTRU SV</title>
+        <!-- Icon -->
+        <link rel="icon" href="imgs/logos/Logo.png" type="image/png">
+        <!-- Tailwind -->
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- JQuery -->
         <script type="text/javascript" src="jquery.js"></script>
-        <script type="text/javascript" src="sweetalert2.all.min.js"></script>
+        <!-- SweetAlert2 -->
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
+
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/xrange.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -83,52 +88,167 @@
                     return true;
             }
         </script>
-        <%
-            Project prj = new Project();
-            Finanzas fnz = new Finanzas();
-            List<Project> lst2 = prj.showPrj();
-            List<Finanzas> lstF = fnz.showFnzCost();
-        %>
-    </head>
 
-    <body>
-        <section>
-            <div class="container">
-                <div class="jumbotron jumbotron-fluid">
-                    <div class="container tc">
-                        <div>
-                            <h1 class="display-4">Reports</h1>
-                        </div>
-                        <div>
-                            <p>Reports</p>
-                        </div>
+        <script>
+        $(document).ready(function () {
+
+            //update question
+            $('#btnLogout').click(function () {
+                swal.fire({
+                    type: "warning",
+                    title: "¿En realidad desea cerrar sesión?",
+                    
+                    showCancelButton: true,
+                    cancelButtonColor: "red",
+                    ShowConfirmButton: true,
+                    confirmButtonColor: '#5cb85c',
+                    confirmButtonText: "Cerrar Sesión",
+                    cancelButtonText: "Calcelar"
+                }).then((result) => {
+                    if (result.value) {
+                        $('#log').append("<a id='home-link' href='loginController?logout=y'></a>");
+                        document.getElementById("home-link").click();
+
+                    }
+                });
+
+            });
+        });
+        </script>
+
+
+</head>
+<%
+    Project prj = new Project();
+    Finanzas fnz = new Finanzas();
+    List<Project> lst2 = prj.showPrj();
+    List<Finanzas> lstF = fnz.showFnzCost();
+%>
+    <body class="bg-black">
+
+        <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
+            <div class="flex items-center justify-center w-ful flex-wrap">
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
+                    </div>
+                </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Usuarios:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                    
+                    </div>
+                </div>
+                <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
+                    <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
+                        <h1 class="font-bold text-lg text-center">Empresa:</h1>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
                     </div>
                 </div>
             </div>
+            <div class="flex items-center justify-center mt-4">
+                <!-- <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br> -->
+                <button id="btnLogout" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</button><br>
+            </div>
+        </div> 
+        <!--  -->
 
-            <div class="container tc">
-                <form method="POST" id="frmRep1" onsubmit="return checkDates()" target="_blank">
-                <div class="form-row justify-content-center">
-                    <div class="col-3">
-                        <label>desde</label>
-                        <input type="date" name="datFrom" id="datFrom" class='form-control' min='' max='' required/>
-                    </div>    
-                    <div class="col-3">
-                        <label>hasta</label>
-                        <input type="date" name="datTo" id="datTo" class='form-control' min='' max=''required/>
+
+        <div class="flex bg-gray w-full px-4 md:px-16">
+            <div class="flex w-8/12 py-2">
+                <div class="flex items-center justify-center mr-2 w-10 p-1 rounded bg-white">
+                    <!-- <img src='imgs/<%= session.getAttribute("profPic")%>' height="40px" width="40px" class="rounded">  -->
+                    <img src='imgs/logos/Logo-Fondo.jpg' class="object-contain"> 
+                </div>
+                <div class="flex items-center">
+                    <label class="font-bold text-white text-xl"><%= session.getAttribute("usrOnSess")%> | <%= session.getAttribute("rolName")%></label>
+                </div>
+            </div>
+            <div class="flex justify-end w-4/12 py-2">
+                <div class="flex items-center justify-center">
+                    <button class="text-white p-1 border-2 boder-white rounded-lg hover:bg-white hover:text-gray-800 focus:outline-none" onclick="menu()" id="menu">Menú</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="visibility: hidden;" id="log"></div>
+
+        <!-- ---------------------------------------------------------------------- -->
+
+
+
+
+        <div class="text-white flex justify-center mt-4">
+            <h1 class="text-white text-4xl font-bold text-center">Reportes</h1>
+        </div>
+        <div class="flex justify-center">
+            <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
+        </div>
+
+        <div class="text-white flex justify-center mt-4">
+            <div>
+                <div class="text-white flex justify-center mb-4">
+                    <h2 class="text-white text-2xl font-bold text-center">Ver Reportes</h2>
+                </div>
+                <select name="sel" id="sel" class="text-black font-bold text-lg p-2 rounded" onChange="pagoOnChange(this)">
+                    <option value="1">Historial de Proyectos</option>
+                    <option value="2">Ganancias y Costos en Proyectos</option>
+                    <option value="3">Proyectos Activos en un rango de Fechas</option>
+                    <option value="4">Proyectos Finalizados en una rango de Fechas</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="hidden" id="form">
+        <div class="text-white flex justify-center w-full mt-4">
+            <form method="POST" id="frmRep1" onsubmit="return checkDates()" target="_blank">
+
+                <div class="flex flex-wrap">
+                    <div class="flex justify-center w-full md:w-1/2 p-4">
+                        <div>
+                            <label>Fecha Inicio Rango: </label><br>
+                            <input type="date" name="datFrom" id="datFrom" class="text-black font-bold text-lg p-2 rounded" min='' max='' required/><br>
+                        </div>
+                    </div>
+                    <div class="flex justify-center w-full md:w-1/2 p-4">
+                        <div>
+                            <label>Fecha Finalización Rango: </label><br>
+                            <input type="date" name="datTo" id="datTo" class="text-black font-bold text-lg p-2 rounded" min='' max=''required/> <br>
+                        </div>
+
                     </div>
                 </div>
-                    <br>
-                <div class="form-row justify-content-center">
-                    <div class="col-8">
-                        <input formaction="rep11.jsp?active=y" type="submit" class='btn btn-outline-success' value="ver projectos activos en rango de fechas"/>
-                        <input formaction="rep11.jsp?fin=y" type="submit" class='btn btn-outline-warning' value="ver projectos finalizados en rango de fechas"/>
+
+                    <div class="mt-8">
+                        <div class="flex justify-center w-full p-2">
+                            <div id="activos">
+                                <input formaction="rep11.jsp?active=y" type="submit" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400" value="Generar Reporte Proyectos Activos"/>
+                            </div>
+                            <div class="hidden" id="finalizados">
+                                <input formaction="rep11.jsp?fin=y" type="submit" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400" value="Generar Reporte Proyectos Finalizados"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 </form>
-            </div>
-            
-            <div class="container tc">
+        </div>
+    </div>
+
+
+    <div id="historial">
+        <div class="w-full flex justify-center mt-8">
+            <div class="container tc bg-white p-1 md:p-4 rounded-lg w-full md:w-8/12">
                 <figure class="highcharts-figure">
                     <div id="container"></div>
                     <p class="highcharts-description">
@@ -186,7 +306,11 @@
                     });
                 </script>   
             </div>
-            <div class="container tc">
+        </div>
+    </div>
+    <div class="hidden" id="ganancias">
+        <div class="w-full flex justify-center mt-8">
+            <div class="container tc bg-white p-1 md:p-4 rounded-lg w-full md:w-8/12">
                 <figure class="highcharts-figure">
                     <div id="container2"></div>
                     <p class="highcharts-description">
@@ -321,17 +445,47 @@
 
                         }]
                       });
-                </script>   
+                </script>
+            </div> 
+        </div>
+    </div>
                 
-            </div>
-            <div class="container tc">
-                <blockquote>
-                    <footer class="blockquote-footer">mauricio quintanilla
-                        <cite title="Source Title">2020</cite>
-                        <p>go back to <a href="index.jsp">index</a></p>
-                    </footer>
-                </blockquote>
-            </div>
-        </section>
+            
+
+        <!-- Navbar -->
+    <script src="js/navbar.js"></script>
+
+    <script>
+        function pagoOnChange(sel) {
+            
+            if (sel.value==1){
+                $('#form').addClass('hidden');
+                $('#ganancias').addClass('hidden');
+                $('#historial').removeClass('hidden');
+    
+            }
+            if (sel.value==2){
+                $('#historial').addClass('hidden');
+                $('#form').addClass('hidden');
+                $('#ganancias').removeClass('hidden');
+    
+            }
+            if (sel.value==3){
+                $('#ganancias').addClass('hidden');
+                $('#historial').addClass('hidden');
+                $('#finalizados').addClass('hidden');
+                $('#activos').removeClass('hidden');
+                $('#form').removeClass('hidden');
+            }
+            if (sel.value==4){
+                $('#ganancias').addClass('hidden');
+                $('#historial').addClass('hidden');
+                $('#activos').addClass('hidden');
+                $('#finalizados').removeClass('hidden');
+                $('#form').removeClass('hidden');
+            }
+            
+        }
+    </script>
     </body>
 </html>
