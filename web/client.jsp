@@ -11,9 +11,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession();
-    String rol;
-    if (sesion.getAttribute("rolName") == null) {
+    int rol=(Integer)sesion.getAttribute("rol");
+    /*if (( rol!=1) || (rol!= 2) || (rol!=4)) {
         response.sendRedirect("loginController?nosession=y");
+    }*/
+    
+    if(rol==3) {
+        response.sendRedirect("Employee/client.jsp");
     }
 %>
 <!doctype html>
@@ -126,7 +130,7 @@
             %>
         </header>
 
-
+        
         <div id="opciones" class="hidden p-4 bg-gray2 border-b-2 border-black text-white">
             <div class="flex items-center justify-center w-ful flex-wrap">
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
@@ -195,13 +199,13 @@
                     <div class="flex flex-wrap w-full">
                         <div class="w-full md:w-1/2">
                             <label>Nombre: </label><br>
-                            <input type="text" name="txtName" id="txtName" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
+                            <input type="text"  name="txtName" id="txtName" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                             <label>Correo: </label><br>
                             <input type="email" name="txtEmail" placeholder="someone@example.com" id="txtEmail" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                             <label>Número de Teléfono: </label><br>
                             <input type="text" name="txtPhone" placeholder="0000-0000" pattern="[0-9]{4}-[0-9]{4}"
                                    id="txtPhone" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
-                            <label>NIT: </label><br>
+                            <label>NIT:</label><br>
                             <input type="text" name="txtNit" placeholder="0000-000000-000-0"
                                    pattern="[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1}" id="txtNit" class='text-black font-bold text-lg p-2 rounded w-full' required/><br>
                         </div>

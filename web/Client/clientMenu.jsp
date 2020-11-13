@@ -12,8 +12,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession();
-
-    if ((Integer) session.getAttribute("rol") != 4) {
+    int rol = (Integer) session.getAttribute("rol");
+    if (rol != 4) {
         response.sendRedirect("loginController?nosession=y");
     }
 %>

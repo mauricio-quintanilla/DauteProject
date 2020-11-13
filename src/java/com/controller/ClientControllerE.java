@@ -20,15 +20,7 @@ import javax.servlet.http.HttpSession;
  */
 public class ClientControllerE extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -62,7 +54,7 @@ public class ClientControllerE extends HttpServlet {
                 cli.trkLogD(usrId, pc);
             }
             
-            if("Error dato unico repetido".equals(msj)){
+            if(msj.contains("error")){
                 request.getSession().setAttribute("type","error");
             }else{
                 request.getSession().setAttribute("type","success");

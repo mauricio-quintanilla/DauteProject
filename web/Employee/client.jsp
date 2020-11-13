@@ -196,7 +196,7 @@
         </div>
         
         <div class="text-white flex justify-center w-full md:w-auto mt-4">
-            <form id="frmMain" action="../clientControllerE" method="POST">
+            <form id="frmMain" action="../clientController" method="POST">
                 <div id="question"></div>
                     <input type="hidden" name="txtId" id="txtId" class='text-black font-bold text-lg p-2 rounded w-full' value="0"/>
                     <div class="flex flex-wrap w-full">
@@ -237,7 +237,7 @@
                         <input type="reset" name="btnNew" value="Limpiar" onclick="clean();" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                         <input type="submit" name="btnCreate" id="btnCreate" disabled="disabled" value="Crear" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                         <input type="button" id="btnUpdate" value="Actualizar" disabled="disabled" class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        
+                        <input type="button" id="btnDelete" value="Eliminar" disabled="disabled"  class="text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                     </div>
                 </div>
             </form>

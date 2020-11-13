@@ -123,7 +123,7 @@ public class Client extends Conexion{
             return "Client successfuly created";
         } catch (Exception e) {
             String err=e.getMessage();
-            return "Error dato unico repetido";
+            return "error dato unico repetido";
         }
         finally{
             this.desconectar();
