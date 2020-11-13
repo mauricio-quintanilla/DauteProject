@@ -69,7 +69,11 @@ public class InUseDetController extends HttpServlet {
             
             if (rol == 3) {
                 response.sendRedirect("Employee/inUseDetalle.jsp");
-            }else{
+            }
+            else if (rol == 2) {
+                response.sendRedirect("Management/inUseDetalle.jsp");
+            }
+            else{
                 response.sendRedirect("inUseDetalle.jsp");
             }
             

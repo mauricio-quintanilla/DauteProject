@@ -53,7 +53,17 @@ public class PositionController extends HttpServlet {
             } else {
                 request.getSession().setAttribute("type", "success");
             }
-            response.sendRedirect("position.jsp");
+            HttpSession sesion = request.getSession();
+            int rol = (Integer) sesion.getAttribute("rol");
+            
+            if (rol == 2) {
+                response.sendRedirect("Management/position.jsp");
+            }
+            else{
+                response.sendRedirect("position.jsp");
+            }
+            
+            
             request.getSession().setAttribute("msj",msj);
             request.getSession().setAttribute("conta",1);
         } catch (Exception e) {

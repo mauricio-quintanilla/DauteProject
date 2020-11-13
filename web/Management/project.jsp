@@ -279,7 +279,7 @@
         </div>
                 
                 <br>
-                    <form id="frmMain" action="../projectControllerE" method="POST">
+                    <form id="frmMain" action="../projectController" method="POST">
                         <div id="question"></div>
 
                         <input type="hidden" name="txtId" id="txtId" class="text-black font-bold text-lg p-2 rounded" value="0"/>

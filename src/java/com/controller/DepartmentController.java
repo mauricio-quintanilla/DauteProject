@@ -53,7 +53,17 @@ public class DepartmentController extends HttpServlet {
             }
             request.getSession().setAttribute("msj",msj);
             request.getSession().setAttribute("conta",1);
-            response.sendRedirect("department.jsp");
+            
+            HttpSession sesion = request.getSession();
+            int rol = (Integer) sesion.getAttribute("rol");
+            
+            if (rol == 2) {
+                response.sendRedirect("Management/department.jsp");
+            }
+            else{
+                response.sendRedirect("department.jsp");
+            }
+            
             
         } catch (Exception e) {
             request.getSession().setAttribute("error",e.toString());

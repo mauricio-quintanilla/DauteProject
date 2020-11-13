@@ -274,7 +274,7 @@
                         <td class="border-2 border-white border-dashed p-4"><%= e.getInventory()%> units</td>
                         <td class="border-2 border-white border-dashed p-4"><%= e.getType()%></td>
                         <td class="border-2 border-white border-dashed p-4">$<%= e.getRentalPrice()%></td>
-                        <td class="border-2 border-white border-dashed p-4"><img src="imgs/<%= e.getImage()%>" width="100px"></td>
+                        <td class="border-2 border-white border-dashed p-4"><img src="../imgs/<%= e.getImage()%>" width="100px"></td>
                         <td class="border-2 border-white border-dashed p-4">
                             <a href="javascript:myLoad('<%= e.getId()%>','<%= e.getName()%>','<%= e.getModel()%>',
                                '<%= e.getDescription()%>','<%= e.getBrand()%>','<%= e.getInventory()%>',

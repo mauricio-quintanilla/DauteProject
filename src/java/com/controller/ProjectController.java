@@ -79,7 +79,11 @@ public class ProjectController extends HttpServlet {
                 
                 if (rol == 3) {
                     response.sendRedirect("Employee/proyectAdd.jsp");
-                }else{
+                }
+                else if (rol == 2) {
+                    response.sendRedirect("Management/proyectAdd.jsp");
+                }
+                else{
                     response.sendRedirect("proyectAdd.jsp");
                 }
                 
@@ -87,7 +91,11 @@ public class ProjectController extends HttpServlet {
             } else {
                 if (rol == 3) {
                     response.sendRedirect("Employee/project.jsp");
-                }else{
+                }
+                else if (rol == 2) {
+                    response.sendRedirect("Management/project.jsp");
+                }
+                else{
                     response.sendRedirect("project.jsp");
                 }
                 

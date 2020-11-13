@@ -36,7 +36,11 @@ public class UsersController extends HttpServlet {
             
             if (rol == 3) {
                 usr.setRole_id(4);
-            }else{
+            }
+            else if (rol == 2) {
+                usr.setRole_id(4);
+            }
+            else{
                 usr.setRole_id(Integer.parseInt(request.getParameter("slctRol")));
             }
             
@@ -51,13 +55,18 @@ public class UsersController extends HttpServlet {
             }
             if (msj.contains("error")) {
                 request.getSession().setAttribute("type", "error");
-            } else {
+            } 
+            else {
                 request.getSession().setAttribute("type", "success");
             }
             
             if (rol == 3) {
                 response.sendRedirect("Employee/users.jsp");
-            }else{
+            }
+            else if (rol == 2) {
+                response.sendRedirect("Management/users.jsp");
+            }
+            else{
                 response.sendRedirect("users.jsp");
             }
             

@@ -201,7 +201,7 @@
         </div>
         
         <div class="text-white flex justify-center w-full md:w-auto mt-4">
-            <form id="frmMain" action="../clientControllerE" method="POST">
+            <form id="frmMain" action="../clientController" method="POST">
                 <div id="question"></div>
                     <input type="hidden" name="txtId" id="txtId" class='text-black font-bold text-lg p-2 rounded w-full' value="0"/>
                     <div class="flex flex-wrap w-full">

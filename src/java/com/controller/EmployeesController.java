@@ -102,7 +102,18 @@ public class EmployeesController extends HttpServlet {
             } else {
                 request.getSession().setAttribute("type", "success");
             }
-            response.sendRedirect("employees.jsp");
+            
+            
+            HttpSession sesion = request.getSession();
+            int rol = (Integer) sesion.getAttribute("rol");
+        
+            if (rol == 2) {
+                response.sendRedirect("Management/employees.jsp");
+            }
+            else{
+                response.sendRedirect("employees.jsp");
+            }
+            
             request.getSession().setAttribute("msj", msj);
             request.getSession().setAttribute("conta",1);
         } catch (Exception e) {

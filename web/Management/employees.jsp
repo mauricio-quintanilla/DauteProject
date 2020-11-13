@@ -14,7 +14,7 @@
     HttpSession sesion = request.getSession();
     String rol;
     if (sesion.getAttribute("rolName") == null) {
-        response.sendRedirect("loginController?nosession=y");
+        response.sendRedirect("../loginController?nosession=y");
     }
 %>
 <!doctype html>
@@ -86,7 +86,7 @@
                         confirmButtonText: "Sí, Modificar"
                     }).then((result) => {
                         if (result.value) {
-                            $('#frmMain').attr('action', 'employeesController?btnUpdate=y');
+                            $('#frmMain').attr('action', '../employeesController?btnUpdate=y');
                             $('#frmMain').submit();
                         }
                     });
@@ -105,11 +105,32 @@
                         confirmButtonText: "Sí, eliminar"
                     }).then((result) => {
                         if (result.value) {
-                            $('#frmMain').attr('action', 'employeesController?btnDelete=y');
+                            $('#frmMain').attr('action', '../employeesController?btnDelete=y');
                             $('#frmMain').submit();
                         }
                     });
                 });
+
+                $('#btnLogout').click(function () {
+                    swal.fire({
+                        type: "warning",
+                        title: "¿En realidad desea cerrar sesión?",
+                      
+                        showCancelButton: true,
+                        cancelButtonColor: "red",
+                        ShowConfirmButton: true,
+                        confirmButtonColor: '#5cb85c',
+                        confirmButtonText: "Cerrar Sesión",
+                        cancelButtonText: "Calcelar"
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#log').append("<a id='home-link' href='../loginController?logout=y'></a>");
+                            document.getElementById("home-link").click();
+
+                        }
+                    });
+                });
+
             });
 
         </script>
@@ -136,37 +157,24 @@
         <div class="flex items-center justify-center w-ful flex-wrap">
             <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:mr-4">
                 <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
-                    <h1 class="font-bold text-lg text-center">Proyectos:</h1>
+                    <h1 class="font-bold text-lg text-center">Gestionar:</h1>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="project.jsp">Gestionar Proyectos</a></div>
-                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="projectview.jsp">Detalle Proyectos</a></div>
-                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="working.jsp">Recurso humano en proyecto</a></div>
-                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="inuse.jsp">Equipo en uso</a></div>
-                </div>
-            </div>
-            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1">
-                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
-                    <h1 class="font-bold text-lg text-center">Usuarios:</h1>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
-                
-                </div>
-            </div>
-            <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
-                <div class="border-2 border-white divide-y divide-gray-400 rounded-lg w-full p-2">
-                    <h1 class="font-bold text-lg text-center">Empresa:</h1>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="equipment.jsp">Inventario Equipo</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="employees.jsp">Gestionar Empleados</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="department.jsp">Gestionar Departamentos</a></div>
-                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
-                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="position.jsp">Gestionar Posiciones</a></div>
+                    <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="reptest.jsp">Gestionar Reportes</a></div>
                 </div>
             </div>
         </div>
         <div class="flex items-center justify-center mt-4">
-            <a href="../loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br>
+            <!-- <a href="loginController?logout=y" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</a><br> -->
+            <button id="btnLogout" class="bg-blue-500 hover:bg-blue-700 font-bold text-xs md:text-sm text-white p-2 rounded-lg">Cerrar Sesión</button><br>
         </div>
-    </div>
-
+    </div> 
+    <!--  -->
 
 
     <div class="flex bg-gray w-full px-4 md:px-16">
@@ -186,7 +194,10 @@
         </div>
     </div>
 
+    <div style="visibility: hidden;" id="log"></div>
+
     <!-- ---------------------------------------------------------------------- -->
+
     <div class="text-white flex justify-center mt-4">
         <h1 class="text-white text-4xl font-bold text-center">Gestión Empleados</h1>
     </div>
@@ -298,7 +309,7 @@
                     <td class="border-2 border-white border-dashed p-2">$<%= e.getSalary()%></td>
                     <td class="border-2 border-white border-dashed p-2"><%= pos.getPos(e.getPosition_id()).getName()%></td>
                     <td class="border-2 border-white border-dashed p-2"><%= usr.getUsers(e.getUser_id()).getUser_name()%></td>
-                    <td class="border-2 border-white border-dashed p-2"><img src="imgs/<%= e.getImage()%>" height="75px" width="100px"></td>
+                    <td class="border-2 border-white border-dashed p-2"><img src="../imgs/<%= e.getImage()%>" height="75px" width="100px"></td>
                     <td class="border-2 border-white border-dashed p-2">
                         <a href="javascript:myLoad('<%= e.getId()%>','<%= e.getFirst_name()%>','<%= e.getLast_name()%>',
                            '<%= e.getDob()%>','<%= e.getAddress()%>','<%= e.getPhone_number()%>','<%= e.getDui()%>',

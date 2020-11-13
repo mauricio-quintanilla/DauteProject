@@ -65,7 +65,11 @@ public class ClientController extends HttpServlet {
             
             if (rol == 3) {
                 response.sendRedirect("Employee/client.jsp");
-            }else{
+            }
+            else if (rol == 2) {
+                response.sendRedirect("Management/client.jsp");
+            }
+            else{
                 response.sendRedirect("client.jsp");
             }
             
