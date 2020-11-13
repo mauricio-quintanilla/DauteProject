@@ -257,7 +257,7 @@
                             int stockTrue = inv - quant;
                     %>
                     <option value="<%= e.getId()%>"><%= e.getName()%> <%= e.getModel()%>
-                        En Stock (<%= stockTrue%>)</option>
+                        En Stock (<%= stockTrue%>) *$[<%= e.getRentalPrice()%>]</option>
                     <%
                         }
                     %>
