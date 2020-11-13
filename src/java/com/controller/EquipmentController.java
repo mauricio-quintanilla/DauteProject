@@ -141,7 +141,18 @@ public class EquipmentController extends HttpServlet {
             }
             request.getSession().setAttribute("msj", msj);
             request.getSession().setAttribute("conta", 1);
-            response.sendRedirect("equipment.jsp");
+            
+            HttpSession sesion = request.getSession();
+            int rol = (Integer) sesion.getAttribute("rol");
+        
+            if (rol == 2) {
+                response.sendRedirect("Management/equipment.jsp");
+            }
+            else{
+                response.sendRedirect("equipment.jsp");
+            }
+            
+            
         } catch (Exception e) {
             request.getSession().setAttribute("error", e.toString());
             response.sendRedirect("error.jsp");
