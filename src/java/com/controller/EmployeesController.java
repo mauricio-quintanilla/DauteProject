@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -29,23 +30,32 @@ public class EmployeesController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        int usrId=0;
         Employees emp = new Employees();
+        Employees pc = new Employees();
         String msj = "";
         String img = "";
+        int idInp = 0;
         try {
             FileItemFactory file = new DiskFileItemFactory();
             ServletFileUpload fileUpload = new ServletFileUpload(file);
             List items = fileUpload.parseRequest(request);
+            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if (request.getParameter("btnDelete") != null) {
                 for (int i = 0; i < items.size(); i++) {
                     FileItem fileItem = (FileItem) items.get(i);
                     if (fileItem.isFormField()) {
                         if (fileItem.getFieldName().equals("txtId")) {
                             emp.setId(Integer.parseInt(fileItem.getString()));
+                            idInp=Integer.parseInt(fileItem.getString());
+                            emp.setId(idInp);
                         }
                     }
                 }
+                pc = pc.getEmp(idInp);
                 msj = emp.deleteEmp(emp);
+                emp.trkLogD(usrId, emp);
             } else {
                 ArrayList<String> lista = new ArrayList<>();
                 for (int i = 0; i < items.size(); i++) {
@@ -61,7 +71,8 @@ public class EmployeesController extends HttpServlet {
                         lista.add(fileItem.getString());
                     }
                 }
-                emp.setId(Integer.parseInt(lista.get(0)));
+                idInp=Integer.parseInt(lista.get(0));
+                emp.setId(idInp);
                 emp.setFirst_name(lista.get(1));
                 emp.setLast_name(lista.get(2));
                 emp.setDob(lista.get(3));
@@ -75,12 +86,16 @@ public class EmployeesController extends HttpServlet {
                 if (request.getParameter("btnCreate") != null) {
                     if(img!="")
                         emp.setImage(img);
+                    pc = pc.getEmp(idInp);
                     msj = emp.createEmp(emp);
+                    emp.trkLogC(usrId, emp);
                 }
                 if (request.getParameter("btnUpdate") != null) {
                     if(img!="")
                         emp.setImage(lista.get(11));
-                    msj = emp.updateEmp(emp);
+                    pc = pc.getEmp(idInp);
+                     msj = emp.updateEmp(emp);
+                     emp.trkLogU(usrId, emp, pc);
                 }
             }
             response.sendRedirect("employees.jsp");

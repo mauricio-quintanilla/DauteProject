@@ -163,7 +163,7 @@ public class Role extends Conexion{
         lgs.setOn_field("Role"); 
         lgs.setAction_id("updated");
         if (!ri.getName().equals(rc.getName())) {
-            lgs.setDescription("name from: " + rc.getName() + " to: " + ri.getName());
+            lgs.setDescription("name from: " + rc.getName() + " to: " + ri.getName()+ "(in id:"+ rc.getId()+")");
             lgs.createLogs(lgs);
         }
     }

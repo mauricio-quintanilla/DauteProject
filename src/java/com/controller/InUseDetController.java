@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,16 +22,20 @@ import javax.servlet.http.HttpServletResponse;
 public class InUseDetController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+            HttpSession session = request.getSession();
+            int usrId=0;
         InUse inu = new InUse();
+        InUse pc = new InUse();
         Equipment equ = new Equipment();
         String msj = "";
         double totalM = 0.0;
         String type = "success";
         try {
-            inu.setId(Integer.parseInt(request.getParameter("txtId")));
+            int idInp=Integer.parseInt(request.getParameter("txtId"));
+            inu.setId(idInp);
             inu.setProject_id(Integer.parseInt(request.getParameter("slctProId")));
             inu.setIn_pro_from(request.getParameter("datFrom"));
             inu.setIn_pro_to(request.getParameter("datTo"));
@@ -39,14 +44,20 @@ public class InUseDetController extends HttpServlet {
             inu.setCost(Double.parseDouble(request.getParameter("numCost")));
             totalM = (inu.daysInUse(request.getParameter("datFrom"), request.getParameter("datTo"))) * (Double.parseDouble(request.getParameter("numCost")) * Integer.parseInt(request.getParameter("numEqQu")));
             inu.setTotal_cost(totalM);
+            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
             if (request.getParameter("btnCreate") != null) {
                 inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqIdA")));
-                    msj = inu.createInUse(inu);
+                msj=inu.createInUse(inu);
+                inu.trkLogC(usrId, inu);
             } else if (request.getParameter("btnUpdate") != null) {
-                    inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqIdU")));
-                    msj = inu.updateInUse(inu);
+                inu.setEquipment_id(Integer.parseInt(request.getParameter("slctEqIdU")));
+                pc = pc.getInUse(idInp);
+                msj=inu.updateInUse(inu);
+                inu.trkLogU(usrId, inu, pc);
             } else {
-                msj = inu.deleteInUse(inu);
+                pc = pc.getInUse(idInp);
+                msj=inu.deleteInUse(inu);
+                inu.trkLogU(usrId, inu, pc);
             }
 
             request.getSession().setAttribute("conta", 1);

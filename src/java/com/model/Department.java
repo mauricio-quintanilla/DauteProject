@@ -159,7 +159,7 @@ public class Department extends Conexion {
         lgs.setOn_field("Department"); 
         lgs.setAction_id("updated");
         if (!di.getName().equals(dc.getName())) {
-            lgs.setDescription("name from: " + dc.getName() + " to " + di.getName());
+            lgs.setDescription("name from: " + dc.getName() + " to " + di.getName()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
     }

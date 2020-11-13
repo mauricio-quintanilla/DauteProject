@@ -278,27 +278,27 @@ public class Client extends Conexion{
         lgs.setOn_field("Client"); 
         lgs.setAction_id("updated");
         if (!di.getName().equals(dc.getName())) {
-            lgs.setDescription("name from: " + dc.getName() + " to " + di.getName());
+            lgs.setDescription("name from: " + dc.getName() + " to " + di.getName()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getEmail().equals(dc.getEmail())) {
-            lgs.setDescription("email from: " + dc.getEmail() + " to " + di.getEmail());
+            lgs.setDescription("email from: " + dc.getEmail() + " to " + di.getEmail()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getPhone_number().equals(dc.getPhone_number())) {
-            lgs.setDescription("phone # from: " + dc.getPhone_number() + " to " + di.getPhone_number());
+            lgs.setDescription("phone # from: " + dc.getPhone_number() + " to " + di.getPhone_number()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getNit().equals(dc.getNit())) {
-            lgs.setDescription("NIT from: " + dc.getNit()+ " to " + di.getNit());
+            lgs.setDescription("NIT from: " + dc.getNit()+ " to " + di.getNit()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getCompany_name().equals(dc.getCompany_name())) {
-            lgs.setDescription("Company name from: " + dc.getCompany_name() + " to " + di.getCompany_name());
+            lgs.setDescription("Company name from: " + dc.getCompany_name() + " to " + di.getCompany_name()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getCompany_address().equals(dc.getCompany_address())) {
-            lgs.setDescription("Company address from: " + dc.getCompany_address()+ " to " + di.getCompany_address());
+            lgs.setDescription("Company address from: " + dc.getCompany_address()+ " to " + di.getCompany_address()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
     }

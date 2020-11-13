@@ -284,27 +284,27 @@ public class Working extends Conexion {
         lgs.setOn_field("Working in proj"); 
         lgs.setAction_id("updated");
         if (di.getProject_id()!= (dc.getProject_id())) {
-            lgs.setDescription("project id from: " + dc.getProject_id()+ " to " + di.getProject_id());
+            lgs.setDescription("project id from: " + dc.getProject_id()+ " to " + di.getProject_id() + "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (di.getEmployee_id()!= (dc.getEmployee_id())) {
-            lgs.setDescription("employee id from: " + dc.getEmployee_id()+ " to " + di.getEmployee_id());
+            lgs.setDescription("employee id (in id:"+ dc.getId()+  ") from: " + dc.getEmployee_id()+ " to " + di.getEmployee_id()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getIn_pro_from().equals(dc.getIn_pro_from())) {
-            lgs.setDescription("in_project_from from: " + dc.getIn_pro_from()+ " to " + di.getIn_pro_from());
+            lgs.setDescription("in_project_from from: " + dc.getIn_pro_from()+ " to " + di.getIn_pro_from()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getIn_pro_to().equals(dc.getIn_pro_to())) {
-            lgs.setDescription("in_project_to from: " + dc.getIn_pro_to()+ " to " + di.getIn_pro_to());
+            lgs.setDescription("in_project_to from: " + dc.getIn_pro_to()+ " to " + di.getIn_pro_to()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (di.getNum_days()!= (dc.getNum_days())) {
-            lgs.setDescription("num of days from: " + dc.getNum_days()+ " to " + di.getNum_days());
+            lgs.setDescription("num of days from: " + dc.getNum_days()+ " to " + di.getNum_days()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (di.getCost()!= (dc.getCost())) {
-            lgs.setDescription("Cost from: $" + dc.getCost()+ " to $" + di.getCost());
+            lgs.setDescription("Cost from: $" + dc.getCost()+ " to $" + di.getCost()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
     }

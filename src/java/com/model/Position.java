@@ -173,11 +173,11 @@ public class Position extends Conexion{
         lgs.setOn_field("Position"); 
         lgs.setAction_id("updated");
         if (!pi.getName().equals(pc.getName())) {
-            lgs.setDescription("name from: " + pc.getName() + " to " + pi.getName());
+            lgs.setDescription("name from: " + pc.getName() + " to " + pi.getName()+ "(in id:"+ pc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (pi.getDepartment_id()!=(pc.getDepartment_id())) {
-            lgs.setDescription("id from: " + pc.getDepartment_id() + " to " + pi.getDepartment_id());
+            lgs.setDescription("id from: " + pc.getDepartment_id() + " to " + pi.getDepartment_id()+ "(in id:"+ pc.getId()+")");
             lgs.createLogs(lgs);
         }
     }

@@ -33,7 +33,7 @@
         <script type="text/javascript" src="jquery.js"></script>
 
         <!-- SWEET ALERT -->
-        <script type="text/javascript" src="sweetalert2.all.min.js"></script>
+        <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
 
 
         <script>
@@ -86,7 +86,7 @@
                         confirmButtonText: "Sí, Modificar"
                     }).then((result) => {
                         if (result.value) {
-                            $('#question').append("<input type='hidden' name='btnUpdate'>");
+                            $('#frmMain').attr('action', 'employeesController?btnUpdate=y');
                             $('#frmMain').submit();
                         }
                     });
@@ -105,7 +105,7 @@
                         confirmButtonText: "Sí, eliminar"
                     }).then((result) => {
                         if (result.value) {
-                            $('#question').append("<input type='hidden' name='btnDelete'>");
+                            $('#frmMain').attr('action', 'employeesController?btnDelete=y');
                             $('#frmMain').submit();
                         }
                     });
@@ -194,7 +194,7 @@
         <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
     </div>
     <div class="text-white flex justify-center w-full md:w-auto mt-4">
-            <form id="frmMain" action="employeesController" method="POST" enctype="multipart/form-data">
+            <form id="frmMain" method="POST" enctype="multipart/form-data">
                 <div id="question"></div>
                 <input type="hidden" name="txtId" id="txtId" value="0"/>
 
@@ -254,8 +254,8 @@
                     <div class="md:flex md:justify-center w-full p-2">
                         <input type="reset" name="btnNew" value="Limpiar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                         <input formaction="employeesController?btnCreate=y" type="submit" name="btnCreate" id="btnCreate" value="Crear" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="employeesController?btnUpdate=y" type="submit" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
-                        <input formaction="employeesController?btnDelete=y" type="submit" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" name="btnUpdate" id="btnUpdate" value="Actualizar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
+                        <input type="button" name="btnDelete" id="btnDelete" value="Eliminar" class="mt-2 md:mt-0 text-black font-bold text-lg p-1 rounded mr-2 cursor-pointer hover:bg-gray-400"/>
                     </div>
                 </div>
             </form>

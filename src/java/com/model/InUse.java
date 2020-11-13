@@ -361,31 +361,31 @@ public class InUse extends Conexion{
         lgs.setOn_field("Eq in use"); 
         lgs.setAction_id("updated");
         if (di.getEquipment_id()!= (dc.getEquipment_id())) {
-            lgs.setDescription("eq id from: " + dc.getEquipment_id()+ " to " + di.getEquipment_id());
+            lgs.setDescription("eq id from: " + dc.getEquipment_id()+ " to " + di.getEquipment_id()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (di.getProject_id()!= (dc.getProject_id())) {
-            lgs.setDescription("project id from: " + dc.getProject_id()+ " to " + di.getProject_id());
+            lgs.setDescription("project id from: " + dc.getProject_id()+ " to " + di.getProject_id()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getIn_pro_from().equals(dc.getIn_pro_from())) {
-            lgs.setDescription("in_project_from from: " + dc.getIn_pro_from()+ " to " + di.getIn_pro_from());
+            lgs.setDescription("in_project_from from: " + dc.getIn_pro_from()+ " to " + di.getIn_pro_from()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getIn_pro_to().equals(dc.getIn_pro_to())) {
-            lgs.setDescription("in_project_to from: " + dc.getIn_pro_to()+ " to " + di.getIn_pro_to());
+            lgs.setDescription("in_project_to from: " + dc.getIn_pro_to()+ " to " + di.getIn_pro_to()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (di.getNum_days()!= (dc.getNum_days())) {
-            lgs.setDescription("num of days from: " + dc.getNum_days()+ " to " + di.getNum_days());
+            lgs.setDescription("num of days from: " + dc.getNum_days()+ " to " + di.getNum_days()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (di.getEquipment_quantity()!= (dc.getEquipment_quantity())) {
-            lgs.setDescription("eq quantity from: " + dc.getEquipment_quantity()+ " to " + di.getEquipment_quantity());
+            lgs.setDescription("eq quantity from: " + dc.getEquipment_quantity()+ " to " + di.getEquipment_quantity()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (di.getCost()!= (dc.getCost())) {
-            lgs.setDescription("Cost from: $" + dc.getCost()+ " to $" + di.getCost());
+            lgs.setDescription("Cost from: $" + dc.getCost()+ " to $" + di.getCost()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
     }

@@ -3,7 +3,9 @@ package com.model;
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -365,5 +367,104 @@ public class Employees extends Conexion {
             this.desconectar();
         }
         return listaEmp;
+    }
+    public void trkLogC(int usrId, Employees di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Employees");
+        lgs.setAction_id("created");
+        lgs.setDescription("Employee name: " + di.getFirst_name()+ " -last name: " + di.getLast_name()+
+                " -DOB: " + di.getDob()+
+                " -address: " +di.getAddress()+
+                " -phone#: "+ di.getPhone_number()+
+                " -dui: " +di.getDui()+
+                " -nit: " +di.getNit()+
+                " -salaray: " +di.getSalary()+
+                " -position: " +di.getPosition_id()+
+                " -user id: " +di.getUser_id()+
+                " -picture: " +di.getImage());
+        lgs.createLogs(lgs);
+    }
+    public void trkLogU(int usrId, Employees di, Employees dc) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Employees"); 
+        lgs.setAction_id("updated");
+        if (!di.getFirst_name().equals(dc.getFirst_name())) {
+            lgs.setDescription("name from: " + dc.getFirst_name()+ " to " + di.getFirst_name()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getLast_name().equals(dc.getLast_name())) {
+            lgs.setDescription("lastname from: " + dc.getLast_name()+ " to " + di.getLast_name()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getDob().equals(dc.getDob())) {
+            lgs.setDescription("dob from: " + dc.getDob()+ " to " + di.getDob()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getPhone_number().equals(dc.getPhone_number())) {
+            lgs.setDescription("phone# form: " + dc.getPhone_number()+ " to " + di.getPhone_number()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getDui().equals(dc.getDui())) {
+            lgs.setDescription("dui from: " + dc.getDui()+ " to " + di.getDui()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getAddress().equals(dc.getAddress())) {
+            lgs.setDescription("address from: " + dc.getAddress()+ " to " + di.getAddress()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getNit().equals(dc.getNit())) {
+            lgs.setDescription("Nit from: " + dc.getNit()+ " to " + di.getNit()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (di.getSalary()!= (dc.getSalary())) {
+            lgs.setDescription("salaray from: " + dc.getSalary()+ " to " + di.getSalary()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (di.getPosition_id()!= (dc.getPosition_id())) {
+            lgs.setDescription("position id from: " + dc.getPosition_id()+ " to " + di.getPosition_id()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (di.getUser_id()!= (dc.getUser_id())) {
+            lgs.setDescription("user id from: " + dc.getUser_id()+ " to " + di.getUser_id()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+        if (!di.getImage().equals(dc.getImage())) {
+            lgs.setDescription("picture from: " + dc.getImage()+ " to " + di.getImage()+ "(in id:"+ dc.getId()+")");
+            lgs.createLogs(lgs);
+        }
+    }
+    public void trkLogD(int usrId, Employees di) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
+        String date = df.format(cal.getTime());
+        Logs lgs = new Logs();
+        lgs.setId(0);
+        lgs.setUser_id(usrId);
+        lgs.setDate(date);
+        lgs.setOn_field("Employees");
+        lgs.setAction_id("deleted");
+        lgs.setDescription("Employee name: " + di.getFirst_name()+ " -last name: " + di.getLast_name()+
+                " -DOB: " + di.getDob()+
+                " -address: " +di.getAddress()+
+                " -phone#: "+ di.getPhone_number()+
+                " -dui: " +di.getDui()+
+                " -nit: " +di.getNit()+
+                " -salaray: " +di.getSalary()+
+                " -position: " +di.getPosition_id()+
+                " -user id: " +di.getUser_id()+
+                " -picture: " +di.getImage());
+        lgs.createLogs(lgs);
     }
 }

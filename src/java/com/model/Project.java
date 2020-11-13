@@ -347,11 +347,11 @@ public class Project extends Conexion{
             prcnt=1;
         return prcnt;
     }
-     public void updateStockProStatus(Project prj, Equipment eqId){
+    public void updateStockProStatus(Project prj, Equipment eqId){
          
      }
      
-     public void trkLogC(int usrId, Project di) {
+    public void trkLogC(int usrId, Project di) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss");
         String date = df.format(cal.getTime());
@@ -386,35 +386,35 @@ public class Project extends Conexion{
             lgs.createLogs(lgs);
         }
         if (!di.getDescription().equals(dc.getDescription())) {
-            lgs.setDescription("description from: " + dc.getDescription()+ " to " + di.getDescription());
+            lgs.setDescription("description from: " + dc.getDescription()+ " to " + di.getDescription()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getStarted_date().equals(dc.getStarted_date())) {
-            lgs.setDescription("started_from from: " + dc.getStarted_date()+ " to " + di.getStarted_date());
+            lgs.setDescription("started_from from: " + dc.getStarted_date()+ " to " + di.getStarted_date()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getFinish_date().equals(dc.getFinish_date())) {
-            lgs.setDescription("finished from: " + dc.getFinish_date()+ " to " + di.getFinish_date());
+            lgs.setDescription("finished from: " + dc.getFinish_date()+ " to " + di.getFinish_date()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getAddress().equals(dc.getAddress())) {
-            lgs.setDescription("address from: " + dc.getAddress()+ " to " + di.getAddress());
+            lgs.setDescription("address from: " + dc.getAddress()+ " to " + di.getAddress()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getLat().equals(dc.getLat())) {
-            lgs.setDescription("latitud from: " + dc.getLat()+ " to " + di.getLat());
+            lgs.setDescription("latitud from: " + dc.getLat()+ " to " + di.getLat()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getLng().equals(dc.getLng())) {
-            lgs.setDescription("Longitude from: " + dc.getLng()+ " to " + di.getLng());
+            lgs.setDescription("Longitude from: " + dc.getLng()+ " to " + di.getLng()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (!di.getStatus().equals(dc.getStatus())) {
-            lgs.setDescription("status from: " + dc.getStatus()+ " to " + di.getStatus());
+            lgs.setDescription("status from: " + dc.getStatus()+ " to " + di.getStatus()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
         if (di.getClient_id()!=(dc.getClient_id())) {
-            lgs.setDescription("Client id from: " + dc.getClient_id()+ " to " + di.getClient_id());
+            lgs.setDescription("Client id from: " + dc.getClient_id()+ " to " + di.getClient_id()+ "(in id:"+ dc.getId()+")");
             lgs.createLogs(lgs);
         }
     }
