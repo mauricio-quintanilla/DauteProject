@@ -160,7 +160,7 @@
         <script type="text/javascript">
 
             Swal.fire(
-                    'Project',
+                    'Equipo en uso',
                     '<%= request.getSession().getAttribute("msj")%>',
                     '<%= request.getSession().getAttribute("type")%>'
                     );
