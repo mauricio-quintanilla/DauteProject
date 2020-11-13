@@ -98,10 +98,6 @@
         <servlet-class>com.controller.workingDetalleControllerE</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ClientControllerE</servlet-name>
-        <servlet-class>com.controller.ClientControllerE</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>UserControllerE</servlet-name>
         <servlet-class>com.controller.UserControllerE</servlet-class>
     </servlet>
@@ -200,10 +196,6 @@
     <servlet-mapping>
         <servlet-name>workingDetalleControllerE</servlet-name>
         <url-pattern>/workingDetalleControllerE</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ClientControllerE</servlet-name>
-        <url-pattern>/clientControllerE</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserControllerE</servlet-name>
