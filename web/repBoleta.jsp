@@ -4,6 +4,7 @@
     Author     : abc
 --%>
 
+<%@page import="javax.swing.JOptionPane"%>
 <%@page import="java.util.Map"%>
 <%@page import="net.sf.jasperreports.engine.JasperRunManager"%>
 <%@page import="java.util.HashMap"%>
@@ -20,18 +21,22 @@
         <%
            
              int valor=1;
-             if(request.getParameter("id") != null){
-                 valor = Integer.parseInt(request.getParameter("id"));
+             if(request.getParameter("selectB") != null){
+                 valor = Integer.parseInt(request.getParameter("selectB"));
              } else {
                  valor = 1;
              }
-             
+             JOptionPane.showMessageDialog(null, valor);
             Conexion con = new Conexion();
             con.conectar();
-            File reporte = new File(application.getRealPath("reportes/repoBoleta.jasper"));
+            File reporte = new File(application.getRealPath("/reportes/repoBoleta.jasper"));
             Map parametros = new HashMap();
-            parametros.put("name",valor);
+            
+            parametros.put("id",valor);
+            
+            
             byte[] bytes = JasperRunManager.runReportToPdf(reporte.getPath(), parametros, con.getCon());
+            
             response.setContentType("application/pdf");
             response.setContentLength(bytes.length);
             ServletOutputStream output = response.getOutputStream();
