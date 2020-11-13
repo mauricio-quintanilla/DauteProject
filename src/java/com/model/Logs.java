@@ -2,6 +2,7 @@ package com.model;
 
 import com.conexion.Conexion;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -141,5 +142,31 @@ public class Logs extends Conexion {
         if(axnCode==3){
             
         }*/
+    }
+    
+    public List<Logs> showLogs() {
+        List<Logs> listaL = new ArrayList();
+        ResultSet res;
+        try {
+            this.conectar();
+            String sql = "SELECT * from logs order by id DESC";
+            PreparedStatement pre = this.getCon().prepareStatement(sql);
+            res = pre.executeQuery();
+            while (res.next()) {
+                Logs log = new Logs();
+                log.setId(res.getInt("id"));
+                log.setUser_id(res.getInt("user_id"));
+                log.setAction_id(res.getString("action_id"));
+                log.setOn_field(res.getString("on_field"));
+                log.setDate(res.getString("date"));
+                log.setDescription(res.getString("description"));
+                listaL.add(log);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error " + e.getMessage());
+        } finally {
+            this.desconectar();
+        }
+        return listaL;
     }
 }
