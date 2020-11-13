@@ -59,15 +59,12 @@
                 }else if (request.getSession().getAttribute("bandera2").equals(1)) {
             %>
             <script type="text/javascript">
-
-               
                 Swal.fire({
                     type: 'success',
                     title: 'Bienvenid@ <%= session.getAttribute("usrOnSess")%>',
                     text: 'Ingresó con éxito a Constru SV',
                     footer: '<a href></a>'
                 })
-
             </script>
             <%
                 request.getSession().setAttribute("bandera2", 2);

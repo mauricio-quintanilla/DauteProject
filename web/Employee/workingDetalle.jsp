@@ -17,8 +17,8 @@
     HttpSession sesion = request.getSession();
     String rol;
     if (sesion.getAttribute("rolName") == null) {
-        response.sendRedirect("loginController?nosession=y");
-    }
+        response.sendRedirect("../loginController?nosession=y");
+    }else{
 %>
 <!doctype html>
 <html lang="es">
@@ -326,7 +326,9 @@
         <tr>
             <th colspan="6" class="border-2 border-white border-dashed p-2 text-right">Total</th>
             <th class="border-2 border-white border-dashed p-2">$<%= df.format(totalF)%></th>
-
+<%
+                }
+            %>
         </tr>
     </table>
 </div>
