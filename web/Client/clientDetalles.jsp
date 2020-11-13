@@ -251,6 +251,8 @@ DecimalFormat df = new DecimalFormat("##.##");
                         </div>
                         </div>
             </div>
-
+        <div class="text-white flex justify-center w-full my-4">
+            <h1 class="text-white text-2xl font-bold text-center">Costo de Proyecto: $<%= df.format(totalFM+totalF) %></h1>
+        </div>
     </body>
 </html>

@@ -106,7 +106,7 @@
                     <h1 class="font-bold text-2xl text-center">Usuarios:</h1>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                     <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
-                
+                    <div class="py-1 text-center"><a class="font-bold text-lg text-blue-500 hover:underline" href="logs.jsp">Logs Usuarios</a></div>
                 </div>
             </div>
 

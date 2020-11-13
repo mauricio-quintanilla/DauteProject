@@ -131,6 +131,7 @@
                         <h1 class="font-bold text-lg text-center">Usuarios:</h1>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="users.jsp">Gestionar Usuarios</a></div>
                         <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="client.jsp">Gestionar Clientes</a></div>
+                        <div class="py-1 text-center"><a class="font-bold text-blue-500 hover:underline" href="logs.jsp">Logs Usuarios</a></div>
                     </div>
                 </div>
                 <div class="flex w-full md:w-1/4 lg:w-1/5 my-1 md:ml-4">
@@ -325,7 +326,9 @@
             </div>
             </div>
         </div>
-
+        <div class="text-white flex justify-center my-4">
+            <h1 class="text-white text-2xl font-bold text-center">Costo de Proyecto: $<%= df.format(totalFM+totalF) %></h1>
+        </div>
             
 
             <!-- Navbar -->
