@@ -16,9 +16,9 @@
         response.sendRedirect("loginController?nosession=y");
     }
     
-    if(rol==3) {
+    /*if(rol==3) {
         response.sendRedirect("Employee/client.jsp");
-    }
+    }*/
 %>
 <!doctype html>
 <html lang="es">

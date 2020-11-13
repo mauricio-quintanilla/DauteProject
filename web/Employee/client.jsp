@@ -130,7 +130,7 @@
             </script>
             <%
                 if (request.getSession().getAttribute("msj") != null
-                        && request.getSession().getAttribute("conta").equals(2)) {
+                        && request.getSession().getAttribute("conta").equals(1)) {
             %>
             <script type="text/javascript">
 
@@ -142,7 +142,7 @@
 
             </script>
             <%
-                    request.getSession().setAttribute("conta", 3);
+                    request.getSession().setAttribute("conta", 2);
                 }
             %>
         </header>

@@ -1,4 +1,3 @@
-
 package com.controller;
 
 import com.model.Client;
@@ -17,19 +16,19 @@ import javax.swing.JOptionPane;
 * CopyRight: OpenSource
 * Version: 1.0
 * @author Quintanilla Bernabe
-*/
+ */
 public class ClientController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
-        int usrId=0;
+        int usrId = 0;
         Client cli = new Client();
         Client pc = new Client();
-        String msj="";
+        String msj = "";
         try {
-            int idInp=Integer.parseInt(request.getParameter("txtId"));
+            int idInp = Integer.parseInt(request.getParameter("txtId"));
             cli.setId(idInp);
             cli.setName(request.getParameter("txtName"));
             cli.setEmail(request.getParameter("txtEmail"));
@@ -38,45 +37,56 @@ public class ClientController extends HttpServlet {
             cli.setCompany_name(request.getParameter("txtComName"));
             cli.setCompany_address(request.getParameter("txtComAdd"));
             cli.setUser_id(Integer.parseInt(request.getParameter("slctUser")));
-            usrId=Integer.parseInt(session.getAttribute("usrId").toString());
-            if(request.getParameter("btnCreate")!=null){
-                msj=cli.createClient(cli);
+            usrId = Integer.parseInt(session.getAttribute("usrId").toString());
+            if (request.getParameter("btnCreate") != null) {
+                msj = cli.createClient(cli);
                 cli.trkLogC(usrId, cli);
-            }
-            else if(request.getParameter("btnUpdate")!=null){
+            } else if (request.getParameter("btnUpdate") != null) {
                 pc = pc.getClientPjct(idInp);
-                msj=cli.updateClient(cli);
+                msj = cli.updateClient(cli);
                 cli.trkLogU(usrId, cli, pc);
-            }else{
+            } else {
                 pc = pc.getClientPjct(idInp);
-                msj=cli.deleteClient(cli);
+                msj = cli.deleteClient(cli);
                 cli.trkLogD(usrId, pc);
             }
-            
-            if(msj.contains("error")){
-                request.getSession().setAttribute("type","error");
-            }else{
-                request.getSession().setAttribute("type","success");
+
+            if (msj.contains("error")) {
+                request.getSession().setAttribute("type", "error");
+            } else {
+                request.getSession().setAttribute("type", "success");
             }
             
-            response.sendRedirect("client.jsp");
-            request.getSession().setAttribute("msj",msj);
-            request.getSession().setAttribute("conta",1);
+            HttpSession sesion = request.getSession();
+            int rol = (Integer) sesion.getAttribute("rol");
+            
+            request.getSession().setAttribute("msj", msj);
+            request.getSession().setAttribute("conta", 1);
+            
+            if (rol == 3) {
+                response.sendRedirect("Employee/client.jsp");
+            }else{
+                response.sendRedirect("client.jsp");
+            }
+            
         } catch (Exception e) {
-            request.getSession().setAttribute("error",e.toString());
+            request.getSession().setAttribute("error", e.toString());
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
     @Override
     public String getServletInfo() {
         return "Short description";
