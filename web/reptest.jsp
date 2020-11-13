@@ -119,6 +119,13 @@
 
 </head>
 <%
+    HttpSession sesion = request.getSession();
+    response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
+    response.setHeader("Pragma","no-cache");
+    response.setDateHeader("Expires", 0);
+    if (sesion.getAttribute("rolName") == null) {
+        response.sendRedirect("loginController?nosession=y");
+    }
     Project prj = new Project();
     Finanzas fnz = new Finanzas();
     List<Project> lst2 = prj.showPrj();

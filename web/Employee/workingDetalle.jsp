@@ -326,7 +326,7 @@
         <tr>
             <th colspan="6" class="border-2 border-white border-dashed p-2 text-right">Total</th>
             <th class="border-2 border-white border-dashed p-2">$<%= df.format(totalF)%></th>
-<%
+            <%
                 }
             %>
         </tr>

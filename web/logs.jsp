@@ -10,7 +10,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession();
-    String rol;
+    response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
+    response.setHeader("Pragma","no-cache");
+    response.setDateHeader("Expires", 0);;
     if (sesion.getAttribute("rolName") == null) {
         response.sendRedirect("loginController?nosession=y");
     }
