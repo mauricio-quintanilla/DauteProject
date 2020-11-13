@@ -204,7 +204,7 @@
         <a href="index.jsp" class="text-center font-bold text-lg text-blue-500 hover:underline">← Regresar</a>
     </div>
     <div class="text-white flex justify-center w-full md:w-auto mt-4">
-            <form id="frmMain" action="employeesController" method="POST" enctype="multipart/form-data">
+            <form id="frmMain" action="../employeesController" method="POST" enctype="multipart/form-data">
                 <div id="question"></div>
                 <input type="hidden" name="txtId" id="txtId" value="0"/>
 
